@@ -1,0 +1,3 @@
+<!-- map.wxml -->
+<include src="../../wxSearchView/wxSearchView.wxml" />
+

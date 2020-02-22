@@ -1,0 +1,2 @@
+/* miniprogram/pages/index/addOrg.wxss */
+@import '/vant-weapp/cell/index.wxss'

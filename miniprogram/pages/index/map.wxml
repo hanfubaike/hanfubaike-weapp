@@ -1,0 +1,42 @@
+<!-- map.wxml -->
+<include src="../../wxSearchView/wxSearchView.wxml" />
+
+<view id="map_container" class="map_container" selectable="true" style="{{map_container_style}}">
+
+
+
+  <map id="map" subkey="UKYBZ-6QN6W-DPXRY-R7NTP-WH3NZ-MDBUH" hidden="{{!isMap}}" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" controls="{{controls}}" bindcontroltap="controltap" markers="{{markers}}" bindtap="mapTap" bindtouchmove="touchmove" bindmarkertap="markertap" circles="{{circles}}" polyline="{{polyline}}" bindregionchange="regionchange" bindupdated="mapUpdated" show-location style="{{map_style}}">
+    <cover-view class="controlsMe" bindtap='locationMe'>
+      <cover-image  src='/resources/locationMe.png' class="locationMe">
+      </cover-image>
+    </cover-view>
+
+    <cover-view class="controlsPlus" bindtap='plus'>
+      <cover-image  src='/resources/plus.png' class="controls">
+      </cover-image>
+    </cover-view>
+
+    <cover-view class="controlsZoom" bindtap='zoom'>
+      <cover-image  src='/resources/zoom.png' class="controls">
+      </cover-image>
+    </cover-view>
+
+    <cover-view hidden='{{map_text_hidden}}' class="map_text" selectable="true" data-item="{{textData}}" bindtap="map_text_tap" bindtouchmove="map_text_touchmove" style="{{map_text_style}}">
+
+      <cover-view class="image">
+        <cover-image class="cover-image" mode="{{textData.mode}}" binderror="binderrorimg" src="{{textData.logopictureurlstr}}"></cover-image>
+        <cover-view class="cover-view">
+          <cover-view class="title" selectable="true">{{textData.organizationname}}</cover-view>
+          <cover-view class="tText" wx:if="{{textData.location}}" selectable="true">类别：{{textData.orgClass}}</cover-view>
+          <cover-view class="tText" wx:if="{{textData.location}}" selectable="true">地址：{{textData.location}}</cover-view>
+        </cover-view>
+      </cover-view>
+
+    </cover-view>
+
+  </map>
+
+
+
+
+</view>

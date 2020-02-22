@@ -75,7 +75,7 @@ Page({
       sizeType: ['compressed'],
       sourceType: ['album', 'camera'],
       success: function (res) {
-
+        
         wx.showLoading({
           title: '上传中',
         })

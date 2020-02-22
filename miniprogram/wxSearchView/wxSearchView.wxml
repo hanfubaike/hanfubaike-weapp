@@ -1,0 +1,49 @@
+<view class="weui-search-bar">
+  <view class="weui-search-bar__form">
+    <view class="weui-search-bar__box">
+      <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+      <input type="text" value="{{inputText}}" class="weui-search-bar__input" placeholder="请输入组织名称" bindinput="wxSearchInput" bindconfirm="wxSearchConfirm" />
+      <view class="weui-icon-clear" wx:if="{{wxSearchData.value.length > 0}}" bindtap="wxSearchClear">
+        <icon type="clear" size="14"></icon>
+      </view>
+    </view>
+  </view>
+  <view class="weui-search-bar__cancel-btn" bindtap="wxSearchConfirm">
+    <button data-key='search' class="weui-btn mini-btn" type="primary" size="mini" style="background-color: #009ACD;">{{bottonText ? bottonText:'搜索'}}</button>
+  </view>
+</view>
+
+<view class="wxSearch" >
+
+  <scroll-view class="wxSearchInner" hidden="{{!isWxSearch}}">
+    <!-- 搜索提示部分 -->
+    <view class="wxSearchMindKey">
+      <view class="wxSearchMindKeyList">
+      <view hidden="{{wxSearchData.tipKeys.length == 0 ? false : true}}" class="no-more">---什么也没找到---</view>
+        <block wx:for="{{wxSearchData.tipKeys}}" wx:key="organizationname">
+          <view class="wxSearchMindKeyimage" bindtap="wxSearchKeyTap" data-key="{{item}}">
+            <image style="width: 20px; height: 20px; background-color: #eeeeee;" src="{{item.logopictureurlstr}}"></image>
+            <view class="wxSearchMindKeyItem">
+              <text class="wxSearchMindKeyText" selectable="true">{{item.organizationname}}</text>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </scroll-view>
+</view>
+
+
+<view class="page">
+<view class="page__bd" style="display:{{wxSearchData.value.length>0 ? 'none':'block'}}">
+  <text wx:if="{{wxSearchData.hotKeys[0]}}" class="wxSearchTitle">搜索热点</text>
+    <view class="weui-grids" style='border-top:0'>
+        <block wx:for="{{wxSearchData.hotKeys}}" wx:key="{{item.organizationname}}">
+        <view class='weui-grid' style='border-right: 0;border-bottom: 0;width: 25%;' bindtap="wxSearchKeyTap" data-key="{{item}}">
+          <image class="weui-grid__icon" src="{{item.logopictureurlstr ? item.logopictureurlstr : '/images/collection.png'}}" style="width: 100rpx;height: 100rpx;" binderror="imageError" data-key="{{item}}"/>
+          <view class="weui-grid__label">{{item.organizationname}}</view>
+          </view>
+        </block>
+    </view>
+</view>
+</view>
