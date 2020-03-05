@@ -1,0 +1,123 @@
+<import src="../../templates/copyright.wxml" />
+<import src="../../templates/login.wxml" />
+<!--index.wxml-->
+
+
+<view class="containerMe">
+  <!-- 用户登录 -->
+  
+ <view class="userinfo">
+
+    <image class="userinfo-avatar" src="{{logged ? userInfo.avatarUrl : '/images/user-unlogin.png'}}" background-size="cover"></image>
+    <view>
+      <button class="userinfo-nickname" wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">{{logged ? userInfo.nickName : '点击头像登陆'}}</button>
+<view wx:else>请升级微信版本</view>
+
+    </view>
+  </view>
+  
+
+
+
+
+  <navigator url="../index/addOrg" open-type="navigate" class="meInfo">
+    <view class="meInfoleft">
+      <image class="meInfoImg" src="/images/add.png"></image>
+
+      <view class="uploader-text">
+        <text>新增</text>
+      </view>
+    </view>
+  </navigator>
+
+  <navigator url="myOrg" open-type="navigate" class="meInfo" wx:if="{{showCheck}}">
+    <view class="meInfoleft">
+      <image class="meInfoImg" src="/images/check.png"></image>
+
+      <view class="uploader-text">
+        <text>审核</text>
+      </view>
+    </view>
+  </navigator>
+
+<!---
+  <view class="meInfo" bindtap='tongzhi'>
+
+    <view class="meInfoleft">
+      <image class="meInfoImg" src="/images/tongzhi.png" mode="aspectFit" bindtap="previewImg"></image>
+      <view class="uploader-text">
+        <text>通知</text>
+      </view>
+
+
+    </view>
+  </view>
+
+  <template is="login-popup" data="{{show: isLoginPopup, userInfo: userInfo}}"></template>
+  <navigator url="me" open-type="navigate" class="meInfo">
+
+    <view class="meInfoleft">
+
+      <image class="meInfoImg" src="/images/zuji.png" mode="aspectFit" bindtap="previewImg"></image>
+      <view class="uploader-text">
+        <text>足迹</text>
+      </view>
+
+
+    </view>
+  </navigator>
+
+  <navigator url="{{activUrl}}" open-type="navigate" class="meInfo">
+
+    <view class="meInfoleft">
+
+      <image class="meInfoImg" src="/images/event.png" mode="aspectFit" bindtap="previewImg"></image>
+      <view class="uploader-text">
+        <text>活动</text>
+      </view>
+
+
+    </view>
+  </navigator>
+-->
+  <navigator url="../detail/detail?id=1790" open-type="navigate" class="meInfo">
+
+    <view class="meInfoleft">
+
+      <image class="meInfoImg" src="/images/about.png" mode="aspectFit" bindtap="previewImg"></image>
+      <view class="uploader-text">
+        <text>关于</text>
+      </view>
+
+
+    </view>
+  </navigator>
+  <navigator url="../detail/detail?id=3589" open-type="navigate" class="meInfo">
+
+    <view class="meInfoleft">
+
+      <image class="meInfoImg" src="/images/log.png" mode="aspectFit" bindtap="previewImg"></image>
+      <view class="uploader-text">
+        <text>更新日志</text>
+      </view>
+
+
+    </view>
+  </navigator>
+  <button open-type="feedback" class="meInfo" style="padding-left: 0px;" hover-class="weui-cell_active">
+
+    <view class="meInfoleft">
+
+      <image class="meInfoImg" src="/images/feedback.png" mode="aspectFit" bindtap="previewImg"></image>
+      <view class="uploader-text" style="margin-left: 6px;">
+        <text>意见反馈</text>
+      </view>
+
+
+    </view>
+  </button>
+
+  <view class="copyright" style="display:{{floatDisplay}}">
+    <template is="tempCopyright" />
+  </view>
+</view>

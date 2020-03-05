@@ -1,0 +1,7 @@
+{
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#0388c0",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#778899",
+  "enablePullDownRefresh": true
+  }

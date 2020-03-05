@@ -1,11 +1,13 @@
 <!-- map.wxml -->
 <include src="../../wxSearchView/wxSearchView.wxml" />
+<import src="../../templates/login.wxml" />
 
 <view id="map_container" class="map_container" selectable="true" style="{{map_container_style}}">
 
 
 
   <map id="map" subkey="UKYBZ-6QN6W-DPXRY-R7NTP-WH3NZ-MDBUH" hidden="{{!isMap}}" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" controls="{{controls}}" bindcontroltap="controltap" markers="{{markers}}" bindtap="mapTap" bindtouchmove="touchmove" bindmarkertap="markertap" circles="{{circles}}" polyline="{{polyline}}" bindregionchange="regionchange" bindupdated="mapUpdated" show-location style="{{map_style}}">
+
     <cover-view class="controlsMe" bindtap='locationMe'>
       <cover-image  src='/resources/locationMe.png' class="locationMe">
       </cover-image>

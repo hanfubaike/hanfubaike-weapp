@@ -28,7 +28,7 @@ var __that = null;
 function init(that, hotKeys, searchFunction, backwxSearchKeyTap, goBackFunction) {
 
   __that = that;
-  __tipKeys = that.allOrgList;
+  __tipKeys = that.orgList;
   __searchFunction = searchFunction;
   __goBackFunction = goBackFunction;
   __wxSearchKeyTap = backwxSearchKeyTap

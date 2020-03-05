@@ -10,6 +10,10 @@
   background-color: rgba(200, 200, 200, 0.1);
 }
 
+.searchButton{
+  background-color: #009ACD;
+  top:4px
+}
 /** 搜索框下面的提示区域 */
 .wxSearchInner{
   background-color: #fff;
@@ -113,8 +117,10 @@
   display: flex;
   box-sizing: border-box;
   background-color: #efeff4;
+  /*
   border-top: 1rpx solid #d7d6dc;
   border-bottom: 1rpx solid #d7d6dc;
+  */
 }
 
 .weui-icon-search {
@@ -125,7 +131,7 @@
 .weui-icon-search_in-box {
   position: absolute;
   left: 10px;
-  top: 7px;
+  /*top: 7px;*/
 }
 
 .weui-search-bar__text {
@@ -194,6 +200,7 @@
 
 
 page{
+    display: block;
     background-color: #F8F8F8;
     font-size: 16px;
     font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
@@ -225,4 +232,9 @@ page{
     color: #888888;
     text-align: left;
     font-size: 14px;
+}
+
+.no-more{
+  text-align: center;
+
 }

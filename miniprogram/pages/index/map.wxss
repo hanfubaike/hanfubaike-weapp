@@ -79,9 +79,9 @@ right:20rpx;
 }
 
 .switchBotton{
-  background-color:#009ACD !important;
+  /*background-color:#009ACD !important;*/
   width:38px;
-  height:45px; 
+  height:38px; 
 
 }
 

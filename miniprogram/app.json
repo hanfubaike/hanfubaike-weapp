@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/map",
+    "pages/index/index",
     "pages/userConsole/userConsole",
     "pages/storageConsole/storageConsole",
     "pages/databaseGuide/databaseGuide",
@@ -14,13 +15,17 @@
     "pages/im/im",
     "pages/im/room/room",
     "pages/index_old/index",
-    "pages/index/addOrg"
+    "pages/index/addOrg",
+    "pages/cropper/cropper",
+    "pages/person/person",
+    "pages/person/check"
   ],
+  "cloud": true,
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "云开发 QuickStart",
+    "navigationBarTitleText": "汉服百科",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json",
@@ -37,6 +42,31 @@
     "van-uploader": "vant-weapp/uploader/index",
     "van-row": "vant-weapp/row/index",
     "van-col": "vant-weapp/col/index",
-    "van-notify": "vant-weapp/notify/index"
+    "van-notify": "vant-weapp/notify/index",
+    "van-overlay": "vant-weapp/overlay/index"
+  },
+  "tabBar": {
+    "color": "#a9b7b7",
+    "selectedColor": "#11cd6e",
+    "borderStyle": "white",
+    "list": [
+      {
+        "selectedIconPath": "images/map-on.png",
+        "iconPath": "images/map.png",
+        "pagePath": "pages/index/map",
+        "text": "地图"
+      },
+      {
+        "pagePath": "pages/person/person",
+        "iconPath": "images/tar-person.png",
+        "selectedIconPath": "images/tar-person-on.png",
+        "text": "我"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于查看周边的组织"
+    }
   }
 }

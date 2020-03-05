@@ -25,7 +25,7 @@ Page({
     map_container_style: "width: 100%;",
     map_style: "width: 100%; height: 100%;",
     map_text_hidden: true,
-    buttonImage: "/images/activBotton.jpg"
+    buttonImage: "/images/feedback.png"
     //map_text_style: "width: 92%; height: 16%;",
   },
   //allOrgList: [],
@@ -59,7 +59,7 @@ Page({
     this.mapCtx = wx.createMapContext('map')
     self.initSearch()
     self.getAllOrgList()
-    self.getLocation()
+    self.getLocation(5)
     self.initData()
 
     //self.updataLogo()
@@ -68,7 +68,11 @@ Page({
     let self = this
     //self.getAllOrgList()
   },
-
+  goRegorg:function(){
+    wx.navigateTo({
+      url:'../person/person'
+    })
+  },
   moveToLocation: function () {
     let self = this
     this.mapCtx.moveToLocation()
@@ -241,13 +245,13 @@ Page({
     }
   },
 
-  getLocation: function () {
+  getLocation: function (scale=10) {
     let self = this
     wx.getLocation({
       type: 'gcj02',
       success: function (res) {
         self.setData({
-          scale: 15,
+          scale: scale,
           latitude: res.latitude,
           longitude: res.longitude,
         })
