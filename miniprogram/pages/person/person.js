@@ -14,14 +14,13 @@ Page({
     subscription: "",
     userInfo: app.globalData.userInfo,
     isLoginPopup: false,
-    userInfo:app.globalData,
     showCheck:false
   },
 
 
   onLoad: function (options) {
     var self = this;
-    this.isAdmin()
+    
 
   },
   addOrg(){
@@ -99,8 +98,8 @@ Page({
     })
   },
   isAdmin(){
-    const adminList = {ogX9Y5GBPWjPIZ5AinzsSmFJomZI:'与非'}
-    if (app.globalData.userInfo.openid in adminList){
+    
+    if (app.isAdmin()){
       this.setData({showCheck:true})
     }
   },
@@ -112,6 +111,7 @@ Page({
         userInfo: app.globalData.userInfo,
         logged: true
       })
+      this.isAdmin()
     }
     else {
       self.setData({
@@ -175,4 +175,9 @@ Page({
       }
     }
   },
+  addOrg(e){
+    wx.navigateTo({
+      url: '/pages/index/addOrg',
+    })
+  }
 })

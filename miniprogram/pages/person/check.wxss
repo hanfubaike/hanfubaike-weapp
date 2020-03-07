@@ -3,6 +3,7 @@
 
 .table {
   border: 0px solid darkgray;
+  font-size: 30rpx;
 }
 .tr {
   display: flex;
@@ -12,7 +13,7 @@
 
 }
 .td {
-    width:25%;
+    width:30%;
     justify-content: center;
     text-align: center;
 }
@@ -23,11 +24,14 @@
   background: #E6F3F9;
 }
 .th {
-  width: 25%;
+  width: 30%;
   justify-content: center;
   background: #6495ED;
   color: #fff;
   display: flex;
   height: 3rem;
   align-items: center;
+}
+.index{
+  width: 10%;
 }

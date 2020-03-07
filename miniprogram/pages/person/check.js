@@ -1,4 +1,6 @@
 // miniprogram/pages/person/check.js
+
+const app = getApp()
 Page({
 
   /**
@@ -6,7 +8,8 @@ Page({
    */
   data: {
     listData:[
-    ]
+    ],
+    dbName:'org'
 
   },
 
@@ -14,7 +17,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.dbQuery(this.update)
+    
   },
 
   /**
@@ -28,7 +31,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.setData({
+      listData:[]
+    })
+    this.dbQuery(this.update)
   },
 
   /**
@@ -70,7 +76,7 @@ Page({
     for (let x in data){
       let thisData = data[x]
       if (thisData.postTime){
-        thisData.postTime = thisData.postTime.toLocaleDateString()
+        thisData.postTime = app.formatTime(thisData.postTime)
       }
       
       listData.push(thisData)
@@ -125,7 +131,7 @@ Page({
     })
     const db = wx.cloud.database()
     //查询当前用户所有的 counters
-    db.collection('baike').field({
+    db.collection(this.data.dbName).field({
       orgName: true,
       poster:true,
       postTime:true,

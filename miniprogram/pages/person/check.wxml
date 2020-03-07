@@ -2,23 +2,30 @@
 
 <view class="table">
   <view class="tr bg-w">
-    <view class="th">序号</view>
+    <view class="index th">序号</view>
     <view class="th">组织名称</view>
     <view class="th ">提交人</view>
     <view class="th ">提交时间</view>
   </view>
   <block wx:for="{{listData}}" wx:key="orgName">
+  <navigator url="checkOrg?id={{item._id}}" open-type="navigate">
     <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
-      <view class="td">{{index}}</view>
+    
+      <view class="index td">{{index}}</view>
       <view class="td">{{item.orgName}}</view>
       <view class="td">{{item.poster}}</view>
       <view class="td">{{item.postTime}}</view>
+
     </view>
+     
     <view class="tr" wx:else>
-      <view class="td">{{index}}</view>
+
+      <view class="index td">{{index}}</view>
       <view class="td">{{item.orgName}}</view>
       <view class="td">{{item.poster}}</view>
       <view class="td">{{item.postTime}}</view>
+     
     </view>
+     </navigator>
   </block>
 </view>

@@ -20,7 +20,7 @@
 
 
 
-  <navigator url="../index/addOrg" open-type="navigate" class="meInfo">
+  <view class="meInfo" bindtap="addOrg">
     <view class="meInfoleft">
       <image class="meInfoImg" src="/images/add.png"></image>
 
@@ -28,9 +28,9 @@
         <text>新增</text>
       </view>
     </view>
-  </navigator>
+  </view>
 
-  <navigator url="myOrg" open-type="navigate" class="meInfo" wx:if="{{showCheck}}">
+  <navigator url="check" open-type="navigate" class="meInfo" wx:if="{{showCheck}}">
     <view class="meInfoleft">
       <image class="meInfoImg" src="/images/check.png"></image>
 

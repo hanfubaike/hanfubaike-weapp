@@ -8,12 +8,9 @@ Page({
     value: '',
     showMask:false,
     loading:false,
-    formData:{},
     postType:'add',
     postFileList: [],
     logoFileList: [],
-    postImageList:[],
-    logoImageList:[],
     show: false,
     orgName:"",
     orgType: "",
@@ -24,7 +21,7 @@ Page({
     status:0,
     src: '',
     openid: '',
-    dbName:'baike',
+    dbName:'org',
     locationInfo:'',
     srcName:'',
     width: 250,//宽度
@@ -41,31 +38,11 @@ Page({
       wxmp:"微信群",
       reason:"申请说明"
     },
-    actions: [{
-      name: '社会组织'
-    },
-    {
-      name: '商业组织'
-    },
-    {
-      name: '汉服商家'
-    },
-    {
-      name: '大学组织'
-    },
-    {
-      name: '高中组织'
-    },
-    {
-      name: '初中组织'
-    },
-    ],
+   
   },
-  onClose() {
-    this.setData({
-      show: false
-    });
-  },
+  formData:{},
+  orgTypeList: ['社会组织','商业组织','汉服商家','大学组织','高中组织','初中组织'],
+
   onLoad(option){
     const self = this
     if (app.globalData.openid) {
@@ -76,13 +53,24 @@ Page({
     wx.getStorage({
       key: 'postData',
       success(res) {
-        console.log(res.data)
         self.setData(
           res.data
         )
       }
     })
     //setInterval(this.autoSave,10000)
+  },
+  onShow(option){
+
+    if (app.cropperImgUrl){
+      this.setData({
+        logoFileList:this.data.logoFileList.concat({url:app.cropperImgUrl})
+      },
+      function(){
+        app.cropperImgUrl = ""
+    },
+      )
+    }
   },
   autoSave(){
     wx.setStorageSync()
@@ -95,29 +83,35 @@ Page({
     db.collection(this.data.dbName).add({
       data: data,
       success: res => {
-        wx.hideLoading()
+        setTimeout(function () {
+          wx.hideLoading()
+        }, 2000)
         //在返回结果中会包含新创建的记录的 _id
         this.setData({
           counterId: res._id,
-          count: 1
         })
-        wx.showModal({
-          title: '提示',
-          content: '提交成功，请等待管理员审核，点击确定按钮返回首页',
-          success(res) {
-            if (res.confirm) {
-              wx.redirectTo({
-                url: 'map'
-              })
-            } else if (res.cancel) {
-              console.log('用户点击取消')
-            }
-          }
+        wx.navigateTo({
+          url: '/pages/msg/msg_success?title=提交成功&msg=等待管理员审核。请点击下方的确定按钮订阅通知消息，审核通过后我们会第一时间通知你。&btText=确定&SubscribeMessage=true',
         })
+        //wx.showModal({
+          //title: '提示',
+          //content: '提交成功，请等待管理员审核，点击确定按钮返回首页',
+          //success(res) {
+            //if (res.confirm) {
+             // wx.redirectTo({
+               // url: 'map'
+             // })
+           // } else if (res.cancel) {
+              //console.log('用户点击取消')
+            //}
+          //}
+        //})
         console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
       },
       fail: err => {
-        wx.hideLoading()
+        setTimeout(function () {
+          wx.hideLoading()
+        }, 2000)
         wx.showToast({
           icon: 'none',
           title: '提交失败！'
@@ -133,18 +127,19 @@ Page({
     })
     const db = wx.cloud.database()
     //查询当前用户所有的 counters
-    db.collection('baike').field({
+    db.collection(this.data.dbName).field({
       orgName: true
     }).where({
-      orgName: this.data.formData.orgName
+      orgName: this.formData.orgName
     }).get({
       success: res => { 
+        console.log('[数据库] [查询记录] 成功: ', res)
         if (res.data.length!=0){
-          Notify("组织名称已存在，请重新输入")
+          app.showToast("组织名称已存在，请重新输入")
         }else{
           func()
         }
-        console.log('[数据库] [查询记录] 成功: ', res)
+        
       },
       fail: err => {
         wx.showToast({
@@ -161,40 +156,19 @@ Page({
     })
   },
 
-  showPopup() {
-    this.setData({
-      show: true
-    });
-  },
-  onSelect(event) {
-    this.setData({
-      orgType: event.detail.name
-    })
-    console.log(event.detail);
-  },
   orgClick() {
-    this.setData({
-      show: true
-    });
-  },
-  loadimage(e) {
-    console.log("图片加载完成", e.detail);
-    wx.hideLoading();
-    //重置图片角度、缩放、位置
-    this.cropper.imgReset();
-  },
-  submit() {
-    this.setData({
-      showMask: false
-    })
-    this.cropper.getImg((obj) => {
-     let imgSrc = obj.url;
-     this.afterCropper(this.data.srcName,imgSrc)
-    });
-  },
-  back(){
-    this.setData({
-      showMask:false
+    const self = this
+    wx.showActionSheet({
+      itemList: self.orgTypeList,
+      success (res) {
+        console.log(res.tapIndex)
+        self.setData({
+          orgType:self.orgTypeList[res.tapIndex]
+        })
+      },
+      fail (res) {
+        console.log(res.errMsg)
+      }
     })
   },
 
@@ -209,7 +183,7 @@ Page({
     postData['postFileList'] = this.data.postFileList
     //postData['postType'] =  this.data.postType
     wx.setStorageSync('postData', postData)
-    this.setData({formData: formData})
+    this.formData = formData
     this.dbQuery(this.checkFormData)
 
   },
@@ -221,18 +195,18 @@ Page({
   },
   checkFormData(){
     let ignoreList = ['wxmp','locationInfo']
-    let formData = this.data.formData
+    let formData = this.formData
     let nameLabel = this.data.nameLabel
     if (this.data.logoFileList.length==0){
-      Notify("请上传【LOGO】")
+      app.showToast("请上传【LOGO】")
       return
     }
     if (this.data.postFileList.length == 0) {
-      Notify("请上传【证明材料】")
+      app.showToast("请上传【证明材料】")
       return
     }
     if (!this.data.latitude || !this.data.longitude){
-      Notify("请选择位置")
+      app.showToast("请选择位置")
       return
     }
     for (let x in formData){
@@ -241,12 +215,12 @@ Page({
         continue
       }
       if (!value){
-        Notify("请填写【" + nameLabel[x] + "】")
+        app.showToast("请填写【" + nameLabel[x] + "】")
         return
       }else{
         value = value.replace(/\s*/g, "")
         if (value.length == 0){
-          Notify("请填写【" + nameLabel[x] + "】")
+          app.showToast("请填写【" + nameLabel[x] + "】")
         return
         }
       }
@@ -268,23 +242,16 @@ Page({
       }
     })
   },
-  afterRead(event) {
+  beforeRead(event) {
     const {
       file,
       name
     } = event.detail;
-    //获取到image-cropper实例
-    this.cropper = this.selectComponent("#image-cropper");
-    console.log(file)
+
     if (name == 'logo'){
-      //开始裁剪
-      this.setData({
-        showMask: true,
-        src: file.path,
-        srcName: name
-      });
-      wx.showLoading({
-        title: '加载中'
+      //getCurrentPages().slice(-1)
+      wx.navigateTo({
+        url: '../cropper/cropper?name=logo&url='+file.path,
       })
     }else{
       this.setData({
@@ -293,20 +260,7 @@ Page({
     }
 
   },
-  afterCropper(srcName, filePath){
-    let fileData = { url: filePath, name: srcName}
-    if (srcName == "logo") {
-      const logoFileList = this.data.logoFileList;
-      this.setData({
-        logoFileList: logoFileList.concat(fileData)
-      });
-    } else {
-      const postFileList = this.data.postFileList;
-      this.setData({
-        postFileList: postFileList.concat(fileData)
-      });
-    }
-  },
+
   delete(event) {
     const { index, name } = event.detail;
     let fileListName = 'postFileList'
@@ -326,7 +280,7 @@ Page({
 
   uploadToCloud(postFileList, orgName,isLogo=false) {
     let tmpTxt = isLogo ? "logo" : "图片"
-    //Notify({ type: 'primary', message:"正在上传" + tmpTxt + "..."})
+    //showToast({ type: 'primary', message:"正在上传" + tmpTxt + "..."})
     wx.showLoading({
       title: "正在上传" + tmpTxt + "...",
       mask:true
@@ -349,31 +303,27 @@ Page({
         //wx.showToast({ title: '上传成功', icon: 'none' });
         const newFileList = data.map((v,k) => v.fileID);
         if (isLogo==false){
-          this.setData({
-            postImageList:newFileList
-          })
+          this.formData['postImageList'] = newFileList
           this.uploadToCloud(this.data.logoFileList, orgName, true)
+          return
         }else{
-          this.setData({
-            logoImageList: newFileList
-          })
-          let formData = this.data.formData
-          formData['logoImageList'] = this.data.logoImageList
-          formData['postImageList'] = this.data.postImageList
-          formData['postType'] =  this.data.postType
+          this.formData['logoImageList'] = newFileList
+          this.formData['postType'] =  this.data.postType
           //注册状态，0：待审核，-1：审核未通过，1：审核通过
-          formData['status'] = 0
+          this.formData['status'] = 0
           wx.showLoading({
             title: "正在提交数据",
             mask:true
           })
-          this.dbAdd(formData)
+          this.dbAdd(this.formData)
           
         }
         
       })
       .catch(e => {
-        wx.hideLoading()
+        setTimeout(function () {
+          wx.hideLoading()
+        }, 2000)
         wx.showToast({ title: '上传失败', icon: 'none' });
         console.log(e);
       });
@@ -385,6 +335,9 @@ Page({
       cloudPath: fileName,
       filePath: path
     });
+  },
+  postBt(e){
+    console.log(e)
   }
 
 });

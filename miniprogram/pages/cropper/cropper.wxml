@@ -1,1 +1,9 @@
-<image-cropper id="image-cropper" limit_move="{{true}}" disable_rotate="{{true}}" width="{{width}}" height="{{height}}" imgSrc="{{src}}" bindload="cropperload" bindimageload="loadimage" bindtapcut="clickcut" disable_ratio="{{true}}"></image-cropper>
+<view>
+<image-cropper id="image-cropper" limit_move="{{true}}" disable_rotate="{{true}}" width="{{width}}" height="{{height}}" imgSrc="{{src}}" bindimageload="loadimage" bindtapcut="clickcut" style="z-index: 1111;" disable_ratio="{{true}}"></image-cropper>
+
+<view class='bottom'>
+
+  <van-button bind:click="submit" style="padding-right: 10px;" type="primary" size="small">确定</van-button>
+  <van-button bind:click="back" type="primary" size="small">取消</van-button>
+</view>
+</view>

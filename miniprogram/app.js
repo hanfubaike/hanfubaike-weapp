@@ -65,10 +65,54 @@ App({
   globalData:{
     lastUptime: 0,
     userInfo:{},
-    openid:'',
     isGetUserInfo:false,
     isGetOpenid:false,
     catList:[],
     VERSION: VERSION
-  }
+  },
+  adminList : {oyuGH5Ey1vWJlbfKjHJQhiHNcPLs:'与非','oyuGH5La5_Ey4XEdiWK-IreSU8PM':'非与'},
+  isAdmin(_openid=""){
+    let openid
+    if(!_openid){
+      openid = this.globalData.userInfo.openid
+    }else{
+      openid = _openid
+    }
+    if (openid in this.adminList){
+      return true
+    }else{
+      return false
+    }
+  },
+   formatTime(date) {
+    function formatNumber(n) {
+      n = n.toString()
+      return n[1] ? n : '0' + n
+    }
+    var year = date.getFullYear()
+    var month = date.getMonth() + 1
+    var day = date.getDate()
+  
+    var hour = date.getHours()
+    var minute = date.getMinutes()
+    var second = date.getSeconds()
+  
+  
+    return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  },
+  showToast(title="",icon="none",duration=2000){
+    wx.showToast({
+      title: title,
+      icon: icon,
+      duration: duration,
+      complete(){
+        setTimeout(function(){
+          wx.hideToast()
+        },3000)
+        
+      }
+    })
+  },
+  cropperImgUrl:"",
+  copyright :"Copyright © 2020-2021 hanfubaike"
 })

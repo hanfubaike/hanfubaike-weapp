@@ -1,17 +1,7 @@
 /* miniprogram/pages/index/addOrg.wxss */
-@import '/vant-weapp/cell/index.wxss'
+@import '/vant-weapp/cell/index.wxss';
 
-.bottom{
-  position: absolute;
-  width:100%;
-  bottom:50rpx;
-  display: flex;
-  z-index: 10;
-  justify-content: center;
-  align-items: center;
-  flex-wrap:wrap;
-  height: 210rpx;
-}
+
 
 .mask{
   width:100%;

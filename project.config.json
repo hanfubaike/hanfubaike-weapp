@@ -22,9 +22,9 @@
 		},
 		"nodeModules": true
 	},
-	"appid": "wxb8461536e8be6c24",
-	"projectname": "%E6%B1%89%E6%9C%8D%E7%99%BE%E7%A7%91%E6%B5%8B%E8%AF%95",
-	"libVersion": "2.8.2",
+	"appid": "wx4bd261cc69bfbb78",
+	"projectname": "%E6%B1%89%E6%9C%8D%E7%99%BE%E7%A7%91",
+	"libVersion": "2.8.3",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
@@ -82,6 +82,28 @@
 					"id": -1,
 					"name": "pages/person/check",
 					"pathName": "pages/person/check",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 5,
+					"name": "pages/person/checkOrg",
+					"pathName": "pages/person/checkOrg",
+					"query": "id=1583473052986_0.9680538585314129_33572215",
+					"scene": null
+				},
+				{
+					"id": 6,
+					"name": "cropper",
+					"pathName": "pages/cropper/cropper",
+					"query": "url=http://tmp/wx4bd261cc69bfbb78.o6zAJsxiOa3qe2K0yfIstG3D_nFU.CohdzUCCrHaaada530d0a9b5cc3c21f7235d1afdd20d.jpg",
+					"scene": null
+				},
+				{
+					"id": 7,
+					"name": "msg",
+					"pathName": "pages/msg/msg_success",
+					"query": "title=提交成功&msg=等待管理员审核。请点击下方的确定按钮订阅通知消息，审核通过后我们会第一时间通知你。&btText=确定&SubscribeMessage=true",
 					"scene": null
 				}
 			]

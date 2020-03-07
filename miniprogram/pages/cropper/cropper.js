@@ -1,3 +1,5 @@
+const app = getApp();
+
 Page({
   data: {
     src: '',
@@ -5,11 +7,13 @@ Page({
     height: 250,//高度
   },
   onLoad: function (options) {
+    console.log(options)
+    const url = options.url
     //获取到image-cropper实例
     this.cropper = this.selectComponent("#image-cropper");
     //开始裁剪
     this.setData({
-      src: "https://raw.githubusercontent.com/1977474741/image-cropper/dev/image/code.jpg",
+      src: url
     });
     wx.showLoading({
       title: '加载中'
@@ -32,4 +36,15 @@ Page({
       urls: [e.detail.url] // 需要预览的图片http链接列表
     })
   },
+  submit(){
+    this.cropper.getImg((obj) => {
+      let imgSrc = obj.url;
+      app.cropperImgUrl = imgSrc
+      wx.navigateBack()
+     });
+  },
+  back(){
+    wx.navigateBack()
+  }
+
 })

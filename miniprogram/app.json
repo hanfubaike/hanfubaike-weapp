@@ -18,7 +18,9 @@
     "pages/index/addOrg",
     "pages/cropper/cropper",
     "pages/person/person",
-    "pages/person/check"
+    "pages/person/check",
+    "pages/person/checkOrg",
+    "pages/msg/msg_success"
   ],
   "cloud": true,
   "window": {
@@ -43,7 +45,9 @@
     "van-row": "vant-weapp/row/index",
     "van-col": "vant-weapp/col/index",
     "van-notify": "vant-weapp/notify/index",
-    "van-overlay": "vant-weapp/overlay/index"
+    "van-overlay": "vant-weapp/overlay/index",
+    "van-image": "vant-weapp/image/index"
+
   },
   "tabBar": {
     "color": "#a9b7b7",
@@ -60,7 +64,7 @@
         "pagePath": "pages/person/person",
         "iconPath": "images/tar-person.png",
         "selectedIconPath": "images/tar-person-on.png",
-        "text": "我"
+        "text": "我的"
       }
     ]
   },

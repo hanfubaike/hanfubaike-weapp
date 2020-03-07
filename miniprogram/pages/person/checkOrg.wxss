@@ -1,0 +1,13 @@
+/* miniprogram/pages/person/checkOrg.wxss */
+@import '/vant-weapp/cell/index.wxss';
+
+.button-sp-area{
+  margin: 0 auto;
+  padding-top: 15px;
+  text-align:center;
+  margin-bottom: 40px;
+}
+
+.bt{
+  margin:10px;
+}
