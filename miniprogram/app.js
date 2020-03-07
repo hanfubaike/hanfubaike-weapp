@@ -39,7 +39,7 @@ App({
 
       updateManager.onCheckForUpdate(function (res) {
         // 请求完新版本信息的回调
-        console.log(res.hasUpdate)
+        //console.log(res.hasUpdate)
       })
 
       updateManager.onUpdateReady(function () {
@@ -70,7 +70,7 @@ App({
     catList:[],
     VERSION: VERSION
   },
-  adminList : {oyuGH5Ey1vWJlbfKjHJQhiHNcPLs:'与非','oyuGH5La5_Ey4XEdiWK-IreSU8PM':'非与'},
+  adminList : {oyuGH5Ey1vWJlbfKjHJQhiHNcPLs:'与非','oyuGH5La5_Ey4XEdiWK-IreSU8PM':'非与','oyuGH5Oy-A7dQoSfOx6yJE3RtPpc':'海螺'},
   isAdmin(_openid=""){
     let openid
     if(!_openid){
@@ -106,13 +106,14 @@ App({
       icon: icon,
       duration: duration,
       complete(){
-        setTimeout(function(){
-          wx.hideToast()
-        },3000)
+        //setTimeout(function(){
+          //wx.hideToast()
+        //},3000)
         
       }
     })
   },
   cropperImgUrl:"",
-  copyright :"Copyright © 2020-2021 hanfubaike"
+  copyright :"Copyright © 2020-2021 hanfubaike",
+  templateId :"k-NuZiPt5DP1bMDO2REFkfuhz1C907aDm3wJAVJdScw"
 })

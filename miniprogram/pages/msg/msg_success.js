@@ -19,21 +19,60 @@ Page({
   },
   button(){
     if (this.option.SubscribeMessage){   
-      wx.requestSubscribeMessage({
-      tmplIds: ['k-NuZiPt5DP1bMDO2REFkfuhz1C907aDm3wJAVJdScw'],
+      this.getMsgSetting()
+    }
+
+  },
+  getMsgSetting(){
+    let tmplid = app.templateId
+    wx.requestSubscribeMessage({
+      tmplIds: [tmplid],
       success (res) { 
-        if (res['k-NuZiPt5DP1bMDO2REFkfuhz1C907aDm3wJAVJdScw']=='accept'){
+        if (res[tmplid]=='accept'){
           app.showToast("订阅成功","success")
           Notify({type: 'success',message:'正在返回首页...'})
+          
           setTimeout(function(){
             wx.reLaunch({
               url: '/pages/index/map',
             })
           },3000)
-        }
+        }else{
+          console.log("用户拒绝或没有权限")
+          wx.getSetting({
+            withSubscriptions: true,
+            success (res){
+              console.log(res)
+              if (res.subscriptionsSetting && (!res.subscriptionsSetting.mainSwitch || (res.subscriptionsSetting.itemSettings &&res.subscriptionsSetting.itemSettings[tmplid]!="accept"))){
+                wx.showModal({
+                  title: '温馨提示',
+                  content: '请点击确定按钮打开订阅消息开关，以便接收审核消息。',
+                  success (res) {
+                    if (res.confirm) {
+                      console.log('用户点击确定')
+                      wx.openSetting({
+                        success (res) {
+                          console.log(res.authSetting)
+                          // res.authSetting = {
+                          //   "scope.userInfo": true,
+                          //   "scope.userLocation": true
+                          // }
+                        }
+                      })
+                    } else if (res.cancel) {
+                      console.log('用户点击取消')
+                    }
+                  }
+                })
+              }
+            }
+           })
+          }
+      },
+      fail(res){
+        console.log(res)
       }
-    })}
-
+    })
   }
 
 });

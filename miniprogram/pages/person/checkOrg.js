@@ -9,6 +9,7 @@ Page({
     postImageList: [],
     logoImageList:[],
     show: false,
+    txtLenght:0,
     orgName:"",
     orgType: "",
     locationName: '',
@@ -23,6 +24,9 @@ Page({
     srcName:'',
  
   },
+  title:"通知",
+  checkText:"",
+  tips:"",
   onClose() {
     this.setData({
       show: false
@@ -119,6 +123,7 @@ Page({
     })
   },
   dbUpdate(id,status){
+    const self = this
     wx.showLoading({
       title: '提交中...',
       mask:true
@@ -133,30 +138,29 @@ Page({
       },
       success: function(res) {
         console.log(res)
-        wx.showModal({
-          title: '提示',
-          content: '审核成功，点击确定按钮返回上一页',
-          success(res) {
-            if (res.confirm) {
-              wx.navigateBack()
-            } else if (res.cancel) {
-              console.log('用户点击取消')
-            }
-          }
+        let thisTime = app.formatTime(new Date())
+        wx.showLoading({
+          title: '正在发送审核通知...',
+          mask:true
         })
+        self.sendMsg("汉服百科管理员",self.title,thisTime,self.tips)
+
       },
       fail: err => {
+        setTimeout(function () {
+          wx.hideLoading()
+        }, 200)
         wx.showToast({
           icon: 'none',
           title: '更新记录失败'
         })
         console.error('[数据库] [更新记录] 失败：', err)
       },
-      complete:res => {
-        setTimeout(function () {
-          wx.hideLoading()
-        }, 200)
-      }
+      //complete:res => {
+        //setTimeout(function () {
+          //wx.hideLoading()
+        //}, 200)
+      //}
     })
   },
   update(dataList){
@@ -178,8 +182,10 @@ Page({
       data
     )
   },
-  passed(){
+  passed(checkText){
     const self = this
+    this.title = "【"+ this.data.orgName.slice(0,13) +"】审核通过！"
+    this.tips = "你提交的组织已经审核通过!"
     wx.showModal({
       title: '审核确认',
       content: '确认【通过】吗？',
@@ -193,9 +199,33 @@ Page({
     })
     
   },
+  getCheckText(){
+  },
+  formSubmit(e) {
+    console.log('form发生了submit事件，携带数据为：', e)
+    if (e.type == "reset"){
+      this.passed()
+    }else{
+      let value = e.detail.value.checkText
+      value = value.replace(/\s*/g, "")
+      if (!value || (value && value.length==0)){
+        app.showToast("请填写审核说明")
+        return
+      }else if(value && value.length>20){
+        app.showToast("审核说明不能超过20字")
+      }
+      else{
+        this.noPassed(value)
+      }
+      
+    }
 
-  noPassed(){
+  },
+  noPassed(checkText){
     const self = this
+    let value = checkText
+    this.title = "【"+ this.data.orgName.slice(0,12) +"】审核未通过！"
+    this.tips = value
     wx.showModal({
       title: '审核确认',
       content: '确认【拒绝】吗？',
@@ -206,6 +236,68 @@ Page({
           console.log('用户点击取消')
         }
       }
+    })
+  },
+  sendMsg(name,title,time,tips){
+    const self = this
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'sendMsg',
+      // 传给云函数的参数
+      data: {
+        openid: self.data._openid,
+        page: "/pages/index/index",
+        templateId:app.templateId,
+        miniprogramState:"developer",
+        lang: 'zh_CN',
+        data:{
+          name1: {
+            value: name
+          },
+          thing2: {
+            value: title
+          },
+          time3: {
+            value: time
+          },
+          thing7: {
+            value: tips
+          }
+        }
+      },
+    })
+    .then(res => {
+      console.log(res.result)
+      app.showToast("已发送通知！","success")
+    })
+    .catch(error =>{
+      console.error(error)
+      app.showToast("通知发送失败！")
+    })
+    .finally(function(){
+      
+      setTimeout(function(){
+        wx.hideLoading()
+        wx.showModal({
+          title: '提示',
+          content: '审核成功，点击确定按钮返回上一页',
+          success(res) {
+            if (res.confirm) {
+              wx.navigateBack()
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+      },2000)
+ 
+      
+    })
+  },
+  txtInput(e){
+    console.log(e)
+    this.setData({
+      txtLenght:e.detail.cursor
     })
   }
 

@@ -104,12 +104,12 @@
 
     </view>
   </navigator>
-  <button open-type="feedback" class="meInfo" style="padding-left: 0px;" hover-class="weui-cell_active">
+  <button open-type="contact" show-message-card="{{false}}" class="meInfo" style="padding-left: 0px;" hover-class="weui-cell_active">
 
     <view class="meInfoleft">
 
       <image class="meInfoImg" src="/images/feedback.png" mode="aspectFit" bindtap="previewImg"></image>
-      <view class="uploader-text" style="margin-left: 6px;">
+      <view class="uploader-text" style="margin-left: 22rpx;">
         <text>意见反馈</text>
       </view>
 

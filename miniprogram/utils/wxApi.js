@@ -80,6 +80,7 @@ module.exports = {
   wxLogin: wxLogin,
   wxGetUserInfo: wxGetUserInfo,
   wxGetSystemInfo: wxGetSystemInfo,
+  cloudUploadFile:cloudUploadFile
 
 
 }

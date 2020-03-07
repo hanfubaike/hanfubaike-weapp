@@ -1,6 +1,7 @@
 import Toast from '../../vant-weapp/toast/toast';
 import Notify from '../../vant-weapp/notify/notify';
-
+var wxApi = require('../../utils/wxApi.js')
+const wxRequest = require('../../utils/wxRequest.js');
 const app = getApp()
 
 Page({
@@ -40,7 +41,8 @@ Page({
     },
    
   },
-  formData:{},
+  uploadTasks:[],
+  formData:{logoImageList:[],postImageList:[]},
   orgTypeList: ['社会组织','商业组织','汉服商家','大学组织','高中组织','初中组织'],
 
   onLoad(option){
@@ -83,12 +85,17 @@ Page({
     db.collection(this.data.dbName).add({
       data: data,
       success: res => {
-        setTimeout(function () {
-          wx.hideLoading()
-        }, 2000)
+        //setTimeout(function () {
+          //wx.hideLoading()
+        //}, 2000)
         //在返回结果中会包含新创建的记录的 _id
         this.setData({
           counterId: res._id,
+        })
+        //app.showToast("提交成功","success")
+        wx.showLoading({
+          title: '提交成功，正在跳转...',
+          mask:true
         })
         wx.navigateTo({
           url: '/pages/msg/msg_success?title=提交成功&msg=等待管理员审核。请点击下方的确定按钮订阅通知消息，审核通过后我们会第一时间通知你。&btText=确定&SubscribeMessage=true',
@@ -149,9 +156,9 @@ Page({
         console.error('[数据库] [查询记录] 失败：', err)
       },
       complete:res => {
-        setTimeout(function () {
-          wx.hideLoading()
-        }, 1000)
+        ////setTimeout(function () {
+          //wx.hideLoading()
+       // }, 1)
       }
     })
   },
@@ -225,7 +232,7 @@ Page({
         }
       }
     }
-    this.uploadToCloud(this.data.postFileList, formData.orgName)
+    this.uploadFiles(formData.orgName)
   },
   chooseLocation: function () {
     let self = this
@@ -272,72 +279,84 @@ Page({
     this.setData({ [`${fileListName}`]: postFileList });
   },
 
-  imageName(name, filePath, index, postFileList){
+  imageName:function(name, filePath, index, postFileList){
     let loc = postFileList.length == 1 ? '' : "-" + index
     const cloudPath = "orgReg/" + name + loc + filePath.match(/\.[^.]+?$/)[0]
-    return this.uploadFilePromise(cloudPath, filePath)
+    return cloudPath
   },
-
-  uploadToCloud(postFileList, orgName,isLogo=false) {
-    let tmpTxt = isLogo ? "logo" : "图片"
-    //showToast({ type: 'primary', message:"正在上传" + tmpTxt + "..."})
+  uploadfile(fileList,fileListName,filename){
+    const self = this
+    let uploadTasks = []
+    for (let x in fileList){
+      let filePath = fileList[x].url
+      let cloudPath = this.imageName(filename, filePath, x, fileList)
+      uploadTasks.push(new Promise(function (resolve, reject){
+        wx.cloud.uploadFile({
+          cloudPath: cloudPath,
+          filePath: filePath
+        }).then(res => {
+          console.log(res.fileID)
+          return resolve(res.fileID);
+          //wx.showToast({ title: '上传成功', icon: 'none' });
+        }).catch(error => {
+          setTimeout(function () {
+            wx.hideLoading()
+          }, 1000)
+          wx.showToast({ title: '上传失败', icon: 'none' });
+          return error;
+        })
+      }))
+    }
+    return uploadTasks
+  },
+  uploadFiles(orgName){
+    let logoFileList = this.data.logoFileList
+    let postFileList = this.data.postFileList
+    const self = this
+    let name = orgName + "-apply"
+    let logoName = orgName + "-logo"
     wx.showLoading({
-      title: "正在上传" + tmpTxt + "...",
+      title: "正在上传LOGO...",
       mask:true
     })
-    
-    wx.cloud.init();
-    let name=''
-    if (isLogo == false) {
-      name = orgName + "-apply"
-    }else{
-      name = orgName + "-logo"
-    }
-    
-    const uploadTasks = postFileList.map((file, index) =>
-      this.imageName(name, file.url, index, postFileList)
-      );
-    Promise.all(uploadTasks)
-      .then(data=> {
-        console.log(data)
-        //wx.showToast({ title: '上传成功', icon: 'none' });
-        const newFileList = data.map((v,k) => v.fileID);
-        if (isLogo==false){
-          this.formData['postImageList'] = newFileList
-          this.uploadToCloud(this.data.logoFileList, orgName, true)
-          return
-        }else{
-          this.formData['logoImageList'] = newFileList
-          this.formData['postType'] =  this.data.postType
-          //注册状态，0：待审核，-1：审核未通过，1：审核通过
-          this.formData['status'] = 0
-          wx.showLoading({
-            title: "正在提交数据",
-            mask:true
-          })
-          this.dbAdd(this.formData)
-          
-        }
-        
+    let uploadTasks = this.uploadfile(logoFileList, "logoImageList",logoName)
+    Promise.all(uploadTasks).then(function (values) {
+      console.log(values);
+      let newFileList = values.map((v,k) => v.fileID)
+      self.formData["logoImageList"] = newFileList
+      wx.showLoading({
+        title: "正在上传图片...",
+        mask:true
       })
-      .catch(e => {
-        setTimeout(function () {
-          wx.hideLoading()
-        }, 2000)
-        wx.showToast({ title: '上传失败', icon: 'none' });
-        console.log(e);
+      self.uploadTasks = []
+      let uploadTasks = self.uploadfile(postFileList, "postImageList",name)
+      Promise.all(uploadTasks).then(function (values) {
+        console.log(values);
+        let newFileList = values.map((v,k) => v.fileID)
+        self.formData["postImageList"] = newFileList
+        self.formData['postType'] =  self.data.postType
+        //注册状态，0：待审核，-1：审核未通过，1：审核通过
+        self.formData['status'] = 0
+        wx.showLoading({
+          title: "正在提交数据",
+          mask:true
+        })
+        self.dbAdd(self.formData)
+      }).catch(reason => {
+        console.log(reason)
       });
-  },
-
-  uploadFilePromise(fileName, path) {
-
-    return wx.cloud.uploadFile({
-      cloudPath: fileName,
-      filePath: path
+    }).catch(reason => {
+      console.log(reason)
     });
+   
+
+    
+    
+
   },
+
   postBt(e){
-    console.log(e)
+    //console.log(e)
   }
 
 });

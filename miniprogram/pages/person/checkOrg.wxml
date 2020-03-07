@@ -3,7 +3,7 @@
 
 <van-notify id="van-notify" />
 
-<block>
+
 
   <van-cell-group title="基本资料">
     <van-field readonly="{{true}}" id="orgName" name="orgName" value="{{ orgName }}" clearable label="组织名称"  placeholder="请输入组织名称" bind:click-icon="onClickIcon" />
@@ -44,9 +44,20 @@
     <van-uploader disabled="{{true}}" deletable="{{false}}" name="file" file-list="{{ postImageList }}" multiple="{{ false }}" image-fit="aspectFit" sizeType="compressed"/>
     </view>
     </van-cell-group>
+<form bindsubmit="formSubmit" bindreset="formSubmit">
+        <view class="weui-cells__title">审核说明</view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">
+                    <textarea name="checkText" bindinput="txtInput" class="textarea weui-textarea" placeholder="请输入审核说明(审核不通过时填写)"/>
+                    <view class="weui-textarea-counter">{{txtLenght}}/20</view>
+                </view>
+            </view>
+        </view>
+
   <view class="button-sp-area">
 
-    <van-button bind:click="noPassed" type="danger" custom-class="bt">拒绝</van-button>
-    <van-button bind:click="passed" type="primary" custom-class="bt">通过</van-button>
+    <button form-type="submit" class="bt weui-btn mini-btn" type="warn" size="mini">拒绝</button>
+    <button form-type="reset" class="bt weui-btn mini-btn" type="primary" size="mini">通过</button>
   </view>
-</block>
+  </form>
