@@ -329,7 +329,7 @@ Page({
     let uploadTasks = this.uploadfile(logoFileList, "logoImageList",logoName)
     Promise.all(uploadTasks).then(function (values) {
       console.log(values);
-      let newFileList = values.map((v,k) => v.fileID)
+      let newFileList = values
       self.formData["logoImageList"] = newFileList
       wx.showLoading({
         title: "正在上传图片...",
@@ -339,7 +339,7 @@ Page({
       let uploadTasks = self.uploadfile(postFileList, "postImageList",name)
       Promise.all(uploadTasks).then(function (values) {
         console.log(values);
-        let newFileList = values.map((v,k) => v.fileID)
+        let newFileList = values
         self.formData["postImageList"] = newFileList
         self.formData['postType'] =  self.data.postType
         //注册状态，0：待审核，-1：审核未通过，1：审核通过

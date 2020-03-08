@@ -268,7 +268,11 @@ Page({
     })
     .then(res => {
       console.log(res.result)
-      app.showToast("已发送通知！","success")
+      if (res.result.errCode==0){
+        app.showToast("已发送通知！","success")
+      }else{
+        app.showToast("通知发送失败！")
+      }
     })
     .catch(error =>{
       console.error(error)

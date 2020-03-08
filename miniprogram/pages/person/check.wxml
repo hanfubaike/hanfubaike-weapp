@@ -11,7 +11,7 @@
   <navigator url="checkOrg?id={{item._id}}" open-type="navigate">
     <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
     
-      <view class="index td">{{index}}</view>
+      <view class="index td">{{index+1}}</view>
       <view class="td">{{item.orgName}}</view>
       <view class="td">{{item.poster}}</view>
       <view class="td">{{item.postTime}}</view>
@@ -20,7 +20,7 @@
      
     <view class="tr" wx:else>
 
-      <view class="index td">{{index}}</view>
+      <view class="index td">{{index+1}}</view>
       <view class="td">{{item.orgName}}</view>
       <view class="td">{{item.poster}}</view>
       <view class="td">{{item.postTime}}</view>
