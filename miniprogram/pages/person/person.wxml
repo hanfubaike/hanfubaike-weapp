@@ -1,16 +1,19 @@
 <import src="../../templates/copyright.wxml" />
-<import src="../../templates/login.wxml" />
+<import src="../../templates/login-popup.wxml" />
 <!--index.wxml-->
 
+
+  <!-- 登录框 -->
+  <template is="login-popup" data="{{show: isLoginPopup, userInfo: userInfo}}"></template>
 
 <view class="containerMe">
   <!-- 用户登录 -->
   
  <view class="userinfo">
 
-    <image class="userinfo-avatar" src="{{logged ? userInfo.avatarUrl : '/images/user-unlogin.png'}}" background-size="cover"></image>
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl ? userInfo.avatarUrl : '/images/user-unlogin.png'}}" background-size="cover"></image>
     <view>
-      <button class="userinfo-nickname" wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">{{logged ? userInfo.nickName : '点击头像登陆'}}</button>
+      <button class="userinfo-nickname" wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">{{userInfo.nickName ? userInfo.nickName : '点击此处登陆'}}</button>
 <view wx:else>请升级微信版本</view>
 
     </view>
@@ -116,8 +119,8 @@
 
     </view>
   </button>
-
   <view class="copyright" style="display:{{floatDisplay}}">
     <template is="tempCopyright" />
   </view>
 </view>
+

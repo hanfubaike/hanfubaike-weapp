@@ -62,6 +62,7 @@ App({
 
     }
   },
+
   globalData:{
     lastUptime: 0,
     userInfo:{},
@@ -115,5 +116,51 @@ App({
   },
   cropperImgUrl:"",
   copyright :"Copyright © 2020-2021 hanfubaike",
-  templateId :"k-NuZiPt5DP1bMDO2REFkfuhz1C907aDm3wJAVJdScw"
+  templateId :"k-NuZiPt5DP1bMDO2REFkfuhz1C907aDm3wJAVJdScw",
+
+  setUserInfo(userInfo,page=""){
+    this.globalData.userInfo = userInfo
+    if (page){
+      page.setData({
+        userInfo: this.globalData.userInfo,
+      })
+    }
+
+    wx.setStorageSync('globalData', this.globalData)
+  },
+  getUserInfo(){
+    const self = this
+    wx.getSetting({
+      success (res){
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+          wx.getUserInfo({
+            success: function(res) {
+              console.log(res.userInfo)
+              self.setUserInfo(res.userInfo)
+            }
+          })
+        }else{
+          wx.showModal({
+            title: '提示',
+            content: '请先登录！',
+            showCancel:false,
+            success (res) {
+              if (res.confirm) {
+                wx.reLaunch({
+                  url: '/pages/person/person',
+                })
+              }
+            }
+          })
+        }
+      }
+    })
+  },
+
+  checkLogin(){
+    if (!this.globalData.userInfo.nickName){
+      this.getUserInfo()
+    }
+  }
 })

@@ -40,7 +40,8 @@ Page({
       reason:"申请说明"
     },
    
-  },
+  }
+  ,
   uploadTasks:[],
   formData:{logoImageList:[],postImageList:[]},
   orgTypeList: ['社会组织','商业组织','汉服商家','大学组织','高中组织','初中组织'],
@@ -63,7 +64,7 @@ Page({
     //setInterval(this.autoSave,10000)
   },
   onShow(option){
-
+    app.checkLogin()
     if (app.cropperImgUrl){
       this.setData({
         logoFileList:this.data.logoFileList.concat({url:app.cropperImgUrl})
@@ -93,13 +94,15 @@ Page({
           counterId: res._id,
         })
         //app.showToast("提交成功","success")
-        wx.showLoading({
-          title: '提交成功，正在跳转...',
-          mask:true
-        })
-        wx.navigateTo({
-          url: '/pages/msg/msg_success?title=提交成功&msg=等待管理员审核。请点击下方的确定按钮订阅通知消息，审核通过后我们会第一时间通知你。&btText=确定&SubscribeMessage=true',
-        })
+        //setTimeout(function () {
+          //wx.showLoading({
+            //title: '正在向管理员发送通知...',
+            //mask:true
+          //})
+        //}, 1500)
+        this.sendEmailToAdmin()
+
+
         //wx.showModal({
           //title: '提示',
           //content: '提交成功，请等待管理员审核，点击确定按钮返回首页',
@@ -168,7 +171,7 @@ Page({
     wx.showActionSheet({
       itemList: self.orgTypeList,
       success (res) {
-        console.log(res.tapIndex)
+        //console.log(res.tapIndex)
         self.setData({
           orgType:self.orgTypeList[res.tapIndex]
         })
@@ -189,7 +192,11 @@ Page({
     postData['logoFileList'] = this.data.logoFileList
     postData['postFileList'] = this.data.postFileList
     //postData['postType'] =  this.data.postType
-    wx.setStorageSync('postData', postData)
+    wx.setStorage({
+      key:'postData',
+      data:postData
+    })
+    formData["poster"] = app.globalData.userInfo.nickName
     this.formData = formData
     this.dbQuery(this.checkFormData)
 
@@ -357,6 +364,64 @@ Page({
 
   postBt(e){
     //console.log(e)
+  },
+  sendEmail(from,title,to,cc,text){
+    const self = this
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'sendEmail',
+      // 传给云函数的参数
+      data: {
+        from: from,
+        title:title,
+        to:to,
+        cc:cc,
+        text: text,
+      },
+    })
+    .then(res => {
+      console.log(res.result)
+      console.log("发送邮件成功")
+      //app.showToast("已向管理员发送通知！","success")
+    })
+    .catch(error =>{
+      console.error(error)
+      console.log("发送邮件失败")
+      //app.showToast("向管理员发送通知失败！")
+    })
+    .finally(function(){
+      app.showToast("提交成功","success")
+      setTimeout(function(){
+        wx.showLoading({
+          title: '正在跳转...',
+          mask:true
+        })
+      },1000)
+
+      setTimeout(function(){
+        wx.hideLoading()
+        wx.navigateTo({
+          url: '/pages/msg/msg_success?title=提交成功&msg=等待管理员审核。请点击下方的确定按钮订阅通知消息，审核通过后我们会第一时间通知你，如长时间没有审核，请通过邮件联系我们：&msgLink=hanfubaike@qq.com&btText=确定&SubscribeMessage=true',
+        })
+      },2000)
+ 
+      
+    })
+  },
+  sendEmailToAdmin(){
+    let orgName = this.formData.orgName
+    let from = {
+      name: "汉服百科",
+      address: "hanfubaike@163.com"
+      }
+    let title = "新增组织『" + orgName +"』需要审核，请及时查看。"
+    let to = "汉服百科管理组<hanfubaike@qq.com>"
+    let cc = {
+      name: "汉服百科",
+      address: "hanfubaike@163.com"
+      }
+    let text = "新增组织『" + orgName +"』需要审核，申请人：" + this.formData["poster"] + "，请打开小程序进行查看！"
+    this.sendEmail(from,title,to,cc,text)
   }
 
 });

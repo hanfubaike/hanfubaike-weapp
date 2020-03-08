@@ -238,70 +238,7 @@ text{
 
 }
 
-/* 弹窗按钮 */
 
-.popup-btn {
-    display: flex;
-    width: 100%;
-    height: 35px;
-    line-height: 35px;
-    font-size: 14px;
-    text-align: left;
-    border: 0;
-    border-radius: 0;
-    background-color: #fff;
-}
-
-.popup-btn .button-main {
-    flex-grow: 1;
-    overflow: hidden;
-}
-
-.popup-btn .go-popup {
-    display: flex;
-    align-items: center;
-}
-
-.popup-btn .go-popup image {
-    width: 15px;
-    height: 15px;
-}
-
-/* 弹窗 */
-
-.login-popup .zan-popup__mask {
-    z-index: 11;
-}
-
-.login-popup .zan-popup__container {
-    z-index: 12;
-}
-
-.zan-popup .zan-popup__container {
-    width: 100%;
-    overflow: visible;
-  
-
-}
-
-.zan-popup .popup-wrapper {
-    width: 100%;
-    padding: 0 15px;
-    padding-bottom: 10px;
-    overflow: visible;
-    
-}
-
-.zan-popup .popup-wrapper .popup-title {
-    font-size: 16px;
-    padding: 15px 0;
-}
-
-.zan-popup .btn-primary.confirm {
-    height: 50px;
-    line-height: 50px;
-    border-radius: 0;
-}
 
 .navigator{
     opacity:1;    
