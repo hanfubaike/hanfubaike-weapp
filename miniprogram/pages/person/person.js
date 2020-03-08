@@ -6,7 +6,6 @@ var nowTime = new Date().getTime()
 Page({
   data: {
     readLogs: [],
-    logged: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     tab: '1',
     showerror: "none",
@@ -20,41 +19,27 @@ Page({
 
   onLoad: function (options) {
     var self = this;
-    
+    this.checkLogin(this)
 
-  },
-  addOrg(){
-    navigateTo({
-      url:"../../index/addOrg"
-    })
   },
   agreeGetUser: function (e) {
     var userInfo = e.detail.userInfo;
     var self = this;
     console.log(userInfo)
     if (userInfo) {
-      app.getUserInfo(null, self);
-      self.setData({ 
-        userInfo: userInfo,
-        logged: true
-      });
-
-      wx.navigateBack({
-        
-      })
-     // wx.reLaunch({
-        //url: url + "?" + query,
-      //})
+      app.setUserInfo(userInfo,self)
       setTimeout(function () {
         self.setData({ isLoginPopup: false })
       }, 1200);
     }
   }
   ,
+  closeLoginPopup(){
+    this.setData({
+      isLoginPopup:false
+    })
+  },
   getUserInfo(){
-    if (app.globalData.userInfo.openid && app.globalData.userInfo.nickName){
-      return
-    }
     const self = this
     wx.getSetting({
       success (res){
@@ -63,19 +48,24 @@ Page({
           wx.getUserInfo({
             success: function(res) {
               console.log(res.userInfo)
-              app.globalData.userInfo = res.userInfo
-              self.setData({
-                userInfo: app.globalData.userInfo,
-                logged:true
-              })
-              wx.setStorageSync('globalData', app.globalData)
-              self.getOpenid()
+              app.setUserInfo(res.userInfo,self)
             }
           })
+        }else{
+          self.setData({isLoginPopup:true})
         }
       }
     })
   }  
+  ,
+  checkLogin(){
+    if (!app.globalData.userInfo.nickName){
+      this.getUserInfo()
+      return false
+    }else{
+      return true
+    }
+  }
   ,
   getOpenid: function() {
     // 调用云函数
@@ -105,20 +95,6 @@ Page({
   },
   onShow: function () {
     //console.log('onShow')
-    var self = this;
-    if (app.globalData.userInfo.openid && app.globalData.userInfo.nickName) {
-      self.setData({
-        userInfo: app.globalData.userInfo,
-        logged: true
-      })
-      this.isAdmin()
-    }
-    else {
-      self.setData({
-        showLogin:true
-      })
-      self.getUserInfo()
-    }
     
   },
 
@@ -176,8 +152,11 @@ Page({
     }
   },
   addOrg(e){
-    wx.navigateTo({
-      url: '/pages/index/addOrg',
-    })
+    if (this.checkLogin()){
+      wx.navigateTo({
+        url: '/pages/index/addOrg',
+      })
+    }
+
   }
 })
