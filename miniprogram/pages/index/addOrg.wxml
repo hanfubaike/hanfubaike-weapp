@@ -25,11 +25,6 @@
 </van-row>
 </view>
 
-
-  <van-cell-group title="联系人信息">
-    <van-field name="contactName" value="{{ contactName }}" clearable label="联系人"  placeholder="请输入联系人的名字" bind:click-icon="onClickIcon" />
-    <van-field name="contactTel" value="{{ contactTel }}" clearable label="手机号"  placeholder="请输入联系人的手机" bind:click-icon="onClickIcon" />
-  </van-cell-group>
   <van-cell-group title="详细资料">
     <van-field name="QQGroup" value="{{ QQGroup }}" clearable label="QQ群"  placeholder="请输入QQ群号" bind:click-icon="onClickIcon" />
     <van-field name="wxmp" value="{{ wxmp }}" clearable label="微信公众号"  placeholder="微信公众号的名字(可选)" bind:click-icon="onClickIcon" />
