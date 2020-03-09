@@ -69,21 +69,8 @@ App({
     isGetUserInfo:false,
     isGetOpenid:false,
     catList:[],
-    VERSION: VERSION
-  },
-  adminList : {oyuGH5Ey1vWJlbfKjHJQhiHNcPLs:'与非','oyuGH5La5_Ey4XEdiWK-IreSU8PM':'非与','oyuGH5Oy-A7dQoSfOx6yJE3RtPpc':'海螺'},
-  isAdmin(_openid=""){
-    let openid
-    if(!_openid){
-      openid = this.globalData.userInfo.openid
-    }else{
-      openid = _openid
-    }
-    if (openid in this.adminList){
-      return true
-    }else{
-      return false
-    }
+    VERSION: VERSION,
+    isAdmin:false
   },
    formatTime(date) {
     function formatNumber(n) {

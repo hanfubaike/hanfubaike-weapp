@@ -10,10 +10,10 @@
     <van-field readonly="{{true}}" name="orgType" value="{{ orgType }}" clearable label="组织类型" placeholder="选择组织类型" readonly />
 
 
-    <van-field readonly="{{true}}" name="locationName" value="{{ locationName }}" type="textarea" autosize center clearable label="位置" placeholder="点击获取位置" bindtap="chooseLocation"  readonly >
+    <van-field name="locationAddress" value="{{ locationAddress }}" type="textarea" autosize center clearable label="位置" placeholder="点击获取位置" bindtap="chooseLocation" is-link readonly >
     </van-field>
 
-    <van-field readonly="{{true}}" name="locationInfo" value="{{ locationInfo }}" label="详细地址" type="textarea" autosize placeholder="请输入详细地址（可选）" border="{{ false }}" />
+    <van-field name="locationName" value="{{ locationName }}" label="详细地址" type="textarea" autosize placeholder="请输入详细地址（可选）" autosize border="{{ false }}" />
 
     <van-field readonly="{{true}}" name="orgInfo" value="{{ orgInfo }}" label="组织简介" type="textarea" placeholder="请输入组织简介" autosize border="{{ false }}" />
   </van-cell-group>
@@ -28,11 +28,12 @@
 </van-row>
 </view>
 
-
+<!--
   <van-cell-group title="联系人信息">
     <van-field readonly="{{true}}" name="contactName" value="{{ contactName }}" clearable label="联系人"  placeholder="请输入联系人的名字" />
     <van-field readonly="{{true}}" name="contactTel" value="{{ contactTel }}" clearable label="手机号"  placeholder="请输入联系人的手机" />
   </van-cell-group>
+  -->
   <van-cell-group title="详细资料">
     <van-field readonly="{{true}}" name="QQGroup" value="{{ QQGroup }}" clearable label="QQ群"  placeholder="请输入QQ群号" />
     <van-field readonly="{{true}}" name="wxmp" value="{{ wxmp }}" clearable label="微信公众号"  placeholder="微信公众号的名字(可选)" />

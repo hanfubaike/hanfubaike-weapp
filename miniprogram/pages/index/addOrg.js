@@ -23,7 +23,7 @@ Page({
     src: '',
     openid: '',
     dbName:'org',
-    locationInfo:'',
+    locationAddress:'',
     srcName:'',
     width: 250,//宽度
     height: 250,//高度
@@ -31,7 +31,7 @@ Page({
       orgName:"组织名称",
       orgType:"组织类型",
       locationName:"位置",
-      locationInfo:"详细地址",
+      locationAddress:"详细地址",
       orgInfo:"组织简介",
       contactName:"负责人",
       contactTel:"手机号",
@@ -48,11 +48,6 @@ Page({
 
   onLoad(option){
     const self = this
-    if (app.globalData.openid) {
-      this.setData({
-        openid: app.globalData.openid
-      })
-    }
     wx.getStorage({
       key: 'postData',
       success(res) {
@@ -208,7 +203,7 @@ Page({
     
   },
   checkFormData(){
-    let ignoreList = ['wxmp','locationInfo']
+    let ignoreList = ['wxmp','locationAddress']
     let formData = this.formData
     let nameLabel = this.data.nameLabel
     if (this.data.logoFileList.length==0){
@@ -248,6 +243,7 @@ Page({
         console.log(res)
         self.setData({
           locationName: res.name,
+          locationAddress:res.address,
           address: res.address,
           latitude: res.latitude,
           longitude: res.longitude
@@ -415,13 +411,48 @@ Page({
       address: "hanfubaike@163.com"
       }
     let title = "新增组织『" + orgName +"』需要审核，请及时查看。"
-    let to = "汉服百科管理组<hanfubaike@qq.com>"
+    let to = [{
+      name: "汉服百科管理组",
+      address: "hanfubaike@qq.com"
+      }]
     let cc = {
       name: "汉服百科",
       address: "hanfubaike@163.com"
       }
     let text = "新增组织『" + orgName +"』需要审核，申请人：" + this.formData["poster"] + "，请打开小程序进行查看！"
-    this.sendEmail(from,title,to,cc,text)
+    
+    const db = wx.cloud.database()
+    const _ = db.command
+    //查询当前用户所有的 counters
+    db.collection('adminList').field({
+      openid:false
+    }).where({
+      email: _.exists(true)
+    }).get({
+      success: res => { 
+        console.log('[数据库] [查询记录] 成功: ', res)
+        if (res.data.length != 0){
+          for (let x in res.data){
+            to.push(
+              {name: res.data[x].name,
+                address: res.data[x].email}
+            )
+          }
+        }
+
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
+        })
+        console.error('[数据库] [查询记录] 失败：', err)
+      },
+      complete:res => {
+        this.sendEmail(from,title,to,cc,text)
+      }
+    })
+
   }
 
 });

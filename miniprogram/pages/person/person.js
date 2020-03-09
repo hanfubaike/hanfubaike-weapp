@@ -27,10 +27,10 @@ Page({
     var self = this;
     console.log(userInfo)
     if (userInfo) {
-      app.setUserInfo(userInfo,self)
       setTimeout(function () {
         self.setData({ isLoginPopup: false })
-      }, 1200);
+      }, 1000);
+      app.setUserInfo(userInfo,self)
     }
   }
   ,
@@ -87,14 +87,12 @@ Page({
       }
     })
   },
-  isAdmin(){
-    
-    if (app.isAdmin()){
-      this.setData({showCheck:true})
-    }
-  },
+
   onShow: function () {
     //console.log('onShow')
+    if (app.globalData.isAdmin){
+      this.setData({showCheck:true})
+    }
     
   },
 

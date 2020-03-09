@@ -8,11 +8,11 @@
     <cover-view hidden='{{map_text_hidden}}' class="map_text" selectable="true" data-item="{{textData}}" bindtap="map_text_tap" bindtouchmove="map_text_touchmove" style="{{map_text_style}}">
 
       <cover-view class="image">
-        <cover-image class="cover-image" mode="{{textData.mode}}" binderror="binderrorimg" src="{{textData.logopictureurlstr}}"></cover-image>
+        <cover-image class="cover-image" mode="{{textData.mode}}" binderror="binderrorimg" src="{{textData.logoImageList}}"></cover-image>
         <cover-view class="cover-view">
           <cover-view class="title" selectable="true">{{textData.organizationname}}</cover-view>
-          <cover-view class="tText" wx:if="{{textData.location}}" selectable="true">类别：{{textData.orgClass}}</cover-view>
-          <cover-view class="tText" wx:if="{{textData.location}}" selectable="true">地址：{{textData.location}}</cover-view>
+          <cover-view class="tText" wx:if="{{textData.locationName}}" selectable="true">类别：{{textData.orgType}}</cover-view>
+          <cover-view class="tText" wx:if="{{textData.locationName}}" selectable="true">地址：{{textData.locationName}}</cover-view>
         </cover-view>
       </cover-view>
 
