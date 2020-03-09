@@ -20,7 +20,7 @@ Page({
     src: '',
     openid: '',
     dbName:'org',
-    locationInfo:'',
+    locationAddress:'',
     srcName:'',
  
   },

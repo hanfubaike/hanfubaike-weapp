@@ -61,11 +61,11 @@ function wxSearchInput(e) {
     __data.bottonText = "搜索"
     __that.isSearch = false
     for (var i = 0; i < __tipKeys.length; i++) {
-      var mindKey = __tipKeys[i].organizationname;
+      var mindKey = __tipKeys[i].orgName;
       // 包含字符串
       if (mindKey.indexOf(inputValue) != -1) {
-        if (__tipKeys[i].logopictureurlstr == 'images/defaultLogo.png'){
-          __tipKeys[i].logopictureurlstr = '/images/defaultLogo.png'
+        if (__tipKeys[i].logoImageList == 'images/defaultLogo.png'){
+          __tipKeys[i].logoImageList = '/images/defaultLogo.png'
         }
         tipKeys.push(__tipKeys[i]);
         if (tipKeys.length > 20) {
@@ -115,12 +115,12 @@ function wxSearchKeyTap(e) {
   console.log(e)
   var temData = __that.data.wxSearchData;
   // 更新数据
-  temData.value = e.currentTarget.dataset.key.organizationname;
+  temData.value = e.currentTarget.dataset.key.orgName;
   temData.tipKeys = [e.currentTarget.dataset.key]
   __that.setData({
     wxSearchData: temData,
     isWxSearch: false,
-    inputText: e.currentTarget.dataset.key.organizationname,
+    inputText: e.currentTarget.dataset.key.orgName,
     isMap: true
   });
   

@@ -2,7 +2,7 @@
 var WxSearch = require('../../wxSearchView/wxSearchView.js');
 var util = require('../../utils/util.js');
 var app = getApp();
-var orgClass = [{ name: "其它组织", img: "/images/collection.png" },
+var orgType = [{ name: "其它组织", img: "/images/collection.png" },
 { name: "社会组织", img: "/images/shehuizuzhi.png" },
 { name: "高校社团", img: "/images/gaoxiaoshetuan.png" },
 { name: "中学社团", img: "/images/zhongxueshetuan.png" },
@@ -30,7 +30,7 @@ Page({
         self.setData({
           controls: [{
             id: 1,
-            iconPath: '/resources/locationMe.png',
+            iconPath: '/images/locationMe.png',
             position: {
               left: 20,
               top: (res.screenHeight - 20 - 60 - 90) / 1.3,
@@ -41,7 +41,7 @@ Page({
           },
           {
             id: 2,
-            iconPath: '/resources/plus.png',
+            iconPath: '/images/plus.png',
             position: {
               left: res.screenWidth - 50,
               top: (res.screenHeight - 20 - 60 - 48 - 90) / 1.3,
@@ -52,7 +52,7 @@ Page({
           },
           {
             id: 3,
-            iconPath: '/resources/zoom.png',
+            iconPath: '/images/zoom.png',
             position: {
               left: res.screenWidth - 50,
               top: (res.screenHeight - 20 - 60 - 90) / 1.3,
@@ -106,8 +106,8 @@ Page({
       let markeJson = {}
       var org_type = data[x].org_type > 5 ? 0 : data[x].org_type
 
-      markeJson.iconPath = orgClass[org_type].img
-      //markeJson.iconPath = "/resources/defaultMarker.png"
+      markeJson.iconPath = orgType[org_type].img
+      //markeJson.iconPath = "/images/defaultMarker.png"
       markeJson.width = 25
       markeJson.height = 25
       markeJson.alpha = 0.8
@@ -225,22 +225,22 @@ Page({
     var _markersData = {}
     var org_type = self.orgList[e.markerId].org_type > 5 ? 0 : self.orgList[e.markerId].org_type 
     //console.log(e.markerId, self.orgList)
-    textData.location = self.orgList[e.markerId].location
+    textData.locationName = self.orgList[e.markerId]. locationName
     textData.organizationname = self.orgList[e.markerId].organizationname
-    textData.qqgroupnum = self.orgList[e.markerId].qqgroupnum
-    textData.wxgznum = self.orgList[e.markerId].wxgznum
+    textData.QQGroup = self.orgList[e.markerId].QQGroup
+    textData. wxmp = self.orgList[e.markerId]. wxmp
     textData.wbnum = self.orgList[e.markerId].wbnum
     textData.status = self.orgList[e.markerId].status
-    textData.organizationdesc = self.orgList[e.markerId].organizationdesc
-    textData.logopictureurlstr = self.orgList[e.markerId].logopictureurlstr
+    textData.orgInfo = self.orgList[e.markerId].orgInfo
+    textData.logoImageList = self.orgList[e.markerId].logoImageList
     textData.organizationid = self.orgList[e.markerId].organizationid
-    textData.orgClass = orgClass[org_type].name
-    if (textData.logopictureurlstr == "images/defaultLogo.png" || textData.logopictureurlstr == "") {
-      textData.logopictureurlstr = '/images/defaultLogo.png'
+    textData.orgType = orgType[org_type].name
+    if (textData.logoImageList == "images/defaultLogo.png" || textData.logoImageList == "") {
+      textData.logoImageList = '/images/defaultLogo.png'
     }
     var webUrl = app.WEBVIEWURL + '/organization_detail.html?organizationid=' + textData.organizationid + "&rand=" + app.VERSION
     textData.webUrl = '/pages/webpage/webpage?url=' + encodeURIComponent(webUrl) + '&title=' + textData.organizationname;
-    //textData.logopictureurlstr = "/images/".concat(self.orgList[e.markerId].organizationname, ".jpg")
+    //textData.logoImageList = "/images/".concat(self.orgList[e.markerId].organizationname, ".jpg")
     textData.latitude = self.orgList[e.markerId].latitude
     textData.longitude = self.orgList[e.markerId].longitude
     //textData.mode = "aspectFit"

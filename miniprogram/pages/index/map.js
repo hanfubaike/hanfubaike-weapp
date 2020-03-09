@@ -2,10 +2,11 @@
 var WxSearch = require('../../wxSearchView/wxSearchView.js');
 var util = require('../../utils/util.js');
 var MakerCluster = require('../../utils/MakerCluster.js');
+const wxRequest = require('../../utils/wxRequest.js');
 var app = getApp();
 var jsonData = require('../../jsonData.js')
 
-var orgClass = [{ name: "其它组织", img: "/images/collection.png" },
+var orgType = [{ name: "其它组织", img: "/images/collection.png" },
 { name: "社会组织", img: "/images/shehuizuzhi.png" },
 { name: "高校社团", img: "/images/gaoxiaoshetuan.png" },
 { name: "中学社团", img: "/images/zhongxueshetuan.png" },
@@ -25,8 +26,13 @@ Page({
     map_container_style: "width: 100%;",
     map_style: "width: 100%; height: 100%;",
     map_text_hidden: true,
-    buttonImage: "/images/feedback.png"
+    buttonImage: "/images/feedback.png",
     //map_text_style: "width: 92%; height: 16%;",
+    longitude:"113.324520",
+    latitude:"23.099994",
+    textData:{
+      logoImage:"/images/defaultLogo.png"
+    }
   },
   //allOrgList: [],
   orgList: [],
@@ -58,15 +64,13 @@ Page({
     let self = this
     this.mapCtx = wx.createMapContext('map')
     self.initSearch()
-    self.getAllOrgList()
+    self.getOrgList()
     self.getLocation(5)
     self.initData()
-
-    //self.updataLogo()
   },
   onShow: function () {
     let self = this
-    //self.getAllOrgList()
+    //self.getOrgList()
   },
   goRegorg:function(){
     wx.navigateTo({
@@ -103,7 +107,7 @@ Page({
           let lat = markers[x].latitude
           let lng = markers[x].longitude
           if (util.IsPtInPoly(lng, lat, polist)) {
-            console.log("在视野范围：", markers[x].organizationname)
+            console.log("在视野范围：", markers[x].orgName)
             _data.push(markers[x])
           }
           else {
@@ -115,23 +119,69 @@ Page({
     return _data
   }
   ,
-  getAllOrgList: function () {
+  getOrgList: function () {
     //访问网络
     wx.showNavigationBarLoading()
     var self = this
     //var allOrgList = []
-    var orgList = jsonData.data()
-    self.isSearch = false
-    wx.hideNavigationBarLoading()
-    self.orgList = orgList
-    self.initSearch()
-    //self.setClusterMarkers(orgList)
-    self.setMarkers(orgList)
-    //self.setCircles(self.orgList)
-    // complete
-    self.loadingMark(true)
-    //console.log('orgList', orgList);
+    //var orgList = jsonData.data()
+    wx.showLoading({
+      title: '正在获取...',
+      mask:true
+    })
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'orglist',
+      // 传给云函数的参数
+      data: {
+      },
+    })
+    .then(res => {
+      console.log(res.result)
+      console.log("成功获取组织列表！")
+      //app.showToast("已向管理员发送通知！","success")
+      self.isSearch = false
 
+      self.orgList = res.result["orgList"]
+      app.globalData.isAdmin = res.result.isAdmin
+      wx.setStorage({
+        data: app.globalData,
+        key: 'globalData',
+      })
+    })
+    .catch(error =>{
+      console.error(error)
+      console.log("获取组织列表失败！")
+      //app.showToast("向管理员发送通知失败！")
+    })
+    .finally(function(){
+      setTimeout(function(){
+        wx.hideNavigationBarLoading()
+        wx.hideLoading()},1000)
+      if (self.orgList.length == 0){
+        return
+      }
+      let markesData = []
+      for (let x in self.orgList){
+        let longitude = self.orgList[x].longLatiute.coordinates[0]
+        let latitude = self.orgList[x].longLatiute.coordinates[1]
+        self.orgList[x].longitude = longitude
+        self.orgList[x].latitude = latitude
+        delete self.orgList[x].longLatiute
+
+
+        markesData.push({orgName:self.orgList[x].orgName,longitude:longitude,latitude:latitude})
+      }
+      console.log(markesData)
+      self.initSearch()
+      //self.setClusterMarkers(orgList)
+      self.setMarkers(markesData)
+      
+      //self.setCircles(self.orgList)
+      // complete
+      self.loadingMark(true)
+      //console.log('orgList', orgList);
+    })
 
   },
   goActiv:function(){
@@ -170,7 +220,7 @@ Page({
   updataLogo: function () {
     let self = this
     let n = self.updataLogoIndex
-    let url = self.jsonData[n].logopictureurlstr
+    let url = self.jsonData[n].logoImage
     if (url == "/images/defaultLogo.png") {
       console.log("defaultLogo")
     }
@@ -212,10 +262,10 @@ Page({
 
   updataOneLogo: function () {
     let self = this
-    let url = self.data.textData.logopictureurlstr
+    let url = self.data.textData.logoImage
     if (url == "/images/defaultLogo.png") {
       self.setData({
-        'textData.logopictureurlstr': "/images/defaultLogo.png"
+        'textData.logoImage': "/images/defaultLogo.png"
       })
       console.log("defaultLogo")
     }
@@ -225,7 +275,7 @@ Page({
         success: function (res) {
           if (res.statusCode === 200) {
             self.setData({
-              'textData.logopictureurlstr': res.tempFilePath
+              'textData.logoImage': res.tempFilePath
             })
 
             console.log("updataLogo success")
@@ -234,7 +284,7 @@ Page({
         fail: function () {
           // fail
           self.setData({
-            'textData.logopictureurlstr': "/images/defaultLogo.png"
+            'textData.logoImage': "/images/defaultLogo.png"
           })
         },
         complete: function () {
@@ -374,7 +424,7 @@ Page({
               let lat = orgList[x].latitude
               let lng = orgList[x].longitude
               if (util.IsPtInPoly(lng, lat, polist)) {
-                console.log("在视野范围：", orgList[x].organizationname)
+                console.log("在视野范围：", orgList[x].orgName)
                 _data.push(orgList[x])
               }
               else {
@@ -386,7 +436,7 @@ Page({
               var dataJson = {}
               dataJson.longitude = mcData[x].center.lng
               dataJson.latitude = mcData[x].center.lat
-              dataJson.organizationname = mcData[x].markers.length
+              dataJson.orgName = mcData[x].markers.length
               dataList.push(dataJson)
             }
             let markers = []
@@ -394,7 +444,7 @@ Page({
             for (var x in dataList) {
               let markeJson = {}
 
-              markeJson.iconPath = "/resources/defaultMarker.png"
+              markeJson.iconPath = "/images/defaultMarker.png"
               markeJson.width = 20
               markeJson.height = 20
               markeJson.alpha = 0.8
@@ -403,11 +453,11 @@ Page({
               markeJson.latitude = dataList[x].latitude
               markeJson.longitude = dataList[x].longitude
               //markeJson.anchor = { x: -20, y: 3 }
-              markeJson.organizationname = dataList[x].organizationname
+              markeJson.orgName = dataList[x].orgName
 
-              //markeJson.title = dataList[x].organizationname
+              //markeJson.title = dataList[x].orgName
               markeJson.callout = {
-                content: dataList[x].organizationname,
+                content: dataList[x].orgName,
                 fontSize: 12,
                 borderWidth: 4,
                 color: "#000000",
@@ -453,26 +503,21 @@ Page({
     let calloutDisplay = isSearch ? "ALWAYS" : "BYCLICK"
     for (var x in data) {
       let markeJson = {}
-      var org_type = data[x].org_type > 5 ? 0 : data[x].org_type
+      //var org_type = data[x].org_type > 5 ? 0 : data[x].org_type
 
-      //markeJson.iconPath = orgClass[org_type].img
-      markeJson.iconPath = "/resources/defaultMarker.png"
+      //markeJson.iconPath = orgType[org_type].img
+      markeJson.iconPath = "/images/defaultMarker.png"
       markeJson.width = width_height
       markeJson.height = width_height
       markeJson.alpha = 0.9
 
       markeJson.id = x
-      markeJson.latitude = data[x].latitude
       markeJson.longitude = data[x].longitude
+      markeJson.latitude = data[x].latitude
       //markeJson.anchor = { x: -20, y: 3 }
-      markeJson.organizationname = data[x].organizationname
-      markeJson.location = data[x].location
-      markeJson.org_type = data[x].org_type
-      markeJson.logopictureurlstr = data[x].logopictureurlstr
-      markeJson.organizationid = data[x].organizationid
-      //markeJson.title = data[x].organizationname
+      markeJson.orgName = data[x].orgName
       markeJson.callout = {
-        content: data[x].organizationname,
+        content: data[x].orgName,
         fontSize: 12,
         borderWidth: 2,
         color: "#000000",
@@ -583,7 +628,7 @@ Page({
         var scale = res.scale
         var isScaleEquals = false
         console.log("scale", scale)
-        if (scale != self.scale) {
+        if (Math.abs(scale - self.scale) > 3 ) {
           isScaleEquals = true
         }
         self.scale = scale
@@ -608,7 +653,7 @@ Page({
                 let lat = markers[x].latitude
                 let lng = markers[x].longitude
                 if (util.IsPtInPoly(lng, lat, polist)) {
-                  console.log("在视野范围：", markers[x].organizationname)
+                  console.log("在视野范围：", markers[x].orgName)
                   _data.push(markers[x])
                 }
                 else {
@@ -655,35 +700,78 @@ Page({
   markertap(e) {
     let self = this
     let textData = {}
+    let markerID = e.markerId
     var _markersData = {}
-    if (e.markerId.indexOf("c") > -1) {
+    if (markerID.indexOf("c") > -1) {
       console.log("聚合图标,不处理")
       return
     }
-    var org_type = self.data.markers[e.markerId].org_type > 5 ? 0 : self.data.markers[e.markerId].org_type
-    //console.log(e.markerId, self.data.markers)
-    textData.location = self.data.markers[e.markerId].location
-    textData.organizationname = self.data.markers[e.markerId].organizationname
-    textData.qqgroupnum = self.data.markers[e.markerId].qqgroupnum
-    textData.wxgznum = self.data.markers[e.markerId].wxgznum
-    textData.wbnum = self.data.markers[e.markerId].wbnum
-    textData.status = self.data.markers[e.markerId].status
-    textData.organizationdesc = self.data.markers[e.markerId].organizationdesc
-    textData.logopictureurlstr = self.data.markers[e.markerId].logopictureurlstr
-    textData.organizationid = self.data.markers[e.markerId].organizationid
-    textData.orgClass = orgClass[org_type].name
-    if (textData.logopictureurlstr == "images/defaultLogo.png" || textData.logopictureurlstr == "") {
-      textData.logopictureurlstr = '/images/defaultLogo.png'
+    if (this.data.markers[e.markerId].orgName != this.orgList[markerID].orgName) {
+      console.log("名字不匹配！！")
+      return
     }
-    var webUrl = app.WEBVIEWURL + '/organization_detail.html?organizationid=' + textData.organizationid + "&rand=" + app.VERSION
-    textData.webUrl = '/pages/webpage/webpage?url=' + encodeURIComponent(webUrl) + '&title=' + textData.organizationname;
-    //textData.logopictureurlstr = "/images/".concat(self.data.markers[e.markerId].organizationname, ".jpg")
-    textData.latitude = self.data.markers[e.markerId].latitude
-    textData.longitude = self.data.markers[e.markerId].longitude
+    this.setData({
+      textData:{
+        logoImage:"/images/defaultLogo.png",
+        orgName:this.data.markers[e.markerId].orgName,
+        orgType:"获取中...",
+        locationName:"获取中..."
+      }
+    })
+    let orgInfo = {}
+    let orgID = this.orgList[markerID]._id
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'orgInfo',
+      // 传给云函数的参数
+      data: {id:orgID
+      },
+    })
+    .then(res => {
+      console.log(res.result)
+      if (res.result.orgInfo.length < 1){
+        console.log("获取组织信息失败！")
+      }else{
+        console.log("成功获取组织信息！")
+      }
+
+      //app.showToast("已向管理员发送通知！","success")
+      orgInfo = res.result
+      orgInfo.logoImage = orgInfo.logoImageList.length>0 ? orgInfo.logoImageList[0]:"/images/defaultLogo.png"
+    })
+    .catch(error =>{
+      console.error(error)
+      console.log("获取组织信息失败！")
+      //app.showToast("向管理员发送通知失败！")
+    })
+    .finally(function(){
+      setTimeout(function(){
+        wx.hideNavigationBarLoading()
+        wx.hideLoading()},1000)
+      if (JSON.stringify(orgInfo) == "{}"){
+        return
+      }
+    orgInfo = self.orgList[markerID] = Object.assign(self.orgList[markerID],orgInfo)
+    //var org_type = self.data.markers[e.markerId].org_type > 5 ? 0 : self.data.markers[e.markerId].org_type
+    //console.log(e.markerId, self.data.markers)
+    textData.locationName = orgInfo.locationName
+    textData.orgName = orgInfo.orgName
+    textData.QQGroup = orgInfo.QQGroup
+    textData. wxmp = orgInfo. wxmp
+    textData.wbnum = orgInfo.wbnum
+    textData.orgInfo = orgInfo.orgInfo
+    textData.logoImage = orgInfo.logoImage
+    textData.orgType = orgInfo.orgType
+    if (textData.logoImage == "images/defaultLogo.png" || textData.logoImage == "") {
+      textData.logoImage = '/images/defaultLogo.png'
+    }
+    //textData.logoImage = "/images/".concat(orgInfo.orgName, ".jpg")
+    textData.latitude = orgInfo.latitude
+    textData.longitude = orgInfo.longitude
     //textData.mode = "aspectFit"
     if (!self.data.markers[e.markerId].callout) {
       _markersData["markers[" + e.markerId + "].callout"] = {
-        content: textData.organizationname,
+        content: textData.orgName,
         fontSize: 12,
         borderWidth: 2,
         color: "#000000",
@@ -703,7 +791,10 @@ Page({
       _markersData
     )
     //self.updataOneLogo()
-    console.log(self.data.markers[e.markerId].organizationname)
+    console.log(self.data.markers[e.markerId].orgName)
+
+    })
+
   },
 
   // 获取容器高度，使页面滚动到容器底部
@@ -814,7 +905,7 @@ Page({
     let self = this
     var errorImgIndex = e.target.dataset.errorimg //获取循环的下标
     this.setData({
-      "textData.logopictureurlstr": "/images/defaultLogo.png"
+      "textData.logoImage": "/images/defaultLogo.png"
     }) //修改数据源对应的数据
   },
 
@@ -868,7 +959,7 @@ Page({
       self.setData({
         scale: 3
       })
-      self.getAllOrgList()
+      self.getOrgList()
       return
     }
     self.isSearch = true
@@ -895,7 +986,7 @@ Page({
     let self = this
     var longitude = value.longitude
     var latitude = value.latitude
-    var name = value.organizationname
+    var name = value.orgName
     var _value = {}
     _value.value = name
     _value.tipKeys = [value]

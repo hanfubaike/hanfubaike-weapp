@@ -2,7 +2,7 @@
 var WxSearch = require('../../wxSearchView/wxSearchView.js');
 var util = require('../../utils/util.js');
 var MakerCluster = require('../../utils/MakerCluster.js');
-var orgClass = [{ name:"其它组织", img:"/images/collection.png" }, 
+var orgType = [{ name:"其它组织", img:"/images/collection.png" }, 
                 { name: "社会组织", img:"/images/shehuizuzhi.png"}, 
                 { name: "高校社团", img:"/images/gaoxiaoshetuan.png"}, 
                 { name: "中学社团", img:"/images/zhongxueshetuan.png"}, 
@@ -198,7 +198,7 @@ Page({
           screenWidth: res.screenWidth,
           controls: [{
             id: 1,
-            iconPath: '/resources/locationMe.png',
+            iconPath: '/images/locationMe.png',
             position: {
               left: 20,
               top: (res.screenHeight - 20 - 100 - 90) / 1.3,
@@ -209,7 +209,7 @@ Page({
           },
           {
             id: 2,
-            iconPath: '/resources/plus.png',
+            iconPath: '/images/plus.png',
             position: {
               left: res.screenWidth - 50,
               top: (res.screenHeight - 20 - 100 - 48 - 90) / 1.3,
@@ -220,7 +220,7 @@ Page({
           },
           {
             id: 3,
-            iconPath: '/resources/zoom.png',
+            iconPath: '/images/zoom.png',
             position: {
               left: res.screenWidth - 50,
               top: (res.screenHeight - 20 - 100 - 90) / 1.3,
@@ -239,7 +239,7 @@ Page({
   updataLogo: function () {
     let self = this
     let n = self.updataLogoIndex
-    let url = self.jsonData[n].logopictureurlstr
+    let url = self.jsonData[n].logoImageList
     if (url == "/images/defaultLogo.png") {
       console.log("defaultLogo")
     }
@@ -281,10 +281,10 @@ Page({
 
   updataOneLogo: function () {
     let self = this
-    let url = self.data.textData.logopictureurlstr
+    let url = self.data.textData.logoImageList
     if (url == "/images/defaultLogo.png") {
       self.setData({
-        'textData.logopictureurlstr': "/images/defaultLogo.png"
+        'textData.logoImageList': "/images/defaultLogo.png"
       })
       console.log("defaultLogo")
     }
@@ -294,7 +294,7 @@ Page({
         success: function (res) {
           if (res.statusCode === 200) {
             self.setData({
-              'textData.logopictureurlstr': res.tempFilePath
+              'textData.logoImageList': res.tempFilePath
             })
 
             console.log("updataLogo success")
@@ -303,7 +303,7 @@ Page({
         fail: function () {
           // fail
           self.setData({
-            'textData.logopictureurlstr': "/images/defaultLogo.png"
+            'textData.logoImageList': "/images/defaultLogo.png"
           })
         },
         complete: function () {
@@ -462,7 +462,7 @@ Page({
             for (var x in dataList) {
               let markeJson = {}
 
-              markeJson.iconPath = "/resources/defaultMarker.png"
+              markeJson.iconPath = "/images/defaultMarker.png"
               markeJson.width = 20
               markeJson.height = 20
               markeJson.alpha = 0.8
@@ -520,8 +520,8 @@ Page({
       let markeJson = {}
       var org_type = data[x].org_type > 5 ? 0 : data[x].org_type
 
-      markeJson.iconPath = orgClass[org_type].img
-      //markeJson.iconPath = "/resources/defaultMarker.png"
+      markeJson.iconPath = orgType[org_type].img
+      //markeJson.iconPath = "/images/defaultMarker.png"
       markeJson.width = 10
       markeJson.height = 10
       markeJson.alpha = 0.8
@@ -717,22 +717,22 @@ Page({
     }
     var org_type = self.orgList[e.markerId].org_type > 5 ? 0 : self.orgList[e.markerId].org_type 
     //console.log(e.markerId, self.orgList)
-    textData.location = self.orgList[e.markerId].location
+    textData.locationName = self.orgList[e.markerId]. locationName
     textData.organizationname = self.orgList[e.markerId].organizationname
-    textData.qqgroupnum = self.orgList[e.markerId].qqgroupnum
-    textData.wxgznum = self.orgList[e.markerId].wxgznum
+    textData.QQGroup = self.orgList[e.markerId].QQGroup
+    textData. wxmp = self.orgList[e.markerId]. wxmp
     textData.wbnum = self.orgList[e.markerId].wbnum
     textData.status = self.orgList[e.markerId].status
-    textData.organizationdesc = self.orgList[e.markerId].organizationdesc
-    textData.logopictureurlstr = self.orgList[e.markerId].logopictureurlstr
+    textData.orgInfo = self.orgList[e.markerId].orgInfo
+    textData.logoImageList = self.orgList[e.markerId].logoImageList
     textData.organizationid = self.orgList[e.markerId].organizationid
-    textData.orgClass = orgClass[org_type].name
-    if (textData.logopictureurlstr == "images/defaultLogo.png" || textData.logopictureurlstr == "") {
-      textData.logopictureurlstr = '/images/defaultLogo.png'
+    textData.orgType = orgType[org_type].name
+    if (textData.logoImageList == "images/defaultLogo.png" || textData.logoImageList == "") {
+      textData.logoImageList = '/images/defaultLogo.png'
     }
     var webUrl = app.WEBVIEWURL + '/organization_detail.html?organizationid=' + textData.organizationid + "&rand=" + app.VERSION
     textData.webUrl = '/pages/webpage/webpage?url=' + encodeURIComponent(webUrl) + '&title=' + textData.organizationname;
-    //textData.logopictureurlstr = "/images/".concat(self.orgList[e.markerId].organizationname, ".jpg")
+    //textData.logoImageList = "/images/".concat(self.orgList[e.markerId].organizationname, ".jpg")
     textData.latitude = self.orgList[e.markerId].latitude
     textData.longitude = self.orgList[e.markerId].longitude
     //textData.mode = "aspectFit"
@@ -870,7 +870,7 @@ Page({
     let self = this
     var errorImgIndex = e.target.dataset.errorimg //获取循环的下标
     this.setData({
-      "textData.logopictureurlstr": "/images/defaultLogo.png"
+      "textData.logoImageList": "/images/defaultLogo.png"
     }) //修改数据源对应的数据
   },
 
@@ -884,7 +884,7 @@ Page({
       var item = e.currentTarget.dataset.key
       var n = this.data.wxSearchData.hotKeys.indexOf(item)
       var tmpData = {}
-      tmpData["wxSearchData.hotKeys[" + n + "].logopictureurlstr"] = "/images/collection.png"
+      tmpData["wxSearchData.hotKeys[" + n + "].logoImageList"] = "/images/collection.png"
       this.setData({
         tmpData
       })
