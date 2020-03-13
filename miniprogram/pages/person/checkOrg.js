@@ -122,7 +122,7 @@ Page({
       }
     })
   },
-  dbUpdate(id,status){
+  dbUpdate(id,status,value=""){
     const self = this
     wx.showLoading({
       title: '提交中...',
@@ -134,7 +134,8 @@ Page({
       data: {
         status: status,
         updateTime:db.serverDate(),
-        checkOpenid:'{openid}'
+        checkOpenid:'{openid}',
+        checkText:value
       },
       success: function(res) {
         console.log(res)
@@ -185,7 +186,7 @@ Page({
   passed(checkText){
     const self = this
     this.title = "【"+ this.data.orgName.slice(0,13) +"】审核通过！"
-    this.tips = "你提交的组织已经审核通过!"
+    this.tips = "恭喜，你提交的组织已经通过审核!"
     wx.showModal({
       title: '审核确认',
       content: '确认【通过】吗？',
@@ -231,7 +232,7 @@ Page({
       content: '确认【拒绝】吗？',
       success(res) {
         if (res.confirm) {
-          self.dbUpdate(self.data._id, -1)
+          self.dbUpdate(self.data._id, -1,value)
         } else if (res.cancel) {
           console.log('用户点击取消')
         }

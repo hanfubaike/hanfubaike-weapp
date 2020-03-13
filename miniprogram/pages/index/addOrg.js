@@ -397,7 +397,7 @@ Page({
       setTimeout(function(){
         wx.hideLoading()
         wx.navigateTo({
-          url: '/pages/msg/msg_success?title=提交成功&msg=等待管理员审核。请点击下方的确定按钮订阅通知消息，审核通过后我们会第一时间通知你，如长时间没有审核，请通过邮件联系我们：&msgLink=hanfubaike@qq.com&btText=确定&SubscribeMessage=true',
+          url: '/pages/msg/msg_success?title=提交成功&msg=等待管理员审核。请点击下方的确定按钮订阅通知消息，审核通过后我们会第一时间通知你，如长时间没有审核，请通过邮件联系我们：&msgLink=hanfubaike@163.com&btText=确定&SubscribeMessage=true',
         })
       },2000)
  
