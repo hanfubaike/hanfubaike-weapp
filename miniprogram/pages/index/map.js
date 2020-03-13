@@ -78,6 +78,7 @@ Page({
     })
   },
   moveToLocation: function () {
+    return
     let self = this
     this.mapCtx.moveToLocation()
     setTimeout(function () { self.loadingMark(true) }, 1000)
@@ -686,6 +687,7 @@ Page({
   },
 
   regionchange: function (e) {
+    return
     let self = this
     if (self.isSearch) {
       console.log("搜索页面，不更新视野")
