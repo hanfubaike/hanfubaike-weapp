@@ -2,5 +2,5 @@
   "usingComponents": {
     "image-cropper": "../../image-cropper/image-cropper"
   },
-  "navigationBarTitleText":"组织登记"
+  "navigationBarTitleText":"新增组织"
 }

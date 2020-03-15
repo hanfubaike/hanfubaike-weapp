@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "Back": "/components/BackBtn/back"
+  }
+}

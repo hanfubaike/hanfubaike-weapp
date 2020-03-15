@@ -239,7 +239,7 @@ Page({
   updataLogo: function () {
     let self = this
     let n = self.updataLogoIndex
-    let url = self.jsonData[n].logoImageList
+    let url = self.jsonData[n].logoList
     if (url == "/images/defaultLogo.png") {
       console.log("defaultLogo")
     }
@@ -281,10 +281,10 @@ Page({
 
   updataOneLogo: function () {
     let self = this
-    let url = self.data.textData.logoImageList
+    let url = self.data.textData.logoList
     if (url == "/images/defaultLogo.png") {
       self.setData({
-        'textData.logoImageList': "/images/defaultLogo.png"
+        'textData.logoList': "/images/defaultLogo.png"
       })
       console.log("defaultLogo")
     }
@@ -294,7 +294,7 @@ Page({
         success: function (res) {
           if (res.statusCode === 200) {
             self.setData({
-              'textData.logoImageList': res.tempFilePath
+              'textData.logoList': res.tempFilePath
             })
 
             console.log("updataLogo success")
@@ -303,7 +303,7 @@ Page({
         fail: function () {
           // fail
           self.setData({
-            'textData.logoImageList': "/images/defaultLogo.png"
+            'textData.logoList': "/images/defaultLogo.png"
           })
         },
         complete: function () {
@@ -723,16 +723,16 @@ Page({
     textData. wxmp = self.orgList[e.markerId]. wxmp
     textData.wbnum = self.orgList[e.markerId].wbnum
     textData.status = self.orgList[e.markerId].status
-    textData.orgInfo = self.orgList[e.markerId].orgInfo
-    textData.logoImageList = self.orgList[e.markerId].logoImageList
+    textData.orgDesc = self.orgList[e.markerId].orgDesc
+    textData.logoList = self.orgList[e.markerId].logoList
     textData.organizationid = self.orgList[e.markerId].organizationid
     textData.orgType = orgType[org_type].name
-    if (textData.logoImageList == "images/defaultLogo.png" || textData.logoImageList == "") {
-      textData.logoImageList = '/images/defaultLogo.png'
+    if (textData.logoList == "images/defaultLogo.png" || textData.logoList == "") {
+      textData.logoList = '/images/defaultLogo.png'
     }
     var webUrl = app.WEBVIEWURL + '/organization_detail.html?organizationid=' + textData.organizationid + "&rand=" + app.VERSION
     textData.webUrl = '/pages/webpage/webpage?url=' + encodeURIComponent(webUrl) + '&title=' + textData.organizationname;
-    //textData.logoImageList = "/images/".concat(self.orgList[e.markerId].organizationname, ".jpg")
+    //textData.logoList = "/images/".concat(self.orgList[e.markerId].organizationname, ".jpg")
     textData.latitude = self.orgList[e.markerId].latitude
     textData.longitude = self.orgList[e.markerId].longitude
     //textData.mode = "aspectFit"
@@ -870,7 +870,7 @@ Page({
     let self = this
     var errorImgIndex = e.target.dataset.errorimg //获取循环的下标
     this.setData({
-      "textData.logoImageList": "/images/defaultLogo.png"
+      "textData.logoList": "/images/defaultLogo.png"
     }) //修改数据源对应的数据
   },
 
@@ -884,7 +884,7 @@ Page({
       var item = e.currentTarget.dataset.key
       var n = this.data.wxSearchData.hotKeys.indexOf(item)
       var tmpData = {}
-      tmpData["wxSearchData.hotKeys[" + n + "].logoImageList"] = "/images/collection.png"
+      tmpData["wxSearchData.hotKeys[" + n + "].logoList"] = "/images/collection.png"
       this.setData({
         tmpData
       })

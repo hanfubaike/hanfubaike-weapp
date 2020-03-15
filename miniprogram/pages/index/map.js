@@ -4,7 +4,6 @@ var util = require('../../utils/util.js');
 var MakerCluster = require('../../utils/MakerCluster.js');
 const wxRequest = require('../../utils/wxRequest.js');
 var app = getApp();
-var jsonData = require('../../jsonData.js')
 
 var orgType = [{ name: "其它组织", img: "/images/collection.png" },
 { name: "社会组织", img: "/images/shehuizuzhi.png" },
@@ -125,7 +124,6 @@ Page({
     wx.showNavigationBarLoading()
     var self = this
     //var allOrgList = []
-    //var orgList = jsonData.data()
     wx.showLoading({
       title: '正在获取...',
       mask:true
@@ -180,7 +178,7 @@ Page({
       
       //self.setCircles(self.orgList)
       // complete
-      self.loadingMark(true)
+      //self.loadingMark(true)
       //console.log('orgList', orgList);
     })
 
@@ -500,8 +498,9 @@ Page({
 
     let data = orgList
     let markers = []
-    let width_height = isSearch ? 25 : 15
-    let calloutDisplay = isSearch ? "ALWAYS" : "BYCLICK"
+    let width_height = isSearch ? 26 : 18
+    //let calloutDisplay = isSearch ? "ALWAYS" : "BYCLICK"
+    let calloutDisplay = "ALWAYS"
     for (var x in data) {
       let markeJson = {}
       //var org_type = data[x].org_type > 5 ? 0 : data[x].org_type
@@ -708,93 +707,25 @@ Page({
       console.log("聚合图标,不处理")
       return
     }
-    if (this.data.markers[e.markerId].orgName != this.orgList[markerID].orgName) {
+    let orgName = this.data.markers[e.markerId].orgName
+    if ( orgName != this.orgList[markerID].orgName) {
       console.log("名字不匹配！！")
       return
     }
-    this.setData({
-      textData:{
-        logoImage:"/images/defaultLogo.png",
-        orgName:this.data.markers[e.markerId].orgName,
-        orgType:"获取中...",
-        locationName:"获取中..."
-      }
-    })
+    //this.setData({
+     // textData:{
+       // logoImage:"/images/defaultLogo.png",
+       // orgName:orgName,
+     //   orgType:"获取中...",
+      //  locationName:"获取中..."
+     // }
+    //})
     let orgInfo = {}
-    let orgID = this.orgList[markerID]._id
-    wx.cloud.callFunction({
-      // 云函数名称
-      name: 'orgInfo',
-      // 传给云函数的参数
-      data: {id:orgID
-      },
-    })
-    .then(res => {
-      console.log(res.result)
-      if (res.result.orgInfo.length < 1){
-        console.log("获取组织信息失败！")
-      }else{
-        console.log("成功获取组织信息！")
-      }
-
-      //app.showToast("已向管理员发送通知！","success")
-      orgInfo = res.result
-      orgInfo.logoImage = orgInfo.logoImageList.length>0 ? orgInfo.logoImageList[0]:"/images/defaultLogo.png"
-    })
-    .catch(error =>{
-      console.error(error)
-      console.log("获取组织信息失败！")
-      //app.showToast("向管理员发送通知失败！")
-    })
-    .finally(function(){
-      setTimeout(function(){
-        wx.hideNavigationBarLoading()
-        wx.hideLoading()},1000)
-      if (JSON.stringify(orgInfo) == "{}"){
-        return
-      }
-    orgInfo = self.orgList[markerID] = Object.assign(self.orgList[markerID],orgInfo)
-    //var org_type = self.data.markers[e.markerId].org_type > 5 ? 0 : self.data.markers[e.markerId].org_type
-    //console.log(e.markerId, self.data.markers)
-    textData.locationName = orgInfo.locationName
-    textData.orgName = orgInfo.orgName
-    textData.QQGroup = orgInfo.QQGroup
-    textData. wxmp = orgInfo. wxmp
-    textData.wbnum = orgInfo.wbnum
-    textData.orgInfo = orgInfo.orgInfo
-    textData.logoImage = orgInfo.logoImage
-    textData.orgType = orgInfo.orgType
-    if (textData.logoImage == "images/defaultLogo.png" || textData.logoImage == "") {
-      textData.logoImage = '/images/defaultLogo.png'
-    }
-    //textData.logoImage = "/images/".concat(orgInfo.orgName, ".jpg")
-    textData.latitude = orgInfo.latitude
-    textData.longitude = orgInfo.longitude
-    //textData.mode = "aspectFit"
-    if (!self.data.markers[e.markerId].callout) {
-      _markersData["markers[" + e.markerId + "].callout"] = {
-        content: textData.orgName,
-        fontSize: 12,
-        borderWidth: 2,
-        color: "#000000",
-        borderColor: "#DCDCDC",
-        borderRadius: 6,
-        bgColor: "#FFFFFF",
-        padding: 6,
-        display: "BYCLICK"
-      }
-      console.log("不存在callout，添加callout")
-    }
-    _markersData.textData = textData
-    //_markersData.longitude = textData.longitude
-    //_markersData.latitude = textData.latitude
-    _markersData.map_text_hidden = false
-    self.setData(
-      _markersData
-    )
-    //self.updataOneLogo()
-    console.log(self.data.markers[e.markerId].orgName)
-
+    let id = this.orgList[markerID]._id
+    let longitude = this.orgList[markerID].longitude
+    let latitude = this.orgList[markerID].latitude
+    wx.navigateTo({
+      url: "/pages/detail/detail?id=" + id + "&orgName="+ orgName + "&longitude=" + longitude + "&latitude=" + latitude ,
     })
 
   },

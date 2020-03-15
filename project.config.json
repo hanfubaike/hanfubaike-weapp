@@ -105,6 +105,13 @@
 					"pathName": "pages/msg/msg_success",
 					"query": "title=提交成功&msg=等待管理员审核。请点击下方的确定按钮订阅通知消息，审核通过后我们会第一时间通知你，如长时间没有审核，请通过邮件联系我们&msgLink=hanfubaike@qq.com&btText=确定&SubscribeMessage=true",
 					"scene": null
+				},
+				{
+					"id": 8,
+					"name": "pages/detail/detail",
+					"pathName": "pages/detail/detail",
+					"query": "id=1583772600572_0.8800909058058437_33579496&orgName=测试组织&longitude=113.07845&latitude=22.59514",
+					"scene": null
 				}
 			]
 		}
