@@ -15,11 +15,11 @@ exports.main = async (event, context) => {
   try {
     const qeueResult = await db.collection('org').doc(event.id).field({
       "orgType":true,
-      "orgInfo":true,
-      "logoImageList":true,
+      "orgDesc":true,
+      "logoList":true,
       "QQGroup":true,
       "wxmp":true,
-      "postImageList":true,
+      "imageList":true,
       "locationAddress":true,
       "locationName":true,
       "updateTime":true

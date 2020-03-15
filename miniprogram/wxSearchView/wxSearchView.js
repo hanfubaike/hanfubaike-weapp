@@ -64,8 +64,8 @@ function wxSearchInput(e) {
       var mindKey = __tipKeys[i].orgName;
       // 包含字符串
       if (mindKey.indexOf(inputValue) != -1) {
-        if (__tipKeys[i].logoImageList == 'images/defaultLogo.png'){
-          __tipKeys[i].logoImageList = '/images/defaultLogo.png'
+        if (__tipKeys[i].logoList == 'images/defaultLogo.png'){
+          __tipKeys[i].logoList = '/images/defaultLogo.png'
         }
         tipKeys.push(__tipKeys[i]);
         if (tipKeys.length > 20) {

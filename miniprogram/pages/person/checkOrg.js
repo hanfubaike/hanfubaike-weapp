@@ -6,8 +6,8 @@ const app = getApp()
 Page({
   data: {
     value: '',
-    postImageList: [],
-    logoImageList:[],
+    imageList: [],
+    logoList:[],
     show: false,
     txtLenght:0,
     orgName:"",
@@ -169,16 +169,16 @@ Page({
     //console.log(data)
     let listData = []
     let listData2 = []
-    for (let x in data.logoImageList){
-      listData.push({url:data.logoImageList[x]})
+    for (let x in data.logoList){
+      listData.push({url:data.logoList[x]})
     }
-    data.logoImageList = listData
+    data.logoList = listData
     
     
-    for (let x in data.postImageList){
-      listData2.push({url:data.postImageList[x]})
+    for (let x in data.imageList){
+      listData2.push({url:data.imageList[x]})
     }
-    data.postImageList = listData2
+    data.imageList = listData2
     this.setData(
       data
     )

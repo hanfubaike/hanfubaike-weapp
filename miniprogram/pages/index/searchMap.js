@@ -231,16 +231,16 @@ Page({
     textData. wxmp = self.orgList[e.markerId]. wxmp
     textData.wbnum = self.orgList[e.markerId].wbnum
     textData.status = self.orgList[e.markerId].status
-    textData.orgInfo = self.orgList[e.markerId].orgInfo
-    textData.logoImageList = self.orgList[e.markerId].logoImageList
+    textData.orgDesc = self.orgList[e.markerId].orgDesc
+    textData.logoList = self.orgList[e.markerId].logoList
     textData.organizationid = self.orgList[e.markerId].organizationid
     textData.orgType = orgType[org_type].name
-    if (textData.logoImageList == "images/defaultLogo.png" || textData.logoImageList == "") {
-      textData.logoImageList = '/images/defaultLogo.png'
+    if (textData.logoList == "images/defaultLogo.png" || textData.logoList == "") {
+      textData.logoList = '/images/defaultLogo.png'
     }
     var webUrl = app.WEBVIEWURL + '/organization_detail.html?organizationid=' + textData.organizationid + "&rand=" + app.VERSION
     textData.webUrl = '/pages/webpage/webpage?url=' + encodeURIComponent(webUrl) + '&title=' + textData.organizationname;
-    //textData.logoImageList = "/images/".concat(self.orgList[e.markerId].organizationname, ".jpg")
+    //textData.logoList = "/images/".concat(self.orgList[e.markerId].organizationname, ".jpg")
     textData.latitude = self.orgList[e.markerId].latitude
     textData.longitude = self.orgList[e.markerId].longitude
     //textData.mode = "aspectFit"

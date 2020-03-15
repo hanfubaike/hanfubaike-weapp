@@ -32,7 +32,7 @@ Page({
       orgType:"组织类型",
       locationName:"位置",
       locationAddress:"详细地址",
-      orgInfo:"组织简介",
+      orgDesc:"组织简介",
       contactName:"负责人",
       contactTel:"手机号",
       QQGroup:"QQ群",
@@ -43,7 +43,7 @@ Page({
   }
   ,
   uploadTasks:[],
-  formData:{logoImageList:[],postImageList:[]},
+  formData:{logoList:[],imageList:[]},
   orgTypeList: ['社会组织','商业组织','汉服商家','大学组织','高中组织','初中组织'],
 
   onLoad(option){
@@ -322,21 +322,21 @@ Page({
       title: "正在上传LOGO...",
       mask:true
     })
-    let uploadTasks = this.uploadfile(logoFileList, "logoImageList",logoName)
+    let uploadTasks = this.uploadfile(logoFileList, "logoList",logoName)
     Promise.all(uploadTasks).then(function (values) {
       console.log(values);
       let newFileList = values
-      self.formData["logoImageList"] = newFileList
+      self.formData["logoList"] = newFileList
       wx.showLoading({
         title: "正在上传图片...",
         mask:true
       })
       self.uploadTasks = []
-      let uploadTasks = self.uploadfile(postFileList, "postImageList",name)
+      let uploadTasks = self.uploadfile(postFileList, "imageList",name)
       Promise.all(uploadTasks).then(function (values) {
         console.log(values);
         let newFileList = values
-        self.formData["postImageList"] = newFileList
+        self.formData["imageList"] = newFileList
         self.formData['postType'] =  self.data.postType
         //注册状态，0：待审核，-1：审核未通过，1：审核通过
         self.formData['status'] = 0

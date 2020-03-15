@@ -20,7 +20,8 @@
     "pages/person/person",
     "pages/person/check",
     "pages/person/checkOrg",
-    "pages/msg/msg_success"
+    "pages/msg/msg_success",
+    "pages/detail/detail"
   ],
   "cloud": true,
   "window": {
