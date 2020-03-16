@@ -294,7 +294,7 @@ Page({
     }
   },
 
-  getLocation: function (scale=10) {
+  getLocation: function (scale=15) {
     let self = this
     wx.getLocation({
       type: 'gcj02',
@@ -304,7 +304,7 @@ Page({
           latitude: res.latitude,
           longitude: res.longitude,
         })
-        self.loadingMark(true)
+        //self.loadingMark(true)
       },
       fail: function () {
         console.log("获取初始位置失败，使用默认位置")
@@ -498,7 +498,7 @@ Page({
 
     let data = orgList
     let markers = []
-    let width_height = isSearch ? 26 : 18
+    let width_height = isSearch ? 26 : 20
     //let calloutDisplay = isSearch ? "ALWAYS" : "BYCLICK"
     let calloutDisplay = "ALWAYS"
     for (var x in data) {
@@ -874,7 +874,7 @@ Page({
       app.tipKeys = tipKeys
       console.log("跳转搜索界面")
       wx.navigateTo({
-        url: 'searchMap',
+        url: '/pages/searchMap/searchMap',
       })
     }
 

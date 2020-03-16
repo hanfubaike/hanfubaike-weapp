@@ -8,7 +8,7 @@
     <view class="th ">提交时间</view>
   </view>
   <block wx:for="{{listData}}" wx:key="orgName">
-  <navigator url="checkOrg?id={{item._id}}" open-type="navigate">
+  <navigator url="/pages/checkOrg/checkOrg?id={{item._id}}" open-type="navigate">
     <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
     
       <view class="index td">{{index+1}}</view>

@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/index/map",
+    "pages/map/map",
     "pages/index/index",
     "pages/userConsole/userConsole",
     "pages/storageConsole/storageConsole",
@@ -15,11 +15,11 @@
     "pages/im/im",
     "pages/im/room/room",
     "pages/index_old/index",
-    "pages/index/addOrg",
+    "pages/addOrg/addOrg",
     "pages/cropper/cropper",
     "pages/person/person",
-    "pages/person/check",
-    "pages/person/checkOrg",
+    "pages/check/check",
+    "pages/checkOrg/checkOrg",
     "pages/msg/msg_success",
     "pages/detail/detail"
   ],
@@ -58,7 +58,7 @@
       {
         "selectedIconPath": "images/map-on.png",
         "iconPath": "images/map.png",
-        "pagePath": "pages/index/map",
+        "pagePath": "pages/map/map",
         "text": "地图"
       },
       {

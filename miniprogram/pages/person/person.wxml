@@ -33,7 +33,7 @@
     </view>
   </view>
 
-  <navigator url="check" open-type="navigate" class="meInfo" wx:if="{{showCheck}}">
+  <navigator url="/pages/check/check" open-type="navigate" class="meInfo" wx:if="{{showCheck}}">
     <view class="meInfoleft">
       <image class="meInfoImg" src="/images/check.png"></image>
 
@@ -83,7 +83,7 @@
     </view>
   </navigator>
 -->
-  <navigator url="../detail/detail?id=1790" open-type="navigate" class="meInfo">
+  <navigator url="" open-type="navigate" class="meInfo">
 
     <view class="meInfoleft">
 
@@ -95,7 +95,7 @@
 
     </view>
   </navigator>
-  <navigator url="../detail/detail?id=3589" open-type="navigate" class="meInfo">
+  <navigator url="" open-type="navigate" class="meInfo">
 
     <view class="meInfoleft">
 

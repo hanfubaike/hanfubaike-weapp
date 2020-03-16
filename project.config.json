@@ -66,8 +66,8 @@
 				},
 				{
 					"id": 2,
-					"name": "pages/index/addOrg",
-					"pathName": "pages/index/addOrg",
+					"name": "pages/addOrg/addOrg",
+					"pathName": "pages/addOrg/addOrg",
 					"query": "",
 					"scene": null
 				},
