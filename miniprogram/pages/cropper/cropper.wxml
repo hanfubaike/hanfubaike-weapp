@@ -1,5 +1,5 @@
 <view>
-<image-cropper id="image-cropper" limit_move="{{true}}" disable_rotate="{{true}}" width="{{width}}" height="{{height}}" imgSrc="{{src}}" bindimageload="loadimage" bindtapcut="clickcut" style="z-index: 1111;" disable_ratio="{{true}}" ></image-cropper>
+<image-cropper id="image-cropper" limit_move="{{true}}" disable_rotate="{{true}}" width="{{width}}" height="{{height}}" imgSrc="{{src}}" bindimageload="loadimage" bindtapcut="clickcut" style="z-index: 1111;" disable_ratio="{{true}}" quality="{{quality}}" export_scale="{{export_scale}}"></image-cropper>
 
 <view class='bottom'>
 

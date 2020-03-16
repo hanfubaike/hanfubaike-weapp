@@ -86,10 +86,10 @@
 					"scene": null
 				},
 				{
-					"id": 6,
+					"id": 5,
 					"name": "cropper",
 					"pathName": "pages/cropper/cropper",
-					"query": "url=http://tmp/wx4bd261cc69bfbb78.o6zAJsxiOa3qe2K0yfIstG3D_nFU.nQWHZkq4O7nC0d4c8dfd2f082cb10e766bfa43045914.jpg",
+					"query": "url=http://tmp/wx4bd261cc69bfbb78.o6zAJsxiOa3qe2K0yfIstG3D_nFU.zAebhMrUz4MHd760ffafe30d19d2751892f86a3aa49c.jpg",
 					"scene": null
 				},
 				{
@@ -100,10 +100,10 @@
 					"scene": null
 				},
 				{
-					"id": 8,
+					"id": 7,
 					"name": "pages/detail/detail",
 					"pathName": "pages/detail/detail",
-					"query": "id=1583772600572_0.8800909058058437_33579496&orgName=测试组织&longitude=113.07845&latitude=22.59514",
+					"query": "id=1584348692692_0.5738638668581109_33613812",
 					"scene": null
 				},
 				{

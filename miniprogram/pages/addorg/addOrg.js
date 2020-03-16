@@ -10,6 +10,7 @@ Page({
     showMask:false,
     loading:false,
     postType:'新增',
+    sizeType:['compressed'],
     reasonFileList: [],
     logoFileList: [],
     orgImageFileList:[],
@@ -261,7 +262,7 @@ Page({
       }
     })
   },
-  beforeRead(event) {
+  afterRead(event) {
     const {
       file,
       name
@@ -270,15 +271,15 @@ Page({
     if (name == 'logo'){
       //getCurrentPages().slice(-1)
       wx.navigateTo({
-        url: '../cropper/cropper?fileName=logoFileList&url='+file.path,
+        url: '../cropper/cropper?fileName=logoFileList&export_scale=1&url='+file.path,
       })
     }else if(name == 'orgImage'){
-      wx.navigateTo({
-        url: '../cropper/cropper?ratio=16.9&fileName=orgImageFileList&url='+file.path,
-      })
-      //this.setData({
-       // orgImageFileList: this.data.orgImageFileList.concat({url:file.path})
-      //});
+      //wx.navigateTo({
+        //url: '../cropper/cropper?ratio=16.9&fileName=orgImageFileList&export_scale=2&url='+file.path,
+      //})
+      this.setData({
+       orgImageFileList: this.data.orgImageFileList.concat({url:file.path})
+      });
     }
     else{
       this.setData({

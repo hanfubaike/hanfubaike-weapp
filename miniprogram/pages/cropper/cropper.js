@@ -3,6 +3,8 @@ const app = getApp();
 Page({
   data: {
     src: '',
+    quality:"0.7",
+    export_scale:2,
     width: 250,//宽度
     height: 250,//高度
     info: wx.getSystemInfoSync()
@@ -16,8 +18,14 @@ Page({
       src: url,
     }
     if(ratio == "16.9"){
-      _data.width = this.data.info.windowWidth
+      _data.width = this.data.info.windowWidth-10
       _data.height = this.data.info.windowWidth/(16/9)
+    }
+    if (options.quality){
+      _data.quality = options.quality
+    }
+    if (options.export_scale){
+      _data.export_scale = options.export_scale
     }
     //获取到image-cropper实例
     this.cropper = this.selectComponent("#image-cropper");
@@ -42,6 +50,13 @@ Page({
   clickcut(e) {
     return
     console.log(e.detail);
+    
+    wx.getImageInfo({
+      src: e.detail.url,
+      success (res) {
+        console.log(res)
+      }
+    })
     //点击裁剪框阅览图片
     wx.previewImage({
       current: e.detail.url, // 当前显示图片的http链接

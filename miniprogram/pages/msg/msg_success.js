@@ -34,7 +34,7 @@ Page({
           
           setTimeout(function(){
             wx.reLaunch({
-              url: '/pages/index/map',
+              url: '/pages/map/map',
             })
           },3000)
         }else{

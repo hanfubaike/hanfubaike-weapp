@@ -13,8 +13,14 @@ Page({
   },
   previewImage(e) {
     wx.previewImage({
-      current: this.data.imageList[e.target.dataset.id],
-      urls: this.data.imageList
+      current: this.data.orgImageList[e.target.dataset.id],
+      urls: this.data.orgImageList
+    });
+  },
+  previewLogo(e) {
+    wx.previewImage({
+      current: this.data.logoImage,
+      urls: [this.data.logoImage]
     });
   },
   navigateTo(e) {
@@ -48,20 +54,18 @@ Page({
     
     let marker
     const imgUrls = [];
-    wx.setNavigationBarTitle({
-      title: "【" + options.orgName + "】的主页"
-    })
+
     switch (options.type) {
       case "商家":
         //pass
         break;
       default:
-        this.getOrgInfo(options.id,options.orgName, options.longitude,options.latitude)
+        this.getOrgInfo(options.id, options.longitude,options.latitude)
         break;
     }
 
   },
-  getOrgInfo(id,orgName,longitude,latitude){
+  getOrgInfo(id,longitude,latitude){
     let orgInfo = {}
     const self = this
     wx.cloud.callFunction({
@@ -84,7 +88,7 @@ Page({
     .catch(error =>{
       console.error(error)
       console.log("获取组织信息失败！")
-      //app.showToast("向管理员发送通知失败！")
+      app.showToast("获取组织信息失败！")
     })
     .finally(function(){
       setTimeout(function(){
@@ -96,10 +100,11 @@ Page({
       }
 
     orgInfo.id = id
-    orgInfo.orgName = orgName
     orgInfo.longitude = longitude
     orgInfo.latitude = latitude
-
+    wx.setNavigationBarTitle({
+      title: "【" + orgInfo.orgName + "】的主页"
+    }) 
     self.setData(
       orgInfo
     )
@@ -115,7 +120,7 @@ Page({
     }
     return {
       title: "【" + this.data.orgName + "】的主页", 
-      path:  this.getCurrentPages()[-1].route,
+      path:  getCurrentPages().slice(-1).route,
       success: function (res) {
         // 转发成功
       },

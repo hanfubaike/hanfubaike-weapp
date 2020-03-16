@@ -16,10 +16,17 @@ Component({
   },
 
   methods: {
-    onButtonTap: function() {
-      wx.navigateBack({
-        delta: this.data.delta
-      });
+    onButtonTap: function(e) {
+      if (getCurrentPages().length == 1){
+        wx.switchTab({
+          url: "/pages/map/map"
+        });
+      }else{
+        wx.navigateBack({
+          delta: this.data.delta
+        });
+      }
+
     }
   }
 });

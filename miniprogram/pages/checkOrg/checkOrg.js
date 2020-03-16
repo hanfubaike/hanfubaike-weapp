@@ -255,7 +255,6 @@ Page({
         openid: self.data._openid,
         page: "/pages/index/index",
         templateId:app.templateId,
-        miniprogramState:"developer",
         lang: 'zh_CN',
         data:{
           name1: {

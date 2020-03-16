@@ -15,6 +15,7 @@ exports.main = async (event, context) => {
   try {
     const qeueResult = await db.collection('org').doc(event.id).field({
       "orgType":true,
+      "orgName":true,
       "orgDesc":true,
       "logoList":true,
       "QQGroup":true,
