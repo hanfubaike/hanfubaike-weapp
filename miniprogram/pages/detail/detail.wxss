@@ -1,7 +1,7 @@
 @import "/style/iconfont.wxss";
 
 swiper {
-  height: 400rpx;
+  height: 430rpx;
   width: 100vw;
   background: #eee;
 }

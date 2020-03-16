@@ -48,6 +48,9 @@ Page({
     
     let marker
     const imgUrls = [];
+    wx.setNavigationBarTitle({
+      title: "【" + options.orgName + "】的主页"
+    })
     switch (options.type) {
       case "商家":
         //pass
@@ -104,5 +107,21 @@ Page({
     console.log(orgInfo.orgName)
 
     })
+  },
+  onShareAppMessage: function (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: "【" + this.data.orgName + "】的主页", 
+      path:  this.getCurrentPages()[-1].route,
+      success: function (res) {
+        // 转发成功
+      },
+      fail: function (res) {
+        // 转发失败
+      }
+    }
   }
 });

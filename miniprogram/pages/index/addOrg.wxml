@@ -12,15 +12,24 @@
 
     <van-field name="locationName" value="{{ locationName }}" label="详细地址" type="textarea" autosize placeholder="请输入详细地址（可选）" autosize border="{{ false }}" />
 
-    <van-field name="orgDesc" value="{{orgDesc}}" label="组织简介" type="textarea" placeholder="请输入组织简介" autosize border="{{ false }}" />
+    <van-field name="orgDesc" value="{{orgDesc}}" label="组织简介" type="textarea" placeholder="请输入组织简介(支持多行输入)                             " autosize border="{{ false }}" />
   </van-cell-group>
 
 
 <view class="field-index--van-field van-cell van-cell--center" style="padding-top: 8px;">
 <van-row gutter="10">
-  <van-col span="15" ><view class="van-cell__title" style="margin-top: 10%;">组织LOGO</view></van-col>
+  <van-col span="15" ><view class="van-cell__title" style="margin-top: 10%;">LOGO</view></van-col>
   <van-col span="2">
   <van-uploader name="logo" preview-size="50px" upload-text="" file-list="{{ logoFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ true }}" multiple="{{ false }}" image-fit="aspectFit" max-count="1" sizeType="compressed"/>
+  </van-col>
+</van-row>
+</view>
+
+<view class="field-index--van-field van-cell van-cell--center">
+<van-row gutter="10">
+  <van-col span="24" ><view class="van-cell__title" style="margin-bottom: 5%;">照片墙<text class="tips">（照片将作为背景显示在组织主页上）</text></view></van-col>
+  <van-col span="24">
+  <van-uploader name="orgImage" preview-size="50px" upload-text="" file-list="{{ orgImageFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ true }}" multiple="{{ false }}" image-fit="aspectFit" max-count="5" sizeType="compressed"/>
   </van-col>
 </van-row>
 </view>
@@ -30,12 +39,24 @@
     <van-field name="wxmp" value="{{ wxmp }}" clearable label="微信公众号"  placeholder="微信公众号的名字(可选)" bind:click-icon="onClickIcon" />
 
     <van-field name="reason" value="{{ reason }}" label="申请说明" type="textarea" autosize placeholder="请输入申请说明" autosize border="{{ false }}" />
+
+  <view class="field-index--van-field van-cell van-cell--center" style="padding-top: 8px;">
+  <van-row gutter="10">
+    <van-col span="24" ><view class="van-cell__title" style="margin-bottom: 5%;">证明材料<text class="tips">（如社会团体证、营业执照、微信或QQ群的后台截图等任何能证明此信息的材料）</text></view></van-col>
+    <van-col span="24">
+    <van-uploader name="reasonFile" preview-size="70px" upload-text="" file-list="{{ reasonFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ true }}" multiple="{{ false }}" image-fit="aspectFit" max-count="5" sizeType="compressed"/>
+    </van-col>
+  </van-row>
+  </view>
+
   </van-cell-group>
+  <!--
   <van-cell-group title="证明材料（如社会团体证、微信或QQ管理员后台截图）" >
   <view style="padding-top: 8px;padding-left: 8px;">  
-    <van-uploader name="file" file-list="{{ postFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ true }}" multiple="{{ false }}" image-fit="aspectFit" sizeType="compressed"/>
+    <van-uploader name="reasonFile" file-list="{{ reasonFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ true }}" multiple="{{ false }}" image-fit="aspectFit" sizeType="compressed"/>
     </view>
     </van-cell-group>
+    -->
   <button type="primary" bindtap="postBt" form-type="submit" color="linear-gradient(to right, #4bb0ff, #6149f6)" loading='{{loading}}' block>提交资料</button>
 </form>
 </block>

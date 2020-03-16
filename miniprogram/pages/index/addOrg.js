@@ -9,9 +9,10 @@ Page({
     value: '',
     showMask:false,
     loading:false,
-    postType:'add',
-    postFileList: [],
+    postType:'新增',
+    reasonFileList: [],
     logoFileList: [],
+    orgImageFileList:[],
     show: false,
     orgName:"",
     orgType: "",
@@ -43,7 +44,7 @@ Page({
   }
   ,
   uploadTasks:[],
-  formData:{logoList:[],imageList:[]},
+  formData:{logoList:[],reasonImageList:[],orgImageList:[]},
   orgTypeList: ['社会组织','商业组织','汉服商家','大学组织','高中组织','初中组织'],
 
   onLoad(option){
@@ -60,12 +61,13 @@ Page({
   },
   onShow(option){
     app.checkLogin()
-    if (app.cropperImgUrl){
+    if (app.cropperImg.url){
+      let fileName = app.cropperImg.fileName
       this.setData({
-        logoFileList:this.data.logoFileList.concat({url:app.cropperImgUrl})
+        [`${fileName}`]:this.data[`${fileName}`].concat({url:app.cropperImg.url})
       },
       function(){
-        app.cropperImgUrl = ""
+        app.cropperImg = {}
     },
       )
     }
@@ -185,7 +187,9 @@ Page({
     postData['latitude'] = this.data.latitude
     postData['longitude'] = this.data.longitude
     postData['logoFileList'] = this.data.logoFileList
-    postData['postFileList'] = this.data.postFileList
+    postData['orgImageFileList'] = this.data.orgImageFileList
+    
+    postData['reasonFileList'] = this.data.reasonFileList
     //postData['postType'] =  this.data.postType
     wx.setStorage({
       key:'postData',
@@ -210,7 +214,12 @@ Page({
       app.showToast("请上传【LOGO】")
       return
     }
-    if (this.data.postFileList.length == 0) {
+    if (this.data.orgImageFileList.length==0){
+      app.showToast("请上传【照片墙】")
+      return
+    }
+    
+    if (this.data.reasonFileList.length == 0) {
       app.showToast("请上传【证明材料】")
       return
     }
@@ -261,11 +270,19 @@ Page({
     if (name == 'logo'){
       //getCurrentPages().slice(-1)
       wx.navigateTo({
-        url: '../cropper/cropper?name=logo&url='+file.path,
+        url: '../cropper/cropper?fileName=logoFileList&url='+file.path,
       })
-    }else{
+    }else if(name == 'orgImage'){
+      wx.navigateTo({
+        url: '../cropper/cropper?ratio=16.9&fileName=orgImageFileList&url='+file.path,
+      })
+      //this.setData({
+       // orgImageFileList: this.data.orgImageFileList.concat({url:file.path})
+      //});
+    }
+    else{
       this.setData({
-        postFileList: this.data.postFileList.concat({url:file.path})
+        reasonFileList: this.data.reasonFileList.concat({url:file.path})
       });
     }
 
@@ -273,33 +290,35 @@ Page({
 
   delete(event) {
     const { index, name } = event.detail;
-    let fileListName = 'postFileList'
+    let fileListName = 'reasonFileList'
     if (name == "logo"){
       fileListName = 'logoFileList'
+    }else if(name == "orgImage"){
+      fileListName = 'orgImageFileList'
     }
-    const postFileList = this.data[`${fileListName}`];
-    postFileList.splice(index, 1);
-    this.setData({ [`${fileListName}`]: postFileList });
+    const fileList = this.data[`${fileListName}`];
+    fileList.splice(index, 1);
+    this.setData({ [`${fileListName}`]: fileList });
   },
 
-  imageName:function(name, filePath, index, postFileList){
-    let loc = postFileList.length == 1 ? '' : "-" + index
+  imageName:function(name, filePath, index, fileList){
+    let loc = fileList.length == 1 ? '' : "-" + index
     const cloudPath = "orgReg/" + name + loc + filePath.match(/\.[^.]+?$/)[0]
     return cloudPath
   },
-  uploadfile(fileList,fileListName,filename){
+  uploadfile(fileList,fileListName,fileName){
     const self = this
     let uploadTasks = []
     for (let x in fileList){
       let filePath = fileList[x].url
-      let cloudPath = this.imageName(filename, filePath, x, fileList)
+      let cloudPath = this.imageName(fileName, filePath, x, fileList)
       uploadTasks.push(new Promise(function (resolve, reject){
         wx.cloud.uploadFile({
           cloudPath: cloudPath,
           filePath: filePath
         }).then(res => {
           console.log(res.fileID)
-          return resolve(res.fileID);
+          return resolve({url:res.fileID,fileName:fileListName});
           //wx.showToast({ title: '上传成功', icon: 'none' });
         }).catch(error => {
           setTimeout(function () {
@@ -314,47 +333,53 @@ Page({
   },
   uploadFiles(orgName){
     let logoFileList = this.data.logoFileList
-    let postFileList = this.data.postFileList
+    let reasonFileList = this.data.reasonFileList
+    let orgImageFileList = this.data.orgImageFileList
+    let uploadTasks = []
     const self = this
     let name = orgName + "-apply"
     let logoName = orgName + "-logo"
+    let orgImageName = orgName + "-orgImage"
     wx.showLoading({
-      title: "正在上传LOGO...",
+      title: "正在上传图片...",
       mask:true
     })
-    let uploadTasks = this.uploadfile(logoFileList, "logoList",logoName)
+    uploadTasks = uploadTasks.concat(self.uploadfile(logoFileList, "logoList",logoName))
+    uploadTasks = uploadTasks.concat(self.uploadfile(reasonFileList, "reasonImageList",name))
+    uploadTasks = uploadTasks.concat(self.uploadfile(orgImageFileList, "orgImageFileList",orgImageName))
+    console.log(uploadTasks)
+    let logoList =[]
+    let orgImageList = []
+    let reasonImageList = []
     Promise.all(uploadTasks).then(function (values) {
       console.log(values);
-      let newFileList = values
-      self.formData["logoList"] = newFileList
-      wx.showLoading({
-        title: "正在上传图片...",
-        mask:true
-      })
-      self.uploadTasks = []
-      let uploadTasks = self.uploadfile(postFileList, "imageList",name)
-      Promise.all(uploadTasks).then(function (values) {
-        console.log(values);
-        let newFileList = values
-        self.formData["imageList"] = newFileList
-        self.formData['postType'] =  self.data.postType
-        //注册状态，0：待审核，-1：审核未通过，1：审核通过
-        self.formData['status'] = 0
-        wx.showLoading({
-          title: "正在提交数据",
-          mask:true
-        })
-        self.dbAdd(self.formData)
-      }).catch(reason => {
-        console.log(reason)
-      });
+      for(let x in values){
+        let fileName = values[x].fileName
+        let url = values[x].url
+        switch(fileName){
+          case "logoList":
+            logoList.push(url)
+            break
+          case "orgImageFileList":
+            orgImageList.push(url)
+            break
+          case "reasonImageList":
+            reasonImageList.push(url)
+            break
+        }
+      }
+      self.formData["logoList"] = logoList
+      self.formData["orgImageList"] = orgImageList
+      self.formData["reasonImageList"] = reasonImageList
+      self.formData['postType'] =  self.data.postType 
+      //注册状态，0：待审核，-1：审核未通过，1：审核通过 
+      self.formData['status'] = 0
+      self.dbAdd(self.formData) 
+
     }).catch(reason => {
       console.log(reason)
+      app.showToast("上传图片失败！")
     });
-   
-
-    
-    
 
   },
 

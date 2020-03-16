@@ -13,3 +13,9 @@
   left:0;
   opacity:1;
 }
+
+.tips{
+  color:#969799;
+  font-size: 12px;
+
+}

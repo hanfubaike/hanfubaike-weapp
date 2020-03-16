@@ -72,7 +72,9 @@ App({
     VERSION: VERSION,
     isAdmin:false
   },
-   formatTime(date) {
+  cropperImg:{},
+
+  formatTime(date) {
     function formatNumber(n) {
       n = n.toString()
       return n[1] ? n : '0' + n
