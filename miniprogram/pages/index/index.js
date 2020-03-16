@@ -13,7 +13,7 @@ Page({
    */
   onLoad: function (options) {
     wx.reLaunch({
-      url: 'map'
+      url: 'pages/map/map'
     })
   },
 

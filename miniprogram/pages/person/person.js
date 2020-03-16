@@ -121,17 +121,11 @@ Page({
   },
   tongzhi:function(){
     wx.navigateTo({
-      url: 'web?url=' + encodeURIComponent(app.WEBVIEWURL + '/lists.html?type=notice'),
+      url: '',
     })
   },
   modify_personinfo: function (e) {
-    var url = '/modify_personinfo.html?backurl=auth.html&rand=' + app.VERSION
-    if (!this.data.logged){
-      url = '/auth.html?rand=' + app.VERSION
-    }
-    wx.navigateTo({
-      url: 'web?url=' + encodeURIComponent(app.WEBVIEWURL + url)
-     })
+
    },
   previewImg: function () {
     wx.previewImage({
@@ -152,7 +146,7 @@ Page({
   addOrg(e){
     if (this.checkLogin()){
       wx.navigateTo({
-        url: '/pages/index/addOrg',
+        url: '/pages/addOrg/addOrg',
       })
     }
 

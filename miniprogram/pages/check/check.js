@@ -106,7 +106,7 @@ Page({
           success(res) {
             if (res.confirm) {
               wx.redirectTo({
-                url: 'map'
+                url: '/pages/map/map'
               })
             } else if (res.cancel) {
               console.log('用户点击取消')
