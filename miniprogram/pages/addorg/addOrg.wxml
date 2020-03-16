@@ -20,7 +20,7 @@
 <van-row gutter="10">
   <van-col span="15" ><view class="van-cell__title" style="margin-top: 10%;">LOGO</view></van-col>
   <van-col span="2">
-  <van-uploader name="logo" preview-size="50px" upload-text="" file-list="{{ logoFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ true }}" multiple="{{ false }}" image-fit="aspectFit" max-count="1" sizeType="compressed"/>
+  <van-uploader name="logo" preview-size="50px" upload-text="" file-list="{{ logoFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ false }}" multiple="{{ false }}" image-fit="aspectFit" max-count="1" sizeType="{{sizeType}}"/>
   </van-col>
 </van-row>
 </view>
@@ -29,7 +29,7 @@
 <van-row gutter="10">
   <van-col span="24" ><view class="van-cell__title" style="margin-bottom: 5%;">照片墙<text class="tips">（照片将作为背景显示在组织主页上）</text></view></van-col>
   <van-col span="24">
-  <van-uploader name="orgImage" preview-size="50px" upload-text="" file-list="{{ orgImageFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ true }}" multiple="{{ false }}" image-fit="aspectFit" max-count="5" sizeType="compressed"/>
+  <van-uploader name="orgImage" preview-size="50px" upload-text="" file-list="{{ orgImageFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ false }}" multiple="{{ false }}" image-fit="aspectFit" max-count="5" sizeType="{{sizeType}}"/>
   </van-col>
 </van-row>
 </view>
@@ -44,7 +44,7 @@
   <van-row gutter="10">
     <van-col span="24" ><view class="van-cell__title" style="margin-bottom: 5%;">证明材料<text class="tips">（如社会团体证、营业执照、微信或QQ群的后台截图等任何能证明此信息的材料）</text></view></van-col>
     <van-col span="24">
-    <van-uploader name="reasonFile" preview-size="70px" upload-text="" file-list="{{ reasonFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ true }}" multiple="{{ false }}" image-fit="aspectFit" max-count="5" sizeType="compressed"/>
+    <van-uploader name="reasonFile" preview-size="70px" upload-text="" file-list="{{ reasonFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ false }}" multiple="{{ false }}" image-fit="aspectFit" max-count="5" sizeType="{{sizeType}}"/>
     </van-col>
   </van-row>
   </view>
@@ -53,7 +53,7 @@
   <!--
   <van-cell-group title="证明材料（如社会团体证、微信或QQ管理员后台截图）" >
   <view style="padding-top: 8px;padding-left: 8px;">  
-    <van-uploader name="reasonFile" file-list="{{ reasonFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ true }}" multiple="{{ false }}" image-fit="aspectFit" sizeType="compressed"/>
+    <van-uploader name="reasonFile" file-list="{{ reasonFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ true }}" multiple="{{ false }}" image-fit="aspectFit" sizeType="{{sizeType}}"/>
     </view>
     </van-cell-group>
     -->

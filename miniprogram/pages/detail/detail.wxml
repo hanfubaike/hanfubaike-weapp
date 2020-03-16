@@ -16,7 +16,7 @@
 
   <!-- HEADER -->
   <view class="head-wrapper {{logoImage ? 'logo-mode' : ''}}">
-    <image wx:if="{{logoImage}}" class="logo" src="{{logoImage}}"></image>
+    <image wx:if="{{logoImage}}" class="logo" src="{{logoImage}}" bindtap="previewLogo"></image>
     <view class="title">
       <view class="name">{{orgName}}</view>
       <image class="navigate" id="navigate" src="/images/navigate.png" bindtap="navigateTo"></image>

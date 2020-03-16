@@ -11,8 +11,7 @@ exports.main = async (event, context) => {
         page: event.page,
         lang: event.lang,
         data: event.data,
-        templateId: event.templateId,
-        miniprogramState: event.miniprogramState
+        templateId: event.templateId
       })
     console.log(result)
     return result
