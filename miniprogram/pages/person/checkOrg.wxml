@@ -28,6 +28,15 @@
 </van-row>
 </view>
 
+
+<view class="field-index--van-field van-cell van-cell--center">
+<van-row gutter="10">
+  <van-col span="24" ><view class="van-cell__title" style="margin-bottom: 5%;">照片墙<text class="tips">（照片将作为背景显示在组织主页上）</text></view></van-col>
+  <van-col span="24">
+  <van-uploader deletable="{{false}}" disabled="{{true}}" name="orgImage" preview-size="50px" upload-text="" file-list="{{ orgImageList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ true }}" multiple="{{ false }}" image-fit="aspectFit" max-count="5" sizeType="compressed"/>
+  </van-col>
+</van-row>
+</view>
 <!--
   <van-cell-group title="联系人信息">
     <van-field readonly="{{true}}" name="contactName" value="{{ contactName }}" clearable label="联系人"  placeholder="请输入联系人的名字" />
@@ -39,12 +48,16 @@
     <van-field readonly="{{true}}" name="wxmp" value="{{ wxmp }}" clearable label="微信公众号"  placeholder="微信公众号的名字(可选)" />
 
     <van-field readonly="{{true}}" name="reason" value="{{ reason }}" label="申请说明" type="textarea" autosize placeholder="请输入申请说明" border="{{ false }}" />
+      <view class="field-index--van-field van-cell van-cell--center" style="padding-top: 8px;">
+    <van-row gutter="10">
+    <van-col span="24" ><view class="van-cell__title" style="margin-bottom: 5%;">证明材料<text class="tips">（如社会团体证、营业执照、微信或QQ群的后台截图等任何能证明此信息的材料）</text></view></van-col>
+    <van-col span="24">
+    <van-uploader deletable="{{false}}" disabled="{{true}}" name="reasonFile" preview-size="70px" upload-text="" file-list="{{ reasonImageList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ true }}" multiple="{{ false }}" image-fit="aspectFit" max-count="5" sizeType="compressed"/>
+    </van-col>
+  </van-row>
+  </view>
   </van-cell-group>
-  <van-cell-group title="证明材料（如社会团体证、微信或QQ管理员后台截图）" >
-  <view style="padding-top: 8px;padding-left: 8px;">  
-    <van-uploader disabled="{{true}}" deletable="{{false}}" name="file" file-list="{{ imageList }}" multiple="{{ false }}" image-fit="aspectFit" sizeType="compressed"/>
-    </view>
-    </van-cell-group>
+
 <form bindsubmit="formSubmit" bindreset="formSubmit">
         <view class="weui-cells__title">审核说明</view>
         <view class="weui-cells weui-cells_after-title">

@@ -5,16 +5,26 @@ Page({
     src: '',
     width: 250,//宽度
     height: 250,//高度
+    info: wx.getSystemInfoSync()
   },
   onLoad: function (options) {
     console.log(options)
+    this.fileName = options.fileName
     const url = options.url
+    const ratio = options.ratio
+    let _data = {
+      src: url,
+    }
+    if(ratio == "16.9"){
+      _data.width = this.data.info.windowWidth
+      _data.height = this.data.info.windowWidth/(16/9)
+    }
     //获取到image-cropper实例
     this.cropper = this.selectComponent("#image-cropper");
     //开始裁剪
-    this.setData({
-      src: url
-    });
+    this.setData(_data);
+    //设置裁剪框居中
+    this.cropper.setCutCenter();
     wx.showLoading({
       title: '加载中'
     })
@@ -27,8 +37,10 @@ Page({
     wx.hideLoading();
     //重置图片角度、缩放、位置
     this.cropper.imgReset();
+
   },
   clickcut(e) {
+    return
     console.log(e.detail);
     //点击裁剪框阅览图片
     wx.previewImage({
@@ -39,7 +51,7 @@ Page({
   submit(){
     this.cropper.getImg((obj) => {
       let imgSrc = obj.url;
-      app.cropperImgUrl = imgSrc
+      app.cropperImg = {fileName:this.fileName,url:imgSrc}
       wx.navigateBack()
      });
   },

@@ -18,3 +18,8 @@
   font-size: 14px;
   height: 3.3em;
 }
+.tips{
+  color:#969799;
+  font-size: 12px;
+
+}

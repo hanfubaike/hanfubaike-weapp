@@ -6,10 +6,10 @@
 <view>
   <Back />
   <!-- SWIPER -->
-  <swiper indicator-dots="{{imageList.length > 1}}" autoplay="{{true}}" interval="3000" duration="1000">
-    <block wx:for="{{imageList}}" wx:key="*this">
+  <swiper indicator-dots="{{orgImageList.length > 1}}" autoplay="{{true}}" interval="3000" duration="1000">
+    <block wx:for="{{orgImageList}}" wx:key="*this">
       <swiper-item>
-        <image src="{{item}}" class="slide" data-id="{{index}}" bindtap="previewImage" />
+        <image src="{{item}}" class="slide" data-id="{{index}}" mode="aspectFill" bindtap="previewImage" />
       </swiper-item>
     </block>
   </swiper>

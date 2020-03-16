@@ -19,7 +19,7 @@ exports.main = async (event, context) => {
       "logoList":true,
       "QQGroup":true,
       "wxmp":true,
-      "imageList":true,
+      "orgImageList":true,
       "locationAddress":true,
       "locationName":true,
       "updateTime":true
