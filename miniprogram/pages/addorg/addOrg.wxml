@@ -42,7 +42,7 @@
 
   <view class="field-index--van-field van-cell van-cell--center" style="padding-top: 8px;">
   <van-row gutter="10">
-    <van-col span="24" ><view class="van-cell__title" style="margin-bottom: 5%;">证明材料<text class="tips">（如社会团体证、营业执照、微信或QQ群的后台截图等任何能证明此信息的材料）</text></view></van-col>
+    <van-col span="24" ><view class="van-cell__title" style="margin-bottom: 5%;">证明材料<text class="tips">（如社会团体证、营业执照、微信或QQ群的后台截图等任何能证明此信息真实有效的材料）</text></view></van-col>
     <van-col span="24">
     <van-uploader name="reasonFile" preview-size="70px" upload-text="" file-list="{{ reasonFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ false }}" multiple="{{ false }}" image-fit="aspectFit" max-count="5" sizeType="{{sizeType}}"/>
     </van-col>

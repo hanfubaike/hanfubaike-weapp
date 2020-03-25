@@ -23,8 +23,8 @@
 		"nodeModules": true
 	},
 	"appid": "wx4bd261cc69bfbb78",
-	"projectname": "%E6%B1%89%E6%9C%8D%E7%99%BE%E7%A7%91",
-	"libVersion": "2.8.3",
+	"projectname": "hanfubaike-weapp",
+	"libVersion": "2.7.0",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
