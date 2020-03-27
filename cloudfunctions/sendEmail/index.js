@@ -1,15 +1,21 @@
-const cloud = require('wx-server-sdk')
-cloud.init()
 //引入发送邮件的类库
 var nodemailer = require('nodemailer')
-// 创建一个SMTP客户端配置
+
+//读取环境变量
+const service = process.env.service
+const port = Number(process.env.port)
+const secure = process.env.secure ==="true" ? true : false;
+const user = process.env.user
+const pass = process.env.pass
+
+// 创建一个SMTP客户端配置，请在云函数的环境变量中配置相应的参数
 var config = {
-  service:"163",
-  port: 465, // SMTP 端口
-  secure: true, // 使用了 SSL
+  service:service,
+  port: port, // SMTP 端口
+  secure: secure, // 使用了 SSL
   auth: {
-    user: 'user', //邮箱账号
-    pass: 'pass' //邮箱的授权码
+    user: user, //邮箱账号
+    pass: pass //邮箱的授权码
   }
 };
 // 创建一个SMTP客户端对象
