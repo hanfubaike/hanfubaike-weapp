@@ -65,7 +65,7 @@
       src='{{theme.images}}/arrow_right.png'></image>
   </view>
   <view class='line me-line' ></view>
-  <view class='horizontal' bindtap='pointClick'>
+  <view class='horizontal' bindtap='updateLog'>
     <image class='icon-small icon'
       src='/res/log.png'></image>
     <text class='title'>更新日志</text>
@@ -73,7 +73,7 @@
       src='{{theme.images}}/arrow_right.png'></image>
   </view>
   <view class='line me-line' ></view>
-  <view class='horizontal' bindtap='favoriteClick'>
+  <view class='horizontal' bindtap='feedback'>
     <image class='icon-small icon'
       src='/res/feedback.png'></image>
     <text class='title'>意见反馈</text>
@@ -90,3 +90,33 @@
 
 <!-- login dialog -->
 <login class="login" bind:onOk="onOk" />
+
+<view class="weui-demo-dialog {{isDialog ? 'weui-demo-dialog_show' : ''}}">
+    <view class="weui-mask" bindtap="closeDialog"></view>
+    <view class="weui-half-screen-dialog" catchtap="stopEvent">
+      <view class="weui-half-screen-dialog__hd">
+        <view class="weui-half-screen-dialog__hd__side">
+          <view bindtap="closeDialog" class="weui-icon-btn weui-icon-btn_close">关闭</view>
+        </view>
+        <view class="weui-half-screen-dialog__hd__main">
+          <text class="weui-half-screen-dialog__title">意见反馈</text>
+          <text class="weui-half-screen-dialog__subtitle"></text>
+        </view>
+        <view class="weui-half-screen-dialog__hd__side">
+          <view wx:if="{{false}}" class="weui-icon-btn weui-icon-btn_more">更多</view>
+        </view>
+      </view>
+      <view class="weui-half-screen-dialog__bd">
+        <view class="weui-half-screen-dialog__desc">
+          如果你在使用中遇到了问题，可以点击下方的按钮进行反馈。
+        </view>
+        <view class="weui-half-screen-dialog__tips">
+          如果你有好的意见和建议，请关闭此窗口，然后点击右上角的【三个点】图标，选择 反馈与投诉→ 产品建议。或者通过邮箱联系我们：hanfubaike@163.com
+        </view>
+      </view>
+      <view class="button-sp-area" style="padding: 10px 10px 20px 10px">
+          <button type="default" open-type="contact" class="weui-btn mini-btn" role="button" size="mini" style="font-size: 16px;">联系客服</button>
+          <button type="primary" open-type="feedback" class="weui-btn mini-btn" size="mini" style="font-size: 16px;">问题反馈</button>
+      </view>
+    </view>
+</view>

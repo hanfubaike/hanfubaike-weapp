@@ -30,7 +30,8 @@ Page({
     userInfo: app.globalData.userInfo,
     isLoginPopup: false,
     showCheck:false,
-    expLabel:''
+    expLabel:'',
+    isDialog:false
   },
 
 
@@ -180,5 +181,23 @@ Page({
   onOk: function(e) {
     const user = e.detail
     this.setData({ user: user })
+  },
+  feedback(e){
+    this.setData({
+      isDialog:true
+    })
+  },
+  closeDialog: function () {
+    this.setData({
+      isDialog: false
+    })
+  },
+  stopEvent:function(){
+    //this.closeDialog()
+  },
+  updateLog(){
+    wx.navigateTo({
+      url: '/pages/webpage/webpage?url=https://mp.weixin.qq.com/s/I4A1BjfMYboKNoTK1IwWew',
+    })
   }
 })

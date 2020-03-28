@@ -507,7 +507,7 @@ Page({
       console.log(e)
       this.autoSave()
       if (this.lastSaveTime==0){
-        Notify({ type: 'primary', message: '已开启自动保存' });
+        Notify({ type: 'success', message: '已开启自动保存' });
       }
       this.lastSaveTime = new Date()
       console.log("表单已自动保存")
