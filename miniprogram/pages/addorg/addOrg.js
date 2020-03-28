@@ -27,6 +27,7 @@ Page({
     dbName:'org',
     locationAddress:'',
     srcName:'',
+    autosize:{ maxHeight: 300, minHeight: 50 },
     width: 250,//宽度
     height: 250,//高度
     nameLabel:{
@@ -51,12 +52,29 @@ Page({
 
   onLoad(option){
     const self = this
+    let fs = wx.getFileSystemManager();
     wx.getStorage({
       key: 'formData',
       success(res) {
-        self.setData(
-          res.data
-        )
+        let logoFileList = res.data.logoFileList || []
+        let reasonFileList = res.data.reasonFileList || []
+        let orgImageFileList = res.data.orgImageFileList || []
+        let fileList = logoFileList.concat(reasonFileList).concat(orgImageFileList)
+        for (let x in fileList){
+          let url = fileList[x].url
+          try{
+            fs.accessSync(url)
+          }
+          catch (err){
+            //console.log(err)
+            console.log("文件已过期")
+            res.data.logoFileList = []
+            res.data.reasonFileList= []
+            res.data.orgImageFileList=[]
+            break
+          }
+        }
+        self.setData(res.data)
       }
     })
     //setInterval(this.autoSave,10000)
