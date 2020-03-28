@@ -53,7 +53,6 @@
     <image class='arrow-right' style='margin-left:auto;'
       src='{{theme.images}}/arrow_right.png'></image>
   </view>
-  <view class='line me-line' ></view>
   </block>
 </view>
 

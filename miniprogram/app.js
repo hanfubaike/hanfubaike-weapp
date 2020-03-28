@@ -137,7 +137,7 @@ App({
             success (res) {
               if (res.confirm) {
                 wx.reLaunch({
-                  url: '/pages/person/person',
+                  url: '/pages/me/me',
                 })
               }
             }

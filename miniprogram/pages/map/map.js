@@ -73,7 +73,7 @@ Page({
   },
   goRegorg:function(){
     wx.navigateTo({
-      url:'../person/person'
+      url:'../me/me'
     })
   },
   moveToLocation: function () {

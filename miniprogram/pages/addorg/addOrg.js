@@ -42,7 +42,8 @@ Page({
       reason:"申请说明"
     },
    
-  }
+  },
+  lastSaveTime:0
   ,
   uploadTasks:[],
   formData:{logoList:[],reasonImageList:[],orgImageList:[]},
@@ -51,7 +52,7 @@ Page({
   onLoad(option){
     const self = this
     wx.getStorage({
-      key: 'postData',
+      key: 'formData',
       success(res) {
         self.setData(
           res.data
@@ -74,7 +75,15 @@ Page({
     }
   },
   autoSave(){
-    wx.setStorageSync()
+    this.formData['latitude'] = this.data.latitude
+    this.formData['longitude'] = this.data.longitude
+    this.formData['logoFileList'] = this.data.logoFileList
+    this.formData['orgImageFileList'] = this.data.orgImageFileList
+    this.formData['reasonFileList'] = this.data.reasonFileList
+    wx.setStorage({
+      key:'formData',
+      data:this.formData
+    })
   },
   dbAdd: function (data) {
     const db = wx.cloud.database()
@@ -173,6 +182,8 @@ Page({
         self.setData({
           orgType:self.orgTypeList[res.tapIndex]
         })
+        self.formData['orgType'] = self.orgTypeList[res.tapIndex]
+        self.autoSave()
       },
       fail (res) {
         console.log(res.errMsg)
@@ -182,22 +193,10 @@ Page({
 
   formSubmit: function (e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
-    let postData = {}
     let formData = e.detail.value
-    postData = Object.assign(postData,formData)
-    postData['latitude'] = this.data.latitude
-    postData['longitude'] = this.data.longitude
-    postData['logoFileList'] = this.data.logoFileList
-    postData['orgImageFileList'] = this.data.orgImageFileList
-    
-    postData['reasonFileList'] = this.data.reasonFileList
-    //postData['postType'] =  this.data.postType
-    wx.setStorage({
-      key:'postData',
-      data:postData
-    })
     formData["poster"] = app.globalData.userInfo.nickName
     this.formData = formData
+    this.autoSave()
     this.dbQuery(this.checkFormData)
 
   },
@@ -254,11 +253,12 @@ Page({
         self.setData({
           locationName: res.name,
           locationAddress:res.address,
-          address: res.address,
           latitude: res.latitude,
           longitude: res.longitude
         })
-
+        self.formData['locationName'] = res.name
+        self.formData['locationAddress'] = res.address
+        self.autoSave()
       }
     })
   },
@@ -478,6 +478,23 @@ Page({
         this.sendEmail(from,title,to,cc,text)
       }
     })
+
+  },
+  inputChage(e){
+    //console.log(e)
+    let _id = e.currentTarget.id
+    this.formData[_id] = e.detail
+    //如果距离上次保存时间超过指定时间（微秒），则保存。
+    if (new Date() - this.lastSaveTime > 10000){
+      console.log(e)
+      this.autoSave()
+      if (this.lastSaveTime==0){
+        Notify({ type: 'primary', message: '已开启自动保存' });
+      }
+      this.lastSaveTime = new Date()
+      console.log("表单已自动保存")
+
+    }
 
   }
 

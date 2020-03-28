@@ -1,18 +1,18 @@
 
-
+<van-notify id="van-notify" />
 <block>
 <form bindsubmit="formSubmit" bindreset="formReset">
   <van-cell-group title="基本资料">
-    <van-field id="orgName" name="orgName" value="{{ orgName }}" clearable label="组织名称"  placeholder="请输入组织名称" bind:click-icon="onClickIcon" />
+    <van-field id="orgName" name="orgName" bind:change="inputChage" value="{{ orgName }}" clearable label="组织名称"  placeholder="请输入组织名称" bind:click-icon="onClickIcon" />
     <van-field name="orgType" value="{{ orgType }}" clearable label="组织类型" placeholder="选择组织类型" bindtap="orgClick" is-link readonly />
 
 
-    <van-field name="locationAddress" value="{{ locationAddress }}" type="textarea" autosize center clearable label="位置" placeholder="点击获取位置" bindtap="chooseLocation" is-link readonly >
+    <van-field name="locationAddress" bind:change="inputChage" value="{{ locationAddress }}" type="textarea" autosize center clearable label="位置" placeholder="点击获取位置" bindtap="chooseLocation" is-link readonly >
     </van-field>
 
-    <van-field name="locationName" value="{{ locationName }}" label="详细地址" type="textarea" autosize placeholder="请输入详细地址（可选）" autosize border="{{ false }}" />
+    <van-field id="locationName" name="locationName" bind:change="inputChage" value="{{ locationName }}" label="详细地址" type="textarea" autosize placeholder="请输入详细地址（可选）" autosize border="{{ false }}" />
 
-    <van-field name="orgDesc" value="{{orgDesc}}" label="组织简介" type="textarea" placeholder="请输入组织简介(支持多行输入)                             " autosize border="{{ false }}" />
+    <van-field id="orgDesc" name="orgDesc" bind:change="inputChage" value="{{orgDesc}}" label="组织简介" type="textarea" placeholder="请输入组织简介(支持多行输入)" autosize border="{{ false }}" maxlength="1000" />
   </van-cell-group>
 
 
@@ -35,10 +35,10 @@
 </view>
 
   <van-cell-group title="详细资料">
-    <van-field name="QQGroup" value="{{ QQGroup }}" clearable label="QQ群"  placeholder="请输入QQ群号" bind:click-icon="onClickIcon" />
-    <van-field name="wxmp" value="{{ wxmp }}" clearable label="微信公众号"  placeholder="微信公众号的名字(可选)" bind:click-icon="onClickIcon" />
+    <van-field id="QQGroup" name="QQGroup" bind:change="inputChage" value="{{ QQGroup }}" clearable label="QQ群"  placeholder="请输入QQ群号" bind:click-icon="onClickIcon" />
+    <van-field id="wxmp" name="wxmp" bind:change="inputChage" value="{{ wxmp }}" clearable label="微信公众号"  placeholder="微信公众号的名字(可选)" bind:click-icon="onClickIcon" />
 
-    <van-field name="reason" value="{{ reason }}" label="申请说明" type="textarea" autosize placeholder="请输入申请说明" autosize border="{{ false }}" />
+    <van-field id="reason" name="reason" bind:change="inputChage" value="{{ reason }}" label="申请说明" type="textarea" autosize placeholder="请输入申请说明" autosize border="{{ false }}" maxlength="1000"/>
 
   <view class="field-index--van-field van-cell van-cell--center" style="padding-top: 8px;">
   <van-row gutter="10">
