@@ -1,0 +1,93 @@
+/* pages/me/me.wxss */
+
+.avatar {
+  margin: 8rpx 0px;
+  width: 146rpx;
+  height: 146rpx;
+  max-height: 146rpx;
+  max-width: 146rpx;
+  border-radius: 50%;
+}
+
+.icon-small {
+  width: 62rpx;
+  height: 62rpx;
+  max-height: 72rpx;
+  max-width: 72rpx;
+}
+
+.setting {
+  margin-left: auto;
+  padding: 6rpx 0px 6rpx 18rpx;
+}
+
+.setting image {
+  width: 46rpx;
+  height: 46rpx;
+  vertical-align: middle;
+}
+
+.arrow-right {
+  width: 46rpx;
+  height: 46rpx;
+  max-height: 46rpx;
+  max-width: 46rpx;
+}
+
+.btn {
+  background: transparent;
+  color: #1890FF;
+  font-size: 32rpx;
+}
+
+.btn-hover {
+  color: #fff;
+  opacity: .6;
+}
+
+.info {
+  position: fixed;
+  bottom: 30rpx;
+  width: 100%;
+}
+
+.info text {
+  display: block;
+  text-align: center;
+  font-size: 26rpx;
+  color: #9c9b9b;
+  opacity: .6;
+}
+
+.bind {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+} 
+
+.grade {
+  padding: 0rpx 8rpx;
+  color: white;
+  text-align: center;
+  font-size: 22rpx;
+  margin-left: 12rpx;
+  border-radius: 2rpx;
+  position: relative;
+  top: -2rpx;
+  font-weight: bold;
+}
+
+.icon{
+  margin: 9.36rpx 25rpx 9.36rpx 0;
+}
+
+.me-line{
+  margin-left: 87rpx;
+}

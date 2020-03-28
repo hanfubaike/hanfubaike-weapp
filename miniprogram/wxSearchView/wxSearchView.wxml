@@ -42,7 +42,7 @@
     <view class="weui-grids" style='border-top:0'>
         <block wx:for="{{wxSearchData.hotKeys}}" wx:key="_id">
         <view class='weui-grid' style='border-right: 0;border-bottom: 0;width: 25%;' bindtap="wxSearchKeyTap" data-key="{{item}}">
-          <image class="weui-grid__icon" src="{{item.logoImage ? item.logoImage : '/images/defaultLogo.png'}}" style="width: 100rpx;height: 100rpx;" binderror="imageError" data-key="{{item}}"/>
+          <image class="weui-grid__icon" src="{{item.logoImage ? item.logoImage : '/res/defaultLogo.png'}}" style="width: 100rpx;height: 100rpx;" binderror="imageError" data-key="{{item}}"/>
           <view class="weui-grid__label">{{item.orgName}}</view>
           </view>
         </block>

@@ -5,12 +5,12 @@ var MakerCluster = require('../../utils/MakerCluster.js');
 const wxRequest = require('../../utils/wxRequest.js');
 var app = getApp();
 
-var orgType = [{ name: "其它组织", img: "/images/collection.png" },
-{ name: "社会组织", img: "/images/shehuizuzhi.png" },
-{ name: "高校社团", img: "/images/gaoxiaoshetuan.png" },
-{ name: "中学社团", img: "/images/zhongxueshetuan.png" },
-{ name: "文化平台", img: "/images/wenhuapingtai.png" },
-{ name: "汉服商家", img: "/images/hanfushangjia.png" }]
+var orgType = [{ name: "其它组织", img: "/res/collection.png" },
+{ name: "社会组织", img: "/res/shehuizuzhi.png" },
+{ name: "高校社团", img: "/res/gaoxiaoshetuan.png" },
+{ name: "中学社团", img: "/res/zhongxueshetuan.png" },
+{ name: "文化平台", img: "/res/wenhuapingtai.png" },
+{ name: "汉服商家", img: "/res/hanfushangjia.png" }]
 
 Page({
   data: {
@@ -25,12 +25,12 @@ Page({
     map_container_style: "width: 100%;",
     map_style: "width: 100%; height: 100%;",
     map_text_hidden: true,
-    buttonImage: "/images/feedback.png",
+    buttonImage: "/res/feedback.png",
     //map_text_style: "width: 92%; height: 16%;",
     longitude:"113.324520",
     latitude:"23.099994",
     textData:{
-      logoImage:"/images/defaultLogo.png"
+      logoImage:"/res/defaultLogo.png"
     }
   },
   //allOrgList: [],
@@ -220,7 +220,7 @@ Page({
     let self = this
     let n = self.updataLogoIndex
     let url = self.jsonData[n].logoImage
-    if (url == "/images/defaultLogo.png") {
+    if (url == "/res/defaultLogo.png") {
       console.log("defaultLogo")
     }
     else {
@@ -262,9 +262,9 @@ Page({
   updataOneLogo: function () {
     let self = this
     let url = self.data.textData.logoImage
-    if (url == "/images/defaultLogo.png") {
+    if (url == "/res/defaultLogo.png") {
       self.setData({
-        'textData.logoImage': "/images/defaultLogo.png"
+        'textData.logoImage': "/res/defaultLogo.png"
       })
       console.log("defaultLogo")
     }
@@ -283,7 +283,7 @@ Page({
         fail: function () {
           // fail
           self.setData({
-            'textData.logoImage': "/images/defaultLogo.png"
+            'textData.logoImage': "/res/defaultLogo.png"
           })
         },
         complete: function () {
@@ -443,7 +443,7 @@ Page({
             for (var x in dataList) {
               let markeJson = {}
 
-              markeJson.iconPath = "/images/defaultMarker.png"
+              markeJson.iconPath = "/res/defaultMarker.png"
               markeJson.width = 20
               markeJson.height = 20
               markeJson.alpha = 0.8
@@ -506,7 +506,7 @@ Page({
       //var org_type = data[x].org_type > 5 ? 0 : data[x].org_type
 
       //markeJson.iconPath = orgType[org_type].img
-      markeJson.iconPath = "/images/defaultMarker.png"
+      markeJson.iconPath = "/res/defaultMarker.png"
       markeJson.width = width_height
       markeJson.height = width_height
       markeJson.alpha = 0.9
@@ -714,7 +714,7 @@ Page({
     }
     //this.setData({
      // textData:{
-       // logoImage:"/images/defaultLogo.png",
+       // logoImage:"/res/defaultLogo.png",
        // orgName:orgName,
      //   orgType:"获取中...",
       //  locationName:"获取中..."
@@ -838,7 +838,7 @@ Page({
     let self = this
     var errorImgIndex = e.target.dataset.errorimg //获取循环的下标
     this.setData({
-      "textData.logoImage": "/images/defaultLogo.png"
+      "textData.logoImage": "/res/defaultLogo.png"
     }) //修改数据源对应的数据
   },
 

@@ -2,12 +2,12 @@
 var WxSearch = require('../../wxSearchView/wxSearchView.js');
 var util = require('../../utils/util.js');
 var app = getApp();
-var orgType = [{ name: "其它组织", img: "/images/collection.png" },
-{ name: "社会组织", img: "/images/shehuizuzhi.png" },
-{ name: "高校社团", img: "/images/gaoxiaoshetuan.png" },
-{ name: "中学社团", img: "/images/zhongxueshetuan.png" },
-{ name: "文化平台", img: "/images/wenhuapingtai.png" },
-{ name: "汉服商家", img: "/images/hanfushangjia.png" }]
+var orgType = [{ name: "其它组织", img: "/res/collection.png" },
+{ name: "社会组织", img: "/res/shehuizuzhi.png" },
+{ name: "高校社团", img: "/res/gaoxiaoshetuan.png" },
+{ name: "中学社团", img: "/res/zhongxueshetuan.png" },
+{ name: "文化平台", img: "/res/wenhuapingtai.png" },
+{ name: "汉服商家", img: "/res/hanfushangjia.png" }]
 
 Page({
   data: {
@@ -30,7 +30,7 @@ Page({
         self.setData({
           controls: [{
             id: 1,
-            iconPath: '/images/locationMe.png',
+            iconPath: '/res/locationMe.png',
             position: {
               left: 20,
               top: (res.screenHeight - 20 - 60 - 90) / 1.3,
@@ -41,7 +41,7 @@ Page({
           },
           {
             id: 2,
-            iconPath: '/images/plus.png',
+            iconPath: '/res/plus.png',
             position: {
               left: res.screenWidth - 50,
               top: (res.screenHeight - 20 - 60 - 48 - 90) / 1.3,
@@ -52,7 +52,7 @@ Page({
           },
           {
             id: 3,
-            iconPath: '/images/zoom.png',
+            iconPath: '/res/zoom.png',
             position: {
               left: res.screenWidth - 50,
               top: (res.screenHeight - 20 - 60 - 90) / 1.3,
@@ -107,7 +107,7 @@ Page({
       var org_type = data[x].org_type > 5 ? 0 : data[x].org_type
 
       markeJson.iconPath = orgType[org_type].img
-      //markeJson.iconPath = "/images/defaultMarker.png"
+      //markeJson.iconPath = "/res/defaultMarker.png"
       markeJson.width = 25
       markeJson.height = 25
       markeJson.alpha = 0.8
@@ -235,12 +235,12 @@ Page({
     textData.logoList = self.orgList[e.markerId].logoList
     textData.organizationid = self.orgList[e.markerId].organizationid
     textData.orgType = orgType[org_type].name
-    if (textData.logoList == "images/defaultLogo.png" || textData.logoList == "") {
-      textData.logoList = '/images/defaultLogo.png'
+    if (textData.logoList == "res/defaultLogo.png" || textData.logoList == "") {
+      textData.logoList = '/res/defaultLogo.png'
     }
     var webUrl = app.WEBVIEWURL + '/organization_detail.html?organizationid=' + textData.organizationid + "&rand=" + app.VERSION
     textData.webUrl = '/pages/webpage/webpage?url=' + encodeURIComponent(webUrl) + '&title=' + textData.organizationname;
-    //textData.logoList = "/images/".concat(self.orgList[e.markerId].organizationname, ".jpg")
+    //textData.logoList = "/res/".concat(self.orgList[e.markerId].organizationname, ".jpg")
     textData.latitude = self.orgList[e.markerId].latitude
     textData.longitude = self.orgList[e.markerId].longitude
     //textData.mode = "aspectFit"

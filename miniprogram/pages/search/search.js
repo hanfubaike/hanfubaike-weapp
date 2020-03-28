@@ -2,12 +2,12 @@
 var WxSearch = require('../../wxSearchView/wxSearchView.js');
 var util = require('../../utils/util.js');
 var MakerCluster = require('../../utils/MakerCluster.js');
-var orgType = [{ name:"其它组织", img:"/images/collection.png" }, 
-                { name: "社会组织", img:"/images/shehuizuzhi.png"}, 
-                { name: "高校社团", img:"/images/gaoxiaoshetuan.png"}, 
-                { name: "中学社团", img:"/images/zhongxueshetuan.png"}, 
-                { name: "文化平台", img:"/images/wenhuapingtai.png"}, 
-                { name: "汉服商家", img:"/images/hanfushangjia.png"}]
+var orgType = [{ name:"其它组织", img:"/res/collection.png" }, 
+                { name: "社会组织", img:"/res/shehuizuzhi.png"}, 
+                { name: "高校社团", img:"/res/gaoxiaoshetuan.png"}, 
+                { name: "中学社团", img:"/res/zhongxueshetuan.png"}, 
+                { name: "文化平台", img:"/res/wenhuapingtai.png"}, 
+                { name: "汉服商家", img:"/res/hanfushangjia.png"}]
 
 
 var app = getApp();
@@ -198,7 +198,7 @@ Page({
           screenWidth: res.screenWidth,
           controls: [{
             id: 1,
-            iconPath: '/images/locationMe.png',
+            iconPath: '/res/locationMe.png',
             position: {
               left: 20,
               top: (res.screenHeight - 20 - 100 - 90) / 1.3,
@@ -209,7 +209,7 @@ Page({
           },
           {
             id: 2,
-            iconPath: '/images/plus.png',
+            iconPath: '/res/plus.png',
             position: {
               left: res.screenWidth - 50,
               top: (res.screenHeight - 20 - 100 - 48 - 90) / 1.3,
@@ -220,7 +220,7 @@ Page({
           },
           {
             id: 3,
-            iconPath: '/images/zoom.png',
+            iconPath: '/res/zoom.png',
             position: {
               left: res.screenWidth - 50,
               top: (res.screenHeight - 20 - 100 - 90) / 1.3,
@@ -240,7 +240,7 @@ Page({
     let self = this
     let n = self.updataLogoIndex
     let url = self.jsonData[n].logoList
-    if (url == "/images/defaultLogo.png") {
+    if (url == "/res/defaultLogo.png") {
       console.log("defaultLogo")
     }
     else {
@@ -282,9 +282,9 @@ Page({
   updataOneLogo: function () {
     let self = this
     let url = self.data.textData.logoList
-    if (url == "/images/defaultLogo.png") {
+    if (url == "/res/defaultLogo.png") {
       self.setData({
-        'textData.logoList': "/images/defaultLogo.png"
+        'textData.logoList': "/res/defaultLogo.png"
       })
       console.log("defaultLogo")
     }
@@ -303,7 +303,7 @@ Page({
         fail: function () {
           // fail
           self.setData({
-            'textData.logoList': "/images/defaultLogo.png"
+            'textData.logoList': "/res/defaultLogo.png"
           })
         },
         complete: function () {
@@ -462,7 +462,7 @@ Page({
             for (var x in dataList) {
               let markeJson = {}
 
-              markeJson.iconPath = "/images/defaultMarker.png"
+              markeJson.iconPath = "/res/defaultMarker.png"
               markeJson.width = 20
               markeJson.height = 20
               markeJson.alpha = 0.8
@@ -521,7 +521,7 @@ Page({
       var org_type = data[x].org_type > 5 ? 0 : data[x].org_type
 
       markeJson.iconPath = orgType[org_type].img
-      //markeJson.iconPath = "/images/defaultMarker.png"
+      //markeJson.iconPath = "/res/defaultMarker.png"
       markeJson.width = 10
       markeJson.height = 10
       markeJson.alpha = 0.8
@@ -727,12 +727,12 @@ Page({
     textData.logoList = self.orgList[e.markerId].logoList
     textData.organizationid = self.orgList[e.markerId].organizationid
     textData.orgType = orgType[org_type].name
-    if (textData.logoList == "images/defaultLogo.png" || textData.logoList == "") {
-      textData.logoList = '/images/defaultLogo.png'
+    if (textData.logoList == "res/defaultLogo.png" || textData.logoList == "") {
+      textData.logoList = '/res/defaultLogo.png'
     }
     var webUrl = app.WEBVIEWURL + '/organization_detail.html?organizationid=' + textData.organizationid + "&rand=" + app.VERSION
     textData.webUrl = '/pages/webpage/webpage?url=' + encodeURIComponent(webUrl) + '&title=' + textData.organizationname;
-    //textData.logoList = "/images/".concat(self.orgList[e.markerId].organizationname, ".jpg")
+    //textData.logoList = "/res/".concat(self.orgList[e.markerId].organizationname, ".jpg")
     textData.latitude = self.orgList[e.markerId].latitude
     textData.longitude = self.orgList[e.markerId].longitude
     //textData.mode = "aspectFit"
@@ -870,7 +870,7 @@ Page({
     let self = this
     var errorImgIndex = e.target.dataset.errorimg //获取循环的下标
     this.setData({
-      "textData.logoList": "/images/defaultLogo.png"
+      "textData.logoList": "/res/defaultLogo.png"
     }) //修改数据源对应的数据
   },
 
@@ -884,7 +884,7 @@ Page({
       var item = e.currentTarget.dataset.key
       var n = this.data.wxSearchData.hotKeys.indexOf(item)
       var tmpData = {}
-      tmpData["wxSearchData.hotKeys[" + n + "].logoList"] = "/images/collection.png"
+      tmpData["wxSearchData.hotKeys[" + n + "].logoList"] = "/res/collection.png"
       this.setData({
         tmpData
       })

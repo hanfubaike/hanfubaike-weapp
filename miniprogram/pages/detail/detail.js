@@ -83,7 +83,7 @@ Page({
         console.log("成功获取组织信息！")
       }
       orgInfo = res.result
-      orgInfo.logoImage = orgInfo.logoList.length>0 ? orgInfo.logoList[0]:"/images/defaultLogo.png"
+      orgInfo.logoImage = orgInfo.logoList.length>0 ? orgInfo.logoList[0]:"/res/defaultLogo.png"
     })
     .catch(error =>{
       console.error(error)

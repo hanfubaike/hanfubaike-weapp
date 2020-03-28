@@ -2,7 +2,7 @@
   <block wx:if="{{!userInfo.nickName}}">
 
     <view class="login-inner">
-      <image class="avatar" src="../../images/gravatar.png"></image>
+      <image class="avatar" src="../../res/gravatar.png"></image>
       <view class="username">
         <text>立即登录，体验更多功能</text>
       </view>

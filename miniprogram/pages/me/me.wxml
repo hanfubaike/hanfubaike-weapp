@@ -1,0 +1,93 @@
+<!--pages/me/me.wxml-->
+<import src="../../templates/copyright.wxml" />
+
+<view class='card' style='margin: 18rpx 0 18rpx 0;'>
+  <view class='horizontal'>
+    <image class='avatar' 
+      src="{{userInfo.avatarUrl?userInfo.avatarUrl:'/res/placeholder.png'}}">
+    </image>
+    <view style='margin-left:18rpx;'>
+      <view>
+        <text wx:if="{{userInfo.nickName}}" style='font-size:36rpx;'>{{userInfo.nickName}}</text>
+        <view hidden='{{userInfo.nickName}}'>
+          <button
+          class='btn-clear btn' 
+          hover-class='btn-hover'
+          style='color: {{theme.color}};'
+          open-type="getUserInfo" 
+          bindgetuserinfo="agreeGetUser"
+          >点击登录</button>
+        </view>
+        <text wx:if="{{expLabel && userInfo.nickName}}" 
+          class='grade' 
+          style='background-color:{{theme.gradeColor}}'
+          bindtap='clickExp'>{{expLabel}}</text>
+      </view>
+      <button wx:if="{{userInfo.nickName && false}}"
+        open-type="getPhoneNumber"
+        bindgetphonenumber="getPhoneNumber"
+        class='btn-clear subtitle'>{{userInfo.phone? userInfo.phone: '绑定手机号'}}</button>
+    </view>
+    <view wx:if="{{userInfo.nickName && false}}" class="setting" bindtap="clickEdit" > 
+      <image class="arrow-right" src="{{theme.images}}/arrow_right.png"></image>
+    </view>
+  </view>
+</view>
+
+<!-- 其它信息 -->
+<view class='card'>
+  <view class='horizontal' bindtap='addOrg'>
+    <image class='icon-small icon'
+      src='/res/add.png'></image>
+    <text class='title'>新增</text>
+    <image class='arrow-right' style='margin-left:auto;'
+      src='{{theme.images}}/arrow_right.png'></image>
+  </view>
+  
+  <block wx:if="{{showCheck}}">
+  <view class='line me-line' ></view>
+  <view class='horizontal' bindtap='checkOrg'>
+    <image class='icon-small icon'
+      src='/res/check.png'></image>
+    <text class='title'>审核</text>
+    <image class='arrow-right' style='margin-left:auto;'
+      src='{{theme.images}}/arrow_right.png'></image>
+  </view>
+  <view class='line me-line' ></view>
+  </block>
+</view>
+
+<view class="card">
+  <view class='horizontal' bindtap='about'>
+    <image class='icon-small icon'
+      src='/res/about.png'></image>
+    <text class='title'>关于</text>
+    <image class='arrow-right' style='margin-left:auto;'
+      src='{{theme.images}}/arrow_right.png'></image>
+  </view>
+  <view class='line me-line' ></view>
+  <view class='horizontal' bindtap='pointClick'>
+    <image class='icon-small icon'
+      src='/res/log.png'></image>
+    <text class='title'>更新日志</text>
+    <image class='arrow-right' style='margin-left:auto;'
+      src='{{theme.images}}/arrow_right.png'></image>
+  </view>
+  <view class='line me-line' ></view>
+  <view class='horizontal' bindtap='favoriteClick'>
+    <image class='icon-small icon'
+      src='/res/feedback.png'></image>
+    <text class='title'>意见反馈</text>
+    <image class='arrow-right' style='margin-left:auto;'
+      src='{{theme.images}}/arrow_right.png'></image>
+  </view>
+
+</view>
+
+<!-- 版权信息 -->
+  <view class="copyright" style="display:{{floatDisplay}}">
+    <template is="tempCopyright" />
+  </view>
+
+<!-- login dialog -->
+<login class="login" bind:onOk="onOk" />

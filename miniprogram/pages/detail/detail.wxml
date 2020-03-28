@@ -19,7 +19,7 @@
     <image wx:if="{{logoImage}}" class="logo" src="{{logoImage}}" bindtap="previewLogo"></image>
     <view class="title">
       <view class="name">{{orgName}}</view>
-      <image class="navigate" id="navigate" src="/images/navigate.png" bindtap="navigateTo"></image>
+      <image class="navigate" id="navigate" src="/res/navigate.png" bindtap="navigateTo"></image>
     </view>
   </view>
 
