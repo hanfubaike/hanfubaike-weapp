@@ -83,7 +83,7 @@
     </view>
   </navigator>
 -->
-  <navigator url="" open-type="navigate" class="meInfo">
+  <navigator url="/pages/webpage/webpage?url=https://mp.weixin.qq.com/s/_IpORvy_6nVRai63X0bpHg" open-type="navigate" class="meInfo">
 
     <view class="meInfoleft">
 
