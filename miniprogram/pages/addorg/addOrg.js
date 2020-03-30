@@ -468,10 +468,11 @@ Page({
     const db = wx.cloud.database()
     const _ = db.command
     //查询当前用户所有的 counters
-    db.collection('adminList').field({
+    db.collection('user').field({
       openid:false
     }).where({
-      email: _.exists(true)
+      email: _.exists(true),
+      isAdmin:true
     }).get({
       success: res => { 
         console.log('[数据库] [查询记录] 成功: ', res)

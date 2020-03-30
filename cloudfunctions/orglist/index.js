@@ -23,13 +23,14 @@ exports.main = async (event, context) => {
       orgList = qeueResult.data
     }
     console.log(qeueResult)
-    const adminQeue = await db.collection('adminList').where({
-      openid: wxContext.OPENID
+    const userQeue = await db.collection('user').where({
+      _openid: wxContext.OPENID,
+      isAdmin:true,
     }).get()
-    if (adminQeue.data.length > 0) {
+    if (userQeue.data.length > 0) {
       isAdmin = true
     }
-    console.log(adminQeue)
+    console.log(userQeue)
     return {
       orgList: orgList,
       isAdmin: isAdmin,
