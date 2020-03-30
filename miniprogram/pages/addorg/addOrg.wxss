@@ -19,3 +19,16 @@
   font-size: 12px;
 
 }
+
+/*
+.van-cell--required:before{
+  position: absolute;
+  content: "*";
+  left: 8px;
+  left: var(--padding-xs,8px);
+  font-size: 14px;
+  font-size: var(--cell-font-size,14px);
+  color: #838B8B !important;
+
+}
+*/

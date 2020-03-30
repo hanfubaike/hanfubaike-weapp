@@ -3,11 +3,11 @@
 <block>
 <form bindsubmit="formSubmit" bindreset="formReset">
   <van-cell-group title="基本资料">
-    <van-field id="orgName" name="orgName" bind:change="inputChage" value="{{ orgName }}" clearable label="组织名称"  placeholder="请输入组织名称" bind:click-icon="onClickIcon" />
-    <van-field name="orgType" value="{{ orgType }}" clearable label="组织类型" placeholder="选择组织类型" bindtap="orgClick" is-link readonly />
+    <van-field id="orgName" name="orgName" bind:change="inputChage" value="{{ orgName }}" clearable label="组织名称"  placeholder="请输入组织名称" bind:click-icon="onClickIcon"  />
+    <van-field name="orgType" value="{{ orgType }}" clearable label="组织类型" placeholder="选择组织类型" bindtap="orgClick" is-link readonly  />
 
 
-    <van-field name="locationAddress" bind:change="inputChage" value="{{ locationAddress }}" type="textarea" autosize center clearable label="位置" placeholder="点击获取位置" bindtap="chooseLocation" is-link readonly >
+    <van-field name="locationAddress" bind:change="inputChage" value="{{ locationAddress }}" type="textarea" autosize center clearable label="位置" placeholder="点击获取位置" bindtap="chooseLocation" is-link readonly  >
     </van-field>
 
     <van-field id="locationName" name="locationName" bind:change="inputChage" value="{{ locationName }}" label="详细地址" type="textarea" placeholder="请输入详细地址（可选）" autosize border="{{ true }}" />
@@ -38,11 +38,11 @@
     <van-field id="QQGroup" name="QQGroup" bind:change="inputChage" value="{{ QQGroup }}" clearable label="QQ群"  placeholder="请输入QQ群号" bind:click-icon="onClickIcon" />
     <van-field id="wxmp" name="wxmp" bind:change="inputChage" value="{{ wxmp }}" clearable label="微信公众号"  placeholder="微信公众号的名字(可选)" bind:click-icon="onClickIcon" />
 
-    <van-field id="reason" name="reason" bind:change="inputChage" value="{{ reason }}" label="申请说明" type="textarea" placeholder="请输入申请说明" autosize="{{autosize}}" border="{{ true }}" maxlength="1000"/>
+    <van-field id="reason" name="reason" bind:change="inputChage" value="{{ reason }}" label="申请说明" type="textarea" placeholder="请输入申请说明" autosize="{{autosize}}" border="{{ true }}" maxlength="1000"  />
   </van-cell-group>
   <view class="field-index--van-field van-cell van-cell--center" style="padding-top: 8px;">
   <van-row gutter="10">
-    <van-col span="24" ><view class="van-cell__title" style="margin-bottom: 5%;">证明材料<text class="tips">（请上传有效的证明材料，如社会团体证、营业执照、微信或QQ群的后台截图等任何能证明此信息真实有效的材料）</text></view></van-col>
+    <van-col span="24" ><view class="van-cell__title" style="margin-bottom: 5%;" >证明材料<text class="tips">（请上传有效的证明材料，如社会团体证、营业执照、微信或QQ群的后台截图等任何能证明此信息真实有效的材料）</text></view></van-col>
     <van-col span="24">
     <van-uploader name="reasonFile" preview-size="70px" upload-text="" file-list="{{ reasonFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ false }}" multiple="{{ false }}" image-fit="aspectFit" max-count="5" sizeType="{{sizeType}}"/>
     </van-col>

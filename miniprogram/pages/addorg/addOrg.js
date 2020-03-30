@@ -229,12 +229,12 @@ Page({
     let formData = this.formData
     let nameLabel = this.data.nameLabel
     if (this.data.logoFileList.length==0){
-      app.showToast("请上传【LOGO】")
-      return
+      //app.showToast("请上传【LOGO】")
+      //return
     }
     if (this.data.orgImageFileList.length==0){
-      app.showToast("请上传【照片墙】")
-      return
+      //app.showToast("请上传【照片墙】")
+      //return
     }
     
     if (this.data.reasonFileList.length == 0) {

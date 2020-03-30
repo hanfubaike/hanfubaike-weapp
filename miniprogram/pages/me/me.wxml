@@ -115,8 +115,8 @@
         </view>
       </view>
       <view class="button-sp-area" style="padding: 10px 10px 20px 10px">
-          <button type="default" open-type="contact" class="weui-btn mini-btn" role="button" size="mini" style="font-size: 16px;">联系客服</button>
-          <button type="primary" open-type="feedback" class="weui-btn mini-btn" size="mini" style="font-size: 16px;">问题反馈</button>
+          <button type="default" open-type="contact" bindtap="buttonClick" class="weui-btn mini-btn" role="button" size="mini" style="font-size: 16px;">联系客服</button>
+          <button type="primary" open-type="feedback" bindtap="buttonClick" class="weui-btn mini-btn" size="mini" style="font-size: 16px;">问题反馈</button>
       </view>
     </view>
 </view>

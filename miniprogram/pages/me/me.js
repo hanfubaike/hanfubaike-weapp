@@ -116,7 +116,9 @@ Page({
 
   onUnload: function () {
     console.log('onUnload')
-    //this.onLoad()
+    this.setData({
+      isDialog:false
+    })
   },
 
 
@@ -187,13 +189,18 @@ Page({
       isDialog:true
     })
   },
-  closeDialog: function () {
+  closeDialog: function (e) {
     this.setData({
       isDialog: false
     })
   },
   stopEvent:function(){
-    //this.closeDialog()
+
+  },
+  buttonClick(e){
+    setTimeout(() => {
+      this.closeDialog()
+    }, 500);
   },
   updateLog(){
     wx.navigateTo({
