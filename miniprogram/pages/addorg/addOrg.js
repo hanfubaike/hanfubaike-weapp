@@ -39,7 +39,7 @@ Page({
       contactName:"负责人",
       contactTel:"手机号",
       QQGroup:"QQ群",
-      wxmp:"微信群",
+      wxmp:"微信公众号",
       reason:"申请说明"
     },
    
@@ -156,6 +156,7 @@ Page({
     })
   },
   dbQuery: function (func) {
+    console.log("正在查询数据库..")
     wx.showLoading({
       title: '正在检查',
       mask:true
@@ -225,7 +226,8 @@ Page({
     
   },
   checkFormData(){
-    let ignoreList = ['wxmp','locationAddress']
+    console.log("开始检查数据")
+    let ignoreList = ['wxmp','locationAddress','latitude','longitude','logoFileList','orgImageFileList','reasonFileList']
     let formData = this.formData
     let nameLabel = this.data.nameLabel
     if (this.data.logoFileList.length==0){
@@ -246,18 +248,19 @@ Page({
       return
     }
     for (let x in formData){
+      console.log(x)
       let value = formData[x]
-      if (x in ignoreList){
+      if (ignoreList.indexOf(x) > -1){
         continue
       }
       if (!value){
         app.showToast("请填写【" + nameLabel[x] + "】")
         return
       }else{
-        value = value.replace(/\s*/g, "")
+        value = value.toString().replace(/\s*/g, "")
         if (value.length == 0){
           app.showToast("请填写【" + nameLabel[x] + "】")
-        return
+          return
         }
       }
     }
@@ -359,6 +362,7 @@ Page({
     let name = orgName + "-apply"
     let logoName = orgName + "-logo"
     let orgImageName = orgName + "-orgImage"
+    console.log("正在上传图片")
     wx.showLoading({
       title: "正在上传图片...",
       mask:true
