@@ -725,7 +725,7 @@ Page({
     let longitude = this.orgList[markerID].longitude
     let latitude = this.orgList[markerID].latitude
     wx.navigateTo({
-      url: "/pages/detail/detail?id=" + id + "&longitude=" + longitude + "&latitude=" + latitude ,
+      url: "/pages/orgPage/orgPage?id=" + id + "&longitude=" + longitude + "&latitude=" + latitude ,
     })
 
   },

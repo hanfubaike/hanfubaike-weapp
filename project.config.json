@@ -102,8 +102,8 @@
 				},
 				{
 					"id": 7,
-					"name": "pages/detail/detail",
-					"pathName": "pages/detail/detail",
+					"name": "pages/orgPage/orgPage",
+					"pathName": "pages/orgPage/orgPage",
 					"query": "id=1584348692692_0.5738638668581109_33613812",
 					"scene": null
 				},
