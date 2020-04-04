@@ -103,59 +103,29 @@ Page({
       data:this.formData
     })
   },
-  dbAdd: function (data) {
+  dbAdd: async function (data) {
     const db = wx.cloud.database()
     let locationGeo = db.Geo.Point(this.data.longitude, this.data.latitude)
     data['longLatiute'] = locationGeo
     data['postTime'] = db.serverDate()
-    db.collection(this.data.dbName).add({
-      data: data,
-      success: res => {
-        //setTimeout(function () {
-          //wx.hideLoading()
-        //}, 2000)
-        //在返回结果中会包含新创建的记录的 _id
-        this.setData({
-          counterId: res._id,
-        })
-        //app.showToast("提交成功","success")
-        //setTimeout(function () {
-          //wx.showLoading({
-            //title: '正在向管理员发送通知...',
-            //mask:true
-          //})
-        //}, 1500)
-        this.sendEmailToAdmin()
+    let dbres = {}
+    try{
+       dbres = await db.collection(this.data.dbName).add({
+        data: data,
+      })
+      console.log('[数据库] [新增记录] 成功，记录 _id: ', dbres._id)
+      this.setData({
+        counterId: dbres._id,
+      })
+      return true
 
+    }catch(err){
+      console.error('[数据库] [新增记录] 失败：', err)
+      return false
+    }
 
-        //wx.showModal({
-          //title: '提示',
-          //content: '提交成功，请等待管理员审核，点击确定按钮返回首页',
-          //success(res) {
-            //if (res.confirm) {
-             // wx.redirectTo({
-               // url: 'map'
-             // })
-           // } else if (res.cancel) {
-              //console.log('用户点击取消')
-            //}
-          //}
-        //})
-        console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
-      },
-      fail: err => {
-        setTimeout(function () {
-          wx.hideLoading()
-        }, 2000)
-        wx.showToast({
-          icon: 'none',
-          title: '提交失败！'
-        })
-        console.error('[数据库] [新增记录] 失败：', err)
-      }
-    })
   },
-  dbQuery: function (func) {
+  dbQuery:function () {
     console.log("正在查询数据库..")
     wx.showLoading({
       title: '正在检查',
@@ -163,33 +133,11 @@ Page({
     })
     const db = wx.cloud.database()
     //查询当前用户所有的 counters
-    db.collection(this.data.dbName).field({
-      orgName: true
-    }).where({
-      orgName: this.formData.orgName
-    }).get({
-      success: res => { 
-        console.log('[数据库] [查询记录] 成功: ', res)
-        if (res.data.length!=0){
-          app.showToast("组织名称已存在，请重新输入")
-        }else{
-          func()
-        }
-        
-      },
-      fail: err => {
-        wx.showToast({
-          icon: 'none',
-          title: '查询记录失败'
-        })
-        console.error('[数据库] [查询记录] 失败：', err)
-      },
-      complete:res => {
-        ////setTimeout(function () {
-          //wx.hideLoading()
-       // }, 1)
-      }
-    })
+    return db.collection(this.data.dbName).field({
+        orgName: true
+      }).where({
+        orgName: this.formData.orgName
+      }).get()
   },
 
   orgClick() {
@@ -210,13 +158,81 @@ Page({
     })
   },
 
-  formSubmit: function (e) {
+  formSubmit: async function (e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
     let formData = e.detail.value
+    let self = this
     formData["poster"] = app.globalData.userInfo.nickName
     this.formData = formData
     this.autoSave()
-    this.dbQuery(this.checkFormData)
+    let dbres = {}
+    try{
+      dbres = await this.dbQuery()
+      console.log('[数据库] [查询记录] 成功: ', dbres)
+    }catch (err) {
+      wx.showToast({
+        icon: 'none',
+        title: '查询记录失败'
+      })
+      console.error('[数据库] [查询记录] 失败：', err)
+      return
+    }
+    if (dbres.data.length!=0){
+      app.showToast("组织名称已存在，请重新输入")
+      return
+    }
+    if (!this.checkFormData()){
+      return
+    }
+    let uploadRes = await this.uploadFiles(formData.orgName)
+    if (!uploadRes){
+      return
+    }
+
+    if (await self.dbAdd(self.formData)){
+        //setTimeout(function () {
+          //wx.hideLoading()
+        //}, 2000)
+        //在返回结果中会包含新创建的记录的 _id
+
+        //app.showToast("提交成功","success")
+        //setTimeout(function () {
+          //wx.showLoading({
+            //title: '正在向管理员发送通知...',
+            //mask:true
+          //})
+        //}, 1500)
+        app.showToast("提交成功","success")
+        setTimeout(function(){
+          wx.showLoading({
+            title: '正在跳转...',
+            mask:true
+          })
+        },1000)
+        await this.sendEmailToAdmin()
+        setTimeout(function(){
+          wx.hideLoading()
+          wx.navigateTo({
+            url: '/pages/msg/msg_success?title=提交成功&msg=等待管理员审核。请点击下方的确定按钮订阅通知消息，审核通过后我们会第一时间通知你，如长时间没有审核，请通过邮件联系我们：&msgLink=hanfubaike@163.com&btText=确定&SubscribeMessage=true',
+          })
+        },2000)
+        
+
+
+        //wx.showModal({
+          //title: '提示',
+          //content: '提交成功，请等待管理员审核，点击确定按钮返回首页',
+          //success(res) {
+            //if (res.confirm) {
+             // wx.redirectTo({
+               // url: 'map'
+             // })
+           // } else if (res.cancel) {
+              //console.log('用户点击取消')
+            //}
+          //}
+        //})
+    }
 
   },
   formReset: function () {
@@ -241,30 +257,30 @@ Page({
     
     if (this.data.reasonFileList.length == 0) {
       app.showToast("请上传【证明材料】")
-      return
+      return false
     }
     if (!this.data.latitude || !this.data.longitude){
       app.showToast("请选择位置")
-      return
+      return false
     }
     for (let x in formData){
-      console.log(x)
       let value = formData[x]
       if (ignoreList.indexOf(x) > -1){
         continue
       }
       if (!value){
         app.showToast("请填写【" + nameLabel[x] + "】")
-        return
+        return false
       }else{
         value = value.toString().replace(/\s*/g, "")
         if (value.length == 0){
           app.showToast("请填写【" + nameLabel[x] + "】")
-          return
+          return false
         }
       }
     }
-    this.uploadFiles(formData.orgName)
+    return true
+    
   },
   chooseLocation: function () {
     let self = this
@@ -339,7 +355,7 @@ Page({
           cloudPath: cloudPath,
           filePath: filePath
         }).then(res => {
-          console.log(res.fileID)
+          //console.log(res.fileID)
           return resolve({url:res.fileID,fileName:fileListName});
           //wx.showToast({ title: '上传成功', icon: 'none' });
         }).catch(error => {
@@ -374,8 +390,8 @@ Page({
     let logoList =[]
     let orgImageList = []
     let reasonImageList = []
-    Promise.all(uploadTasks).then(function (values) {
-      console.log(values);
+    return Promise.all(uploadTasks).then(function (values) {
+      console.log('图片上传成功！',values);
       for(let x in values){
         let fileName = values[x].fileName
         let url = values[x].url
@@ -397,11 +413,12 @@ Page({
       self.formData['postType'] =  self.data.postType 
       //注册状态，0：待审核，-1：审核未通过，1：审核通过 
       self.formData['status'] = 0
-      self.dbAdd(self.formData) 
+      return true
 
     }).catch(reason => {
       console.log(reason)
       app.showToast("上传图片失败！")
+      return false
     });
 
   },
@@ -411,7 +428,7 @@ Page({
   },
   sendEmail(from,title,to,cc,text){
     const self = this
-    wx.cloud.callFunction({
+    return wx.cloud.callFunction({
       // 云函数名称
       name: 'sendEmail',
       // 传给云函数的参数
@@ -434,25 +451,10 @@ Page({
       //app.showToast("向管理员发送通知失败！")
     })
     .finally(function(){
-      app.showToast("提交成功","success")
-      setTimeout(function(){
-        wx.showLoading({
-          title: '正在跳转...',
-          mask:true
-        })
-      },1000)
-
-      setTimeout(function(){
-        wx.hideLoading()
-        wx.navigateTo({
-          url: '/pages/msg/msg_success?title=提交成功&msg=等待管理员审核。请点击下方的确定按钮订阅通知消息，审核通过后我们会第一时间通知你，如长时间没有审核，请通过邮件联系我们：&msgLink=hanfubaike@163.com&btText=确定&SubscribeMessage=true',
-        })
-      },2000)
- 
       
     })
   },
-  sendEmailToAdmin(){
+   async sendEmailToAdmin(){
     let orgName = this.formData.orgName
     let from = {
       name: "汉服百科",
@@ -470,38 +472,45 @@ Page({
     let text = "新增组织『" + orgName +"』需要审核，申请人：" + this.formData["poster"] + "，请打开小程序进行查看！"
     
     const db = wx.cloud.database()
-    const _ = db.command
+    const dbCommand = db.command
+    let dbres = {}
     //查询当前用户所有的 counters
-    db.collection('user').field({
-      openid:false
-    }).where({
-      email: _.exists(true),
-      isAdmin:true
-    }).get({
-      success: res => { 
-        console.log('[数据库] [查询记录] 成功: ', res)
-        if (res.data.length != 0){
-          for (let x in res.data){
-            to.push(
-              {name: res.data[x].name,
-                address: res.data[x].email}
-            )
-          }
-        }
 
-      },
-      fail: err => {
+    function getAdmiEmail(){
+      //email: dbCommand.exists(true),
+      try{
+         return db.collection('user').field({
+          openid:false
+        }).where({
+          isAdmin:true
+        }).get()
+        
+      }catch(err){
         wx.showToast({
           icon: 'none',
           title: '查询记录失败'
         })
         console.error('[数据库] [查询记录] 失败：', err)
-      },
-      complete:res => {
-        this.sendEmail(from,title,to,cc,text)
+      } 
+    }
+    dbres = await getAdmiEmail()
+    if (!dbres){
+      return
+    }
+    console.log('[数据库] [查询记录] 成功: ', dbres)
+    if (dbres.data.length != 0){
+      for (let x in dbres.data){
+        if (!dbres.data[x].name || !dbres.data[x].email){
+          continue
+        }
+        to.push(
+          {name: dbres.data[x].name,
+            address: dbres.data[x].email}
+        )
       }
-    })
-
+    }
+    await this.sendEmail(from,title,to,cc,text)
+    
   },
   inputChage(e){
     //console.log(e)
