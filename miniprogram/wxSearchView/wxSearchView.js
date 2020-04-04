@@ -46,6 +46,10 @@ function init(that, hotKeys, searchFunction, backwxSearchKeyTap, goBackFunction)
 function wxSearchInput(e) {
   var inputValue = e.detail.value;
   console.log("wxSearchInput",e)
+  if (inputValue !='' && !e.detail.cursor){
+    console.log('输入内容与现有内容相同,跳过')
+    return
+  }
   // 页面数据
   var temData = __that.data.wxSearchData;
   var __data = {}
@@ -123,7 +127,7 @@ function wxSearchKeyTap(e) {
     inputText: e.currentTarget.dataset.key.orgName,
     isMap: true
   });
-  
+  console.log(e.currentTarget.dataset.key)
   __wxSearchKeyTap(e.currentTarget.dataset.key);
 }
 

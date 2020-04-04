@@ -9,7 +9,7 @@
     </view>
   </view>
   <view class="weui-search-bar__cancel-btn" bindtap="wxSearchConfirm">
-    <button data-key='search' class="weui-btn searchButton mini-btn" type="primary" size="mini" style="background-color: #009ACD;">{{bottonText ? bottonText:'搜索'}}</button>
+    <button data-key='search' class="weui-btn searchButton mini-btn" type="primary" size="mini" style="background-color: #4682B4;">{{bottonText ? bottonText:'搜索'}}</button>
   </view>
 </view>
 
