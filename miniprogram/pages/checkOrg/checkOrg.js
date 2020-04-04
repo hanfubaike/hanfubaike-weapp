@@ -192,7 +192,7 @@ Page({
   passed(checkText){
     const self = this
     this.title = "【"+ this.data.orgName.slice(0,13) +"】审核通过！"
-    this.tips = "恭喜，你提交的组织已经通过审核!"
+    this.tips = "感谢你为汉服知识共建计划所做的贡献!"
     wx.showModal({
       title: '审核确认',
       content: '确认【通过】吗？',

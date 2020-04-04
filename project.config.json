@@ -25,7 +25,7 @@
 	},
 	"appid": "wx4bd261cc69bfbb78",
 	"projectname": "hanfubaike-weapp",
-	"libVersion": "2.7.0",
+	"libVersion": "2.8.2",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
@@ -109,8 +109,8 @@
 				},
 				{
 					"id": 8,
-					"name": "pages/person/checkOrg",
-					"pathName": "pages/person/checkOrg",
+					"name": "pages/checkOrg/checkOrg",
+					"pathName": "pages/checkOrg/checkOrg",
 					"query": "id=1584348692692_0.5738638668581109_33613812",
 					"scene": null
 				}
