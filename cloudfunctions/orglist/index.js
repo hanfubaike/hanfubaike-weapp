@@ -24,7 +24,7 @@ exports.main = async (event, context) => {
     }
     console.log(qeueResult)
     const userQeue = await db.collection('user').where({
-      _openid: wxContext.OPENID,
+      openid: wxContext.OPENID,
       isAdmin:true,
     }).get()
     if (userQeue.data.length > 0) {
