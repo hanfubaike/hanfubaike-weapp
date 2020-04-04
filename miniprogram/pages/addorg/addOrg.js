@@ -158,13 +158,27 @@ Page({
     })
   },
 
-  formSubmit: async function (e) {
+  formSubmit: function (e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
     let formData = e.detail.value
     let self = this
     formData["poster"] = app.globalData.userInfo.nickName
     this.formData = formData
     this.autoSave()
+    if (!this.postForm()){
+      console.error("提交失败")
+      wx.showToast({
+        icon: 'none',
+        title: '提交失败！'
+      })
+    }
+
+  },
+  formReset: function () {
+    console.log('form发生了reset事件')
+  },
+  postForm: async function(){
+    let self = this
     let dbres = {}
     try{
       dbres = await this.dbQuery()
@@ -184,7 +198,7 @@ Page({
     if (!this.checkFormData()){
       return
     }
-    let uploadRes = await this.uploadFiles(formData.orgName)
+    let uploadRes = await this.uploadFiles(self.formData.orgName)
     if (!uploadRes){
       return
     }
@@ -233,13 +247,6 @@ Page({
           //}
         //})
     }
-
-  },
-  formReset: function () {
-    console.log('form发生了reset事件')
-  },
-  postForm:function(){
-    
   },
   checkFormData(){
     console.log("开始检查数据")
@@ -369,7 +376,7 @@ Page({
     }
     return uploadTasks
   },
-  uploadFiles(orgName){
+  async uploadFiles(orgName){
     let logoFileList = this.data.logoFileList
     let reasonFileList = this.data.reasonFileList
     let orgImageFileList = this.data.orgImageFileList
@@ -390,36 +397,37 @@ Page({
     let logoList =[]
     let orgImageList = []
     let reasonImageList = []
-    return Promise.all(uploadTasks).then(function (values) {
-      console.log('图片上传成功！',values);
-      for(let x in values){
-        let fileName = values[x].fileName
-        let url = values[x].url
-        switch(fileName){
+    try {
+      const values = await Promise.all(uploadTasks);
+      console.log('图片上传成功！', values);
+      for (let x in values) {
+        let fileName = values[x].fileName;
+        let url = values[x].url;
+        switch (fileName) {
           case "logoList":
-            logoList.push(url)
-            break
+            logoList.push(url);
+            break;
           case "orgImageFileList":
-            orgImageList.push(url)
-            break
+            orgImageList.push(url);
+            break;
           case "reasonImageList":
-            reasonImageList.push(url)
-            break
+            reasonImageList.push(url);
+            break;
         }
       }
-      self.formData["logoList"] = logoList
-      self.formData["orgImageList"] = orgImageList
-      self.formData["reasonImageList"] = reasonImageList
-      self.formData['postType'] =  self.data.postType 
+      self.formData["logoList"] = logoList;
+      self.formData["orgImageList"] = orgImageList;
+      self.formData["reasonImageList"] = reasonImageList;
+      self.formData['postType'] = self.data.postType;
       //注册状态，0：待审核，-1：审核未通过，1：审核通过 
-      self.formData['status'] = 0
-      return true
-
-    }).catch(reason => {
-      console.log(reason)
-      app.showToast("上传图片失败！")
-      return false
-    });
+      self.formData['status'] = 0;
+      return true;
+    }
+    catch (reason) {
+      console.log(reason);
+      app.showToast("上传图片失败！");
+      return false;
+    }
 
   },
 
