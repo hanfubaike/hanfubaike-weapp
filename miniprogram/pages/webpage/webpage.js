@@ -18,14 +18,16 @@ Page({
   onLoad: function(options) {
     var title = ""
     var self = this;
-    console.log(decodeURIComponent(options.url));
     //console.log(options);
     if (options.url != null) {
+      wx.showLoading({
+        title: '正在加载...',
+        mask:true
+      })
       wx.showNavigationBarLoading()
       var url = decodeURIComponent(options.url);
-      if (url.indexOf('*') != -1) {
-        url = url.replace("*", "?");
-      }
+      var url = decodeURIComponent(url);
+      console.log(url);
       if (options.title != null) {
         title = decodeURIComponent(options.title)
       }
@@ -34,9 +36,9 @@ Page({
           title: title
         },
         function() {
-          setTimeout(function() {
+          setTimeout(function(){
             wx.hideNavigationBarLoading()
-          }, 2000)
+            wx.hideLoading()},1500)
         })
 
 
@@ -74,15 +76,14 @@ Page({
 
   onShareAppMessage: function(options) {
     var self = this;
-    var url = options.webViewUrl;
-    if (url.indexOf("?") != -1) {
-      url = url.replace("?", "*");
-    }
-    url = '/pages/webpage/webpage&url=' + encodeURIComponent(url);
-    console.log(options.webViewUrl);
+    var url = ''
+    var webViewUrl = options.webViewUrl;
+    url = '/pages/webpage/webpage?url=' + encodeURIComponent(webViewUrl);
+    console.log(url);
     return {
       title: self.data.title,
-      path: '/pages/index/index?path=' + url,
+      //path: '/pages/map/map?path=' + encodeURIComponent(url),
+      path: url,
       success: function(res) {
         // 转发成功
         console.log(url);

@@ -61,6 +61,13 @@ Page({
 
   onLoad: function (options) {
     let self = this
+    if (options && options.path && options.path != this.route){
+      console.log('开始跳转', options)
+      console.log('decodeURIComponent(options.path)', decodeURIComponent(options.path) + util.encodeQuery(options))
+      wx.navigateTo({
+        url: decodeURIComponent(options.path)
+      })
+    }
     this.mapCtx = wx.createMapContext('map')
     self.initSearch()
     self.getOrgList()

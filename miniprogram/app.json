@@ -21,7 +21,8 @@
     "pages/check/check",
     "pages/checkOrg/checkOrg",
     "pages/msg/msg_success",
-    "pages/orgPage/orgPage"
+    "pages/orgPage/orgPage",
+    "pages/webpage/webpage"
   ],
   "cloud": true,
   "window": {
