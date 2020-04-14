@@ -120,6 +120,13 @@
 					"pathName": "pages/webpage/webpage",
 					"query": "url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzIzOTE0NjAwMg%3D%3D%26mid%3D100000004%26idx%3D1%26sn%3Db6aab63aac9a5a41c710f47572654b43%26appid_list%3Dd3g0YmQyNjFjYzY5YmZiYjc4%26miniprogram_appid%3Dwx4bd261cc69bfbb78%26scene%3D144%26key%3D959070ae44bbc47c79e1ada980f1bd947782ff89b2a6607409df6f1b3f9539508b9a5e0ee75889eb680debc8e0a5b32d6b8240b5a8b41160e962e2e53167ab4e9d27ad988670e1e8d706d8f091bd0ef1%26ascene%3D49%26uin%3DMjg5NDA0ODg2Mg%253D%253D%26version%3D26000200%26nettype%3DWIFI%26lang%3Dzh_CN",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/index/index",
+					"pathName": "pages/index/index",
+					"query": "",
+					"scene": null
 				}
 			]
 		}
