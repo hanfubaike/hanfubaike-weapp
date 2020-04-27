@@ -24,7 +24,7 @@
 	},
 	"appid": "wx4bd261cc69bfbb78",
 	"projectname": "hanfubaike-weapp",
-	"libVersion": "2.7.0",
+	"libVersion": "2.8.2",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
