@@ -10,6 +10,7 @@ exports.main = async (event, context) => {
         touser: event.openid,
         page: event.page,
         lang: event.lang,
+        miniprogram_state:event.miniprogram_state,
         data: event.data,
         templateId: event.templateId
       })
