@@ -4,7 +4,6 @@
 
 <!--detail.wxml-->
 <view>
-  <Back />
   <!-- SWIPER -->
   <swiper indicator-dots="{{orgImageList.length > 1}}" autoplay="{{true}}" interval="3000" duration="1000">
     <block wx:for="{{orgImageList}}" wx:key="*this">
