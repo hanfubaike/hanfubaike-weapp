@@ -17,4 +17,6 @@ const theme_cyan = {
 
 module.exports = {
   Theme: theme_blue,
+  //云环境ID
+  env_id:'',
 }

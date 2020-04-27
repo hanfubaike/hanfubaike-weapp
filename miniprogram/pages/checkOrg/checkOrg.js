@@ -253,7 +253,7 @@ Page({
       // 传给云函数的参数
       data: {
         openid: self.data._openid,
-        page: "/pages/index/index",
+        page: "/pages/map/map",
         templateId:app.templateId,
         miniprogram_state:app.envVersion,
         lang: 'zh_CN',

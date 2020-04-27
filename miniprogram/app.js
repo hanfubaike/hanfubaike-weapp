@@ -1,5 +1,6 @@
 //app.js
 const VERSION = "1.0.0"
+const config = require('config.js')
 var nowTime = new Date().getTime()
 
 App({
@@ -14,6 +15,7 @@ App({
         //   此处请填入环境 ID, 环境 ID 可打开云控制台查看
         //   如不填则使用默认环境（第一个创建的环境）
         // env: 'my-env-id',
+        env:config.env_id,
         traceUser: true,
       })
     }
