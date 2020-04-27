@@ -18,6 +18,24 @@ App({
       })
     }
     var self = this
+    self.envVersion = 'formal'
+    if (typeof __wxConfig =="object"){
+      let version = __wxConfig.envVersion;
+      console.log("当前环境:" + version)
+      if (version =="develop"){
+        //工具或者真机 开发环境
+        self.envVersion = 'developer'
+    
+      }else if (version =="trial"){
+        //测试环境(体验版)
+        self.envVersion = 'trial'
+    
+      }else if (version =="release"){
+        //正式环境
+        self.envVersion = 'formal'
+    
+      }
+    }
     this.globalData = wx.getStorageSync('globalData') || this.globalData
     if (this.globalData.VERSION != VERSION){
       this.globalData.userInfo = {}
