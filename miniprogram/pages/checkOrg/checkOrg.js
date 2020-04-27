@@ -192,7 +192,7 @@ Page({
   passed(checkText){
     const self = this
     this.title = "【"+ this.data.orgName.slice(0,13) +"】审核通过！"
-    this.tips = "恭喜，你又为汉服百科添加了一块砖啦!"
+    this.tips = "恭喜，你又为汉服百科添了一块砖啦!"
     wx.showModal({
       title: '审核确认',
       content: '确认【通过】吗？',
