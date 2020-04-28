@@ -519,6 +519,7 @@ Page({
       markeJson.alpha = 0.9
 
       markeJson.id = x
+     // markeJson._id = data[x]._id
       markeJson.longitude = data[x].longitude
       markeJson.latitude = data[x].latitude
       //markeJson.anchor = { x: -20, y: 3 }
@@ -715,10 +716,18 @@ Page({
       return
     }
     let orgName = this.data.markers[e.markerId].orgName
-    if ( orgName != this.orgList[markerID].orgName) {
-      console.log("名字不匹配！！")
-      return
+    for(let x in this.orgList){
+      if (this.orgList[x].orgName == orgName){
+        let id = this.orgList[markerID]._id
+        let longitude = this.orgList[x].longitude
+        let latitude = this.orgList[x].latitude
+        wx.navigateTo({
+          url: "/pages/orgPage/orgPage?id=" + id + "&longitude=" + longitude + "&latitude=" + latitude ,
+        })
+      }
     }
+    console.log("名字不匹配！！")
+    return
     //this.setData({
      // textData:{
        // logoImage:"/res/defaultLogo.png",
@@ -727,13 +736,7 @@ Page({
       //  locationName:"获取中..."
      // }
     //})
-    let orgInfo = {}
-    let id = this.orgList[markerID]._id
-    let longitude = this.orgList[markerID].longitude
-    let latitude = this.orgList[markerID].latitude
-    wx.navigateTo({
-      url: "/pages/orgPage/orgPage?id=" + id + "&longitude=" + longitude + "&latitude=" + latitude ,
-    })
+
 
   },
 
