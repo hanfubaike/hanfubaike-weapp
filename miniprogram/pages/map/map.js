@@ -718,7 +718,7 @@ Page({
     let orgName = this.data.markers[e.markerId].orgName
     for(let x in this.orgList){
       if (this.orgList[x].orgName == orgName){
-        let id = this.orgList[markerID]._id
+        let id = this.orgList[x]._id
         let longitude = this.orgList[x].longitude
         let latitude = this.orgList[x].latitude
         wx.navigateTo({

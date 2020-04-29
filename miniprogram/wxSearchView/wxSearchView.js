@@ -110,8 +110,12 @@ function wxSearchClear() {
     wxSearchData: temData,
     inputText: temData.value,
     isWxSearch:false,
-    isMap: true
+    isMap: true,
+    scale: 3,
+    bottonText : "搜索"
   });
+  __that.isSearch = false
+  __that.setMarkers(__that.orgList)
 }
 
 // 点击提示或者关键字、历史记录时的操作
@@ -131,23 +135,17 @@ function wxSearchKeyTap(e) {
   __wxSearchKeyTap(e.currentTarget.dataset.key);
 }
 
-// 确任或者回车
+// 确认或者回车
 function wxSearchConfirm(e) {
   //返回
   if (__that.isSearch){
-    __that.setData({
-      scale: 3,
-      bottonText : "搜索"
-    })
     wxSearchClear()
-    __that.isSearch = false
-    __that.setMarkers(__that.orgList)
     return
   }
   var key = e.target.dataset.key;
   search(__that.data.wxSearchData.value);
-  
 }
+
 
 function search(inputValue) {
   if (inputValue && inputValue.length > 0) {
