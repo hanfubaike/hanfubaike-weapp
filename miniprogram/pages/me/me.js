@@ -150,7 +150,7 @@ Page({
   },
   about: function (e) {
     wx.navigateTo({
-      url: '/pages/webpage/webpage?url=https://mp.weixin.qq.com/s/_IpORvy_6nVRai63X0bpHg',
+      url: '/pages/webpage/webpage?url=https://mp.weixin.qq.com/s/UvMvvuwFlklON5V0zZHstw',
     })
    },
   previewImg: function () {
