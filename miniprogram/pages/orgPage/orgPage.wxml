@@ -30,19 +30,19 @@
     </view>
     <view wx:if="{{locationName}}" class="item" id="address" bindtap="navigateTo">
       <i class="iconfont icondizhi"></i>
-      地址：{{locationName}}
+      地址：<text selectable>{{locationName}}</text>
     </view>
     <view wx:if="{{marker.contact.phone}}" class="item" id="phone" bindtap="navigateTo">
       <i class="iconfont icon-phone"></i>
-      {{marker.contact.phone}}
+      <text selectable>{{marker.contact.phone}}</text>
     </view>
     <view wx:if="{QQGroup}}" class="item" id="QQGroup" bindtap="navigateTo">
       <i class="iconfont iconqq"></i>
-      QQ群：{{QQGroup}}
+      QQ群：<text selectable>{{QQGroup}}</text>
     </view>
     <view wx:if="{wxmp}}" class="item" id="wxmp" bindtap="navigateTo">
       <i class="iconfont iconweixin"></i>
-      微信公众号：{{wxmp}}
+      微信公众号：<text selectable>{{wxmp}}</text>
     </view>
   </view>
 
@@ -50,7 +50,7 @@
   <view class="desc">
     <view class="title">简介</view>
     <!-- TODO: rich-text -->
-    <view class="content">{{orgDesc}}</view>
+    <view class="content"><text selectable>{{orgDesc}}</text></view>
     <view class="video-wrapper" wx:if="{{marker.video.src}}">
       <video id="myVideo" src="{{marker.video.src}}" controls></video>
       <view class="copyright" wx:if="{{marker.video.owner}}">该视频为<span class="name">「{{marker.video.owner}}」</span>版权所有
