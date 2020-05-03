@@ -27,7 +27,7 @@ Page({
     dbName:'org',
     locationAddress:'',
     srcName:'',
-    autosize:{ maxHeight: 300, minHeight: 50 },
+    autosize:{ maxHeight: 300, minHeight: 200 },
     width: 250,//宽度
     height: 250,//高度
     nameLabel:{
@@ -321,8 +321,12 @@ Page({
       //wx.navigateTo({
         //url: '../cropper/cropper?ratio=16.9&fileName=orgImageFileList&export_scale=2&url='+file.path,
       //})
+      let orgImageFileList = []
+      for(let x in file){
+        orgImageFileList.push({url:file[x].path})
+      }
       this.setData({
-       orgImageFileList: this.data.orgImageFileList.concat({url:file.path})
+       orgImageFileList: orgImageFileList
       });
     }
     else{

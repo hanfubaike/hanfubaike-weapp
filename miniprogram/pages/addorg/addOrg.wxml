@@ -11,8 +11,6 @@
     </van-field>
 
     <van-field id="locationName" name="locationName" bind:change="inputChage" value="{{ locationName }}" label="详细地址" type="textarea" placeholder="请输入详细地址（可选）" autosize border="{{ true }}" />
-
-    <van-field id="orgDesc" name="orgDesc" bind:change="inputChage" value="{{orgDesc}}" label="组织简介" type="textarea" placeholder="请输入组织简介" border="{{ true }}"  maxlength="1000" autosize="{{autosize}}" />
   </van-cell-group>
 
 
@@ -27,9 +25,9 @@
 
 <view class="field-index--van-field van-cell van-cell--center">
 <van-row gutter="10">
-  <van-col span="24" ><view class="van-cell__title" style="margin-bottom: 5%;">照片墙<text class="tips">（照片将作为背景显示在组织主页上）</text></view></van-col>
+  <van-col span="24" ><view class="van-cell__title" style="margin-bottom: 5%;">照片墙<text class="tips">（照片将作为背景显示在组织主页上，可以上传5张）</text></view></van-col>
   <van-col span="24">
-  <van-uploader name="orgImage" preview-size="50px" upload-text="" file-list="{{ orgImageFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ false }}" multiple="{{ false }}" image-fit="aspectFit" max-count="5" sizeType="{{sizeType}}"/>
+  <van-uploader name="orgImage" preview-size="50px" upload-text="" file-list="{{ orgImageFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ false }}" multiple="{{ true }}" image-fit="aspectFit" max-count="5" sizeType="{{sizeType}}"/>
   </van-col>
 </van-row>
 </view>
@@ -37,6 +35,8 @@
   <van-cell-group title="详细资料">
     <van-field id="QQGroup" name="QQGroup" bind:change="inputChage" value="{{ QQGroup }}" clearable label="QQ群"  placeholder="请输入QQ群号" bind:click-icon="onClickIcon" />
     <van-field id="wxmp" name="wxmp" bind:change="inputChage" value="{{ wxmp }}" clearable label="微信公众号"  placeholder="微信公众号的名字(可选)" bind:click-icon="onClickIcon" />
+
+    <van-field id="orgDesc" name="orgDesc" bind:change="inputChage" value="{{orgDesc}}" label="组织简介" type="textarea" placeholder="请输入组织简介（如有其它联系方式，可在此填写）" border="{{ true }}"  maxlength="1000" autosize="{{autosize}}" />
 
     <van-field id="reason" name="reason" bind:change="inputChage" value="{{ reason }}" label="申请说明" type="textarea" placeholder="请输入申请说明" autosize="{{autosize}}" border="{{ true }}" maxlength="1000"  />
   </van-cell-group>
