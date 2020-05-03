@@ -52,6 +52,7 @@ Page({
 
   onLoad(option){
     const self = this
+    app.checkLogin()
     let fs = wx.getFileSystemManager();
     wx.getStorage({
       key: 'formData',
@@ -59,28 +60,41 @@ Page({
         let logoFileList = res.data.logoFileList || []
         let reasonFileList = res.data.reasonFileList || []
         let orgImageFileList = res.data.orgImageFileList || []
+        let saveTime = res.data.saveTime || new Date()
         let fileList = logoFileList.concat(reasonFileList).concat(orgImageFileList)
-        for (let x in fileList){
-          let url = fileList[x].url
-          try{
-            fs.accessSync(url)
+        //如果超过7天，则不载入表单。
+        //if (new Date() - saveTime > 1000*60*60*24*7){}
+        wx.showModal({
+          title: '提示',
+          content: '是否载入上次的表单？',
+          success (tipres) {
+            if (tipres.confirm) {
+              console.log('用户点击确定，载入表单')
+              for (let x in fileList){
+                let url = fileList[x].url
+                try{
+                  fs.accessSync(url)
+                }
+                catch (err){
+                  //console.log(err)
+                  console.log("文件已过期")
+                  res.data.logoFileList = []
+                  res.data.reasonFileList= []
+                  res.data.orgImageFileList=[]
+                  break
+                }
+              }
+              self.setData(res.data)
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
           }
-          catch (err){
-            //console.log(err)
-            console.log("文件已过期")
-            res.data.logoFileList = []
-            res.data.reasonFileList= []
-            res.data.orgImageFileList=[]
-            break
-          }
-        }
-        self.setData(res.data)
+        })
       }
     })
     //setInterval(this.autoSave,10000)
   },
   onShow(option){
-    app.checkLogin()
     if (app.cropperImg.url){
       let fileName = app.cropperImg.fileName
       this.setData({
@@ -98,6 +112,7 @@ Page({
     this.formData['logoFileList'] = this.data.logoFileList
     this.formData['orgImageFileList'] = this.data.orgImageFileList
     this.formData['reasonFileList'] = this.data.reasonFileList
+    this.formData['saveTime'] = new Date()
     wx.setStorage({
       key:'formData',
       data:this.formData
