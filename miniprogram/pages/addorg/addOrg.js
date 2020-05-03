@@ -27,7 +27,7 @@ Page({
     dbName:'org',
     locationAddress:'',
     srcName:'',
-    autosize:{ maxHeight: 300, minHeight: 200 },
+    autosize:{ maxHeight: 300, minHeight: 50 },
     width: 250,//宽度
     height: 250,//高度
     nameLabel:{

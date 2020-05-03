@@ -23,7 +23,11 @@ VantComponent({
         safeAreaInsetTop: {
             type: Boolean,
             value: false
-        }
+        },
+        top: null
+    },
+    data: {
+        show: false,
     },
     created() {
         const { statusBarHeight } = wx.getSystemInfoSync();
