@@ -18,14 +18,14 @@ Page({
     orgName:"",
     orgType: "",
     locationName: '',
-    address: '',
+    locationAddress: '',
     latitude: '',
     longitude: '',
     status:0,
     src: '',
     openid: '',
     dbName:'org',
-    locationAddress:'',
+    longlatstr:'',
     srcName:'',
     autosize:{ maxHeight: 300, minHeight: 50 },
     width: 250,//宽度
@@ -33,7 +33,7 @@ Page({
     nameLabel:{
       orgName:"组织名称",
       orgType:"组织类型",
-      locationName:"位置",
+      longlatstr:"位置",
       locationAddress:"详细地址",
       orgDesc:"组织简介",
       contactName:"负责人",
@@ -265,7 +265,7 @@ Page({
   },
   checkFormData(){
     console.log("开始检查数据")
-    let ignoreList = ['wxmp','locationAddress','latitude','longitude','logoFileList','orgImageFileList','reasonFileList']
+    let ignoreList = ['wxmp','latitude','longitude','logoFileList','orgImageFileList','reasonFileList']
     let formData = this.formData
     let nameLabel = this.data.nameLabel
     if (this.data.logoFileList.length==0){
@@ -282,7 +282,7 @@ Page({
       return false
     }
     if (!this.data.latitude || !this.data.longitude){
-      app.showToast("请选择位置")
+      app.showToast("请先点击按钮选取位置")
       return false
     }
     for (let x in formData){
@@ -310,13 +310,11 @@ Page({
       success: function (res) {
         console.log(res)
         self.setData({
-          locationName: res.name,
-          locationAddress:res.address,
+          locationAddress: res.address,
           latitude: res.latitude,
-          longitude: res.longitude
+          longitude: res.longitude,
+          longlatstr:res.longitude + ' , ' + res.latitude
         })
-        self.formData['locationName'] = res.name
-        self.formData['locationAddress'] = res.address
         self.autoSave()
       }
     })
