@@ -57,6 +57,7 @@
   </van-cell-group>
 
     <van-field wx:if="{{readonly}}" readonly="{{true}}" id="checker" name="checker" value="{{ checker }}" clearable label="审核人"  placeholder="" bind:click-icon="onClickIcon" />
+    <van-field wx:if="{{readonly}}" readonly="{{true}}" id="checkStatus" name="checkStatus" value="{{ checkStatus==-1?'未通过':'通过' }}" clearable label="审核结果"  placeholder="" bind:click-icon="onClickIcon" />
 
 <form bindsubmit="formSubmit" bindreset="formSubmit">
         <view class="weui-cells__title">审核说明</view>

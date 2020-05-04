@@ -101,13 +101,15 @@ Page({
       title: '加载中...',
       mask:true
     })
+    let field = {
+      postTime:false
+    }
+    if (!this.data.readonly){
+      field.status = false
+    }
     const db = wx.cloud.database()
     //查询当前用户所有的 counters
-    db.collection(this.data.dbName).doc(id).field({
-      status:false,
-      postTime:false
-
-    }).get({
+    db.collection(this.data.dbName).doc(id).field(field).get({
       success: res => { 
         console.log('[数据库] [查询记录] 成功: ', res)
         if (res.data){
@@ -226,7 +228,10 @@ Page({
         let userName = result.data[0].name
         data.checker = userName
       }
+      data.checkStatus = data.status
     }
+
+    delete data.status
     this.setData(
       data
     )

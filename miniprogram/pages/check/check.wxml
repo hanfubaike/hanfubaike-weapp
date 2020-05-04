@@ -42,7 +42,7 @@
     <view class="tr bg-w">
       <view class="index th">序号</view>
       <view class="th">组织名称</view>
-      <view class="th ">提交人</view>
+      <view class="th ">审核结果</view>
       <view class="th ">审核时间</view>
     </view>
     <!--<view hidden="{{listData.length == 0 ? false : true}}" class="no-more">---无---</view>-->
@@ -52,7 +52,7 @@
       
         <view class="index td">{{index+1}}</view>
         <view class="td">{{item.orgName}}</view>
-        <view class="td">{{item.poster}}</view>
+        <view class="td">{{item.status==-1?'未通过':'通过' }}</view>
         <view class="td">{{item.updateTime}}</view>
 
       </view>
@@ -61,7 +61,7 @@
 
         <view class="index td">{{index+1}}</view>
         <view class="td">{{item.orgName}}</view>
-        <view class="td">{{item.poster}}</view>
+        <view class="td">{{item.status==-1?'未通过':'通过' }}</view>
         <view class="td">{{item.updateTime}}</view>
       
       </view>

@@ -166,9 +166,12 @@ Page({
       orgName: true,
       poster:true,
       updateTime:true,
+      status:true
     }
+    const db = wx.cloud.database()
+    const _ = db.command
     let where = {
-        status: 1
+        status: _.neq(0)
     }
     this.dbQuery(field,where,success)
   },
