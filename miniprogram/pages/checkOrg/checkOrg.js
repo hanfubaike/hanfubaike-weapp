@@ -35,9 +35,9 @@ Page({
   onLoad(option){
     const self = this
     this.option = option
-    if (app.globalData.openid) {
+    if (app.globalData.userInfo.openid) {
       this.setData({
-        openid: app.globalData.openid
+        openid: app.globalData.userInfo.openid
       })
     }
 
@@ -132,9 +132,9 @@ Page({
     db.collection(this.data.dbName).doc(id).update({
       // data 传入需要局部更新的数据
       data: {
+        checkOpenid:app.globalData.userInfo.openid,
         status: status,
         updateTime:db.serverDate(),
-        checkOpenid:app.globalData.openid,
         checkText:value
       },
       success: function(res) {

@@ -150,6 +150,7 @@ Page({
 
       self.orgList = res.result["orgList"]
       app.globalData.isAdmin = res.result.isAdmin
+      app.globalData.userInfo.openid = res.result.openid
       wx.setStorage({
         data: app.globalData,
         key: 'globalData',

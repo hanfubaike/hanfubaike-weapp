@@ -106,6 +106,7 @@ Page({
           func(res.data)
         }else{
           console.log('没有需要审核的组织')
+          app.showToast("没有需要审核的组织")
           
         }
         
