@@ -332,7 +332,7 @@ Page({
         orgImageFileList.push({url:file[x].path})
       }
       this.setData({
-       orgImageFileList: orgImageFileList
+       orgImageFileList: this.data.orgImageFileList.concat(orgImageFileList)
       });
     }
     else{
