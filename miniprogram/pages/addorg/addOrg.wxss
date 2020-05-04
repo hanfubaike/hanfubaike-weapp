@@ -36,3 +36,7 @@
 .van-uploader__preview{
   margin:0 15px 8px 0 !important;
 }
+
+.van-field__button{
+  padding-left:18px !important;
+}
