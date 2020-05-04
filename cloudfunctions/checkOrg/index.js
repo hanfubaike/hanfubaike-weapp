@@ -10,22 +10,38 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   const db = cloud.database()
   const id = event.id
+  let result = {
+    ischeck:false,
+    msg:'审核失败'
+  }
   try {
-    const updateResult = await db.collection('org').doc(id).update({
-      // data 传入需要局部更新的数据
-        data: {
-          checkOpenid:wxContext.OPENID,
-          status: event.status,
-          updateTime:db.serverDate(),
-          checkText:event.value
+    const userQeue = await db.collection('user').where({
+      openid: wxContext.OPENID,
+      isAdmin:true,
+    }).get()
+    if (userQeue.data.length > 0) {
+      const updateResult = await db.collection('org').doc(id).update({
+        // data 传入需要局部更新的数据
+          data: {
+            checkOpenid:wxContext.OPENID,
+            status: event.status,
+            updateTime:db.serverDate(),
+            checkText:event.value
+          }
         }
-      }
-    )
-    return {
-      ischeck:true
+      )
+      result.ischeck = true
+      result.msg = '审核通过！'
+    }else{
+      result.msg = '审核失败：没有权限！'
     }
+
+    
   } catch (err) {
     console.log(err)
-    return err
-  }
+    result.ischeck = false
+    result.msg = err
+  }finally {
+    return result
+}
 }

@@ -152,9 +152,15 @@ Page({
         setTimeout(function () {
           wx.hideLoading()
         }, 200)
-        wx.showToast({
-          icon: 'none',
-          title: '审核失败'
+        wx.showModal({
+          showCancel:false,
+          title: '提示',
+          content: res.result.msg,
+          success (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            }
+          }
         })
         console.error('[数据库] [更新记录] 失败：', error)
       }
@@ -165,9 +171,10 @@ Page({
       setTimeout(function () {
         wx.hideLoading()
       }, 200)
-      wx.showToast({
-        icon: 'none',
-        title: '审核失败'
+      wx.showModal({
+        showCancel:false,
+        title: '提示',
+        content: "审核失败：未知错误"
       })
       console.error('[数据库] [更新记录] 失败：', error)
     })
