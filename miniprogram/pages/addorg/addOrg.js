@@ -62,34 +62,22 @@ Page({
         let orgImageFileList = res.data.orgImageFileList || []
         let saveTime = res.data.saveTime || new Date()
         let fileList = logoFileList.concat(reasonFileList).concat(orgImageFileList)
-        //如果超过7天，则不载入表单。
-        //if (new Date() - saveTime > 1000*60*60*24*7){}
-        wx.showModal({
-          title: '提示',
-          content: '是否载入上次的表单？',
-          success (tipres) {
-            if (tipres.confirm) {
-              console.log('用户点击确定，载入表单')
-              for (let x in fileList){
-                let url = fileList[x].url
-                try{
-                  fs.accessSync(url)
-                }
-                catch (err){
-                  //console.log(err)
-                  console.log("文件已过期")
-                  res.data.logoFileList = []
-                  res.data.reasonFileList= []
-                  res.data.orgImageFileList=[]
-                  break
-                }
-              }
-              self.setData(res.data)
-            } else if (res.cancel) {
-              console.log('用户点击取消')
-            }
+
+        for (let x in fileList){
+          let url = fileList[x].url
+          try{
+            fs.accessSync(url)
           }
-        })
+          catch (err){
+            //console.log(err)
+            console.log("文件已过期")
+            res.data.logoFileList = []
+            res.data.reasonFileList= []
+            res.data.orgImageFileList=[]
+            break
+          }
+        }
+        self.setData(res.data)
       }
     })
     //setInterval(this.autoSave,10000)
@@ -231,7 +219,12 @@ Page({
             //mask:true
           //})
         //}, 1500)
-        app.showToast("提交成功","success")
+        //app.showToast("提交成功","success")
+        //提交成功之后清除表单缓存
+        wx.setStorage({
+          key:'formData',
+          data:{}
+        })
         setTimeout(function(){
           wx.showLoading({
             title: '正在跳转...',
