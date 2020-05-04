@@ -7,11 +7,13 @@ Page({
    * 页面的初始数据
    */
   data: {
-    listData:[
+    needChecklist:[
     ],
-    dbName:'org'
-
+    isChecklist:[],
+    dbName:'org',
+    active: 0,
   },
+  title:"待审核",
 
   /**
    * 生命周期函数--监听页面加载
@@ -33,9 +35,14 @@ Page({
   onShow: function () {
     app.checkLogin()
     this.setData({
-      listData:[]
+      needChecklist:[],
+      isChecklist:[]
     })
-    this.dbQuery(this.update)
+    if (this.title == "待审核"){
+      this.needCheck()
+    }else{
+      this.isCheck()
+    }
   },
 
   /**
@@ -72,44 +79,18 @@ Page({
   onShareAppMessage: function () {
 
   },
-  update(data){
-    let listData = []
-    for (let x in data){
-      let thisData = data[x]
-      if (thisData.postTime){
-        thisData.postTime = app.formatTime(thisData.postTime)
-      }
-      
-      listData.push(thisData)
-    }
-    this.setData({
-      listData:listData
-    })
-  },
-  dbQuery: function (func) {
+ 
+  dbQuery: function (field,where,success) {
     wx.showLoading({
       title: '正在读取',
       mask:true
     })
     const db = wx.cloud.database()
     //查询当前用户所有的 counters
-    db.collection(this.data.dbName).field({
-      orgName: true,
-      poster:true,
-      postTime:true,
-    }).where({
-      status: 0
-    }).get({
+    db.collection(this.data.dbName).field(field).where(where).get({
       success: res => { 
         console.log('[数据库] [查询记录] 成功: ', res)
-        if (res.data.length!=0){
-          func(res.data)
-        }else{
-          console.log('没有需要审核的组织')
-          app.showToast("没有需要审核的组织")
-          
-        }
-        
+        success(res)  
       },
       fail: err => {
         wx.showToast({
@@ -121,9 +102,83 @@ Page({
       complete:res => {
         setTimeout(function () {
           wx.hideLoading()
-        }, 1000)
+        }, 100)
       }
     })
+  },
+  needCheck(){
+    let self = this
+    function success(res){
+      if (res.data.length != 0){
+        let listData = []
+        for (let x in res.data){
+          let thisData = res.data[x]
+          if (thisData.postTime){
+            thisData.postTime = app.formatTime(thisData.postTime)
+          }
+          listData.push(thisData)
+        }
+        self.setData({
+          needChecklist:listData
+        })
+      }else{
+        console.log('没有需要审核的组织')
+        app.showToast("没有需要审核的组织")
+      }
+    }
+    let field = {
+      orgName: true,
+      poster:true,
+      postTime:true,
+    }
+    let where = {
+        status: 0
+    }
+    this.dbQuery(field,where,success)
+  },
+  isCheck:function(){
+    let self = this
+    function success(res){
+      if (res.data.length != 0){
+        let listData = []
+        for (let x in res.data){
+          let thisData = res.data[x]
+          if (thisData.updateTime){
+            thisData.updateTime = app.formatTime(thisData.updateTime)
+          }
+          listData.push(thisData)
+        }
+        self.setData({
+          isChecklist:listData
+        })
+      }else{
+        console.log('没有已审核的组织')
+        app.showToast("没有已审核的组织")
+      }
+    }
+    let field = {
+      orgName: true,
+      poster:true,
+      updateTime:true,
+    }
+    let where = {
+        status: 1
+    }
+    this.dbQuery(field,where,success)
+  },
+  onChange(event) {
+    console.log(event.detail)
+    console.log(`切换到标签 ${event.detail.title}`)
+    this.title = event.detail.title
+    if(this.title=="已审核"){
+      this.isCheck()
+    }else{
+      this.needCheck()
+    }
+    //wx.showToast({
+     // title: `切换到标签 ${event.detail.name}`,
+      //icon: 'none'
+   // });
   }
 
 })

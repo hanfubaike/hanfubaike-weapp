@@ -22,6 +22,8 @@ Page({
     dbName:'org',
     locationAddress:'',
     srcName:'',
+    readonly:false,
+    checker:''
  
   },
   title:"通知",
@@ -35,18 +37,20 @@ Page({
   onLoad(option){
     const self = this
     this.option = option
-    if (app.globalData.userInfo.openid) {
+    console.log(option)
+    if (option.readonly == "true") {
       this.setData({
-        openid: app.globalData.userInfo.openid
+        readonly:true
       })
     }
-
-  },
-  onShow(option){
     const id = this.option.id
     if (id){
       this.dbQuery(id,this.update)
     }
+
+  },
+  onShow(option){
+
     
   },
 
@@ -101,12 +105,12 @@ Page({
 
     }).get({
       success: res => { 
+        console.log('[数据库] [查询记录] 成功: ', res)
         if (res.data){
           func(res.data)
         }else{
           
         }
-        console.log('[数据库] [查询记录] 成功: ', res)
       },
       fail: err => {
         wx.showToast({
@@ -121,6 +125,16 @@ Page({
         }, 1000)
       }
     })
+  },
+  getUserName: function(openid){
+    console.log(openid)
+    const db = wx.cloud.database()
+    //查询当前用户所有的 counters
+    return db.collection('user').field({
+        name: true
+      }).where({
+        openid: openid
+      }).get()
   },
   dbUpdate(id,status,value=""){
     const self = this
@@ -181,7 +195,7 @@ Page({
     .finally(function(){
     })
   },
-  update(dataList){
+  async update(dataList){
     const data = dataList
     //console.log(data)
     let listData = []
@@ -202,6 +216,13 @@ Page({
       listData3.push({url:data.orgImageList[x]})
     }
     data.orgImageList = listData3
+    if (this.data.readonly){
+      let result = await this.getUserName(data.checkOpenid)
+      if (result.data.length > 0){
+        let userName = result.data[0].name
+        data.checker = userName
+      }
+    }
     this.setData(
       data
     )
