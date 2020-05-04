@@ -166,7 +166,29 @@ App({
       }
     })
   },
-
+  checkAdmin(){
+    if (!this.checkLogin()){
+      return false
+    }
+    if (!this.globalData.isAdmin){
+      wx.showModal({
+        title: '提示',
+        content: '没有权限。',
+        showCancel:false,
+        success (res) {
+          if (res.confirm) {
+            wx.reLaunch({
+              url: '/pages/map/map',
+            })
+          }
+        }
+      })
+      return false
+    }else{
+      return true
+    }
+  }
+  ,
   checkLogin(){
     if (!this.globalData.userInfo.nickName){
       this.getUserInfo()

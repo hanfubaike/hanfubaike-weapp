@@ -36,6 +36,10 @@ Page({
   },
   onLoad(option){
     const self = this
+    console.log(app.globalData)
+    if (!app.checkAdmin()){
+      return
+    }
     this.option = option
     console.log(option)
     if (option.readonly == "true") {

@@ -33,10 +33,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    if (!app.checkLogin()){
-      return
-    }
-    if (!app.globalData.isAdmin){
+    console.log(app.globalData)
+    if (!app.checkAdmin()){
       return
     }
     this.setData({
@@ -48,6 +46,7 @@ Page({
     }else{
       this.isCheck()
     }
+
   },
 
   /**
@@ -105,9 +104,9 @@ Page({
         console.error('[数据库] [查询记录] 失败：', err)
       },
       complete:res => {
-        setTimeout(function () {
-          wx.hideLoading()
-        }, 100)
+        //setTimeout(function () {
+          //wx.hideLoading()
+        //},1000)
       }
     })
   },
@@ -126,6 +125,7 @@ Page({
         self.setData({
           needChecklist:listData
         })
+        wx.hideLoading()
       }else{
         console.log('没有需要审核的组织')
         app.showToast("没有需要审核的组织")
@@ -156,6 +156,7 @@ Page({
         self.setData({
           isChecklist:listData
         })
+        wx.hideLoading()
       }else{
         console.log('没有已审核的组织')
         app.showToast("没有已审核的组织")
@@ -175,11 +176,12 @@ Page({
     console.log(event.detail)
     console.log(`切换到标签 ${event.detail.title}`)
     this.title = event.detail.title
-    if(this.title=="已审核"){
-      this.isCheck()
-    }else{
-      this.needCheck()
-    }
+    this.onShow()
+    //if(this.title=="已审核"){
+      //this.isCheck()
+    //}else{
+      //this.needCheck()
+    //}
     //wx.showToast({
      // title: `切换到标签 ${event.detail.name}`,
       //icon: 'none'
