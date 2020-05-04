@@ -1,5 +1,5 @@
 <!--miniprogram/pages/person/check.wxml-->
-
+<van-notify id="van-notify" />
 <view class="table">
   <view class="tr bg-w">
     <view class="index th">序号</view>

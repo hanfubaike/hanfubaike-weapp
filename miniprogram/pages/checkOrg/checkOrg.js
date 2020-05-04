@@ -134,7 +134,7 @@ Page({
       data: {
         status: status,
         updateTime:db.serverDate(),
-        checkOpenid:'{openid}',
+        checkOpenid:app.globalData.openid,
         checkText:value
       },
       success: function(res) {

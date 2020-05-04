@@ -1,5 +1,5 @@
 // miniprogram/pages/person/check.js
-
+import Notify from '../../vant-weapp/notify/notify';
 const app = getApp()
 Page({
 
@@ -86,45 +86,6 @@ Page({
       listData:listData
     })
   },
-  dbAdd: function (data) {
-    const db = wx.cloud.database()
-    let locationGeo = db.Geo.Point(this.data.longitude, this.data.latitude)
-    data['longLatiute'] = locationGeo
-    data['postTime'] = db.serverDate()
-    db.collection(this.data.dbName).add({
-      data: data,
-      success: res => {
-        wx.hideLoading()
-        //在返回结果中会包含新创建的记录的 _id
-        this.setData({
-          counterId: res._id,
-          count: 1
-        })
-        wx.showModal({
-          title: '提示',
-          content: '提交成功，请等待管理员审核，点击确定按钮返回首页',
-          success(res) {
-            if (res.confirm) {
-              wx.redirectTo({
-                url: '/pages/map/map'
-              })
-            } else if (res.cancel) {
-              console.log('用户点击取消')
-            }
-          }
-        })
-        console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
-      },
-      fail: err => {
-        wx.hideLoading()
-        wx.showToast({
-          icon: 'none',
-          title: '提交失败！'
-        })
-        console.error('[数据库] [新增记录] 失败：', err)
-      }
-    })
-  },
   dbQuery: function (func) {
     wx.showLoading({
       title: '正在读取',
@@ -144,8 +105,8 @@ Page({
         if (res.data.length!=0){
           func(res.data)
         }else{
+          console.log('没有需要审核的组织')
           
-          Notify("没有需要审核的组织")
         }
         
       },
