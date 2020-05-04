@@ -35,3 +35,8 @@
 .index{
   width: 10%;
 }
+
+.no-more{
+  text-align: center;
+
+}

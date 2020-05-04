@@ -48,7 +48,9 @@
     "van-col": "vant-weapp/col/index",
     "van-notify": "vant-weapp/notify/index",
     "van-overlay": "vant-weapp/overlay/index",
-    "van-image": "vant-weapp/image/index"
+    "van-image": "vant-weapp/image/index",
+    "van-tab": "vant-weapp/tab/index",
+    "van-tabs": "vant-weapp/tabs/index"
 
   },
   "tabBar": {

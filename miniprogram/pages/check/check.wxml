@@ -7,6 +7,7 @@
     <view class="th ">提交人</view>
     <view class="th ">提交时间</view>
   </view>
+  <!--<view hidden="{{listData.length == 0 ? false : true}}" class="no-more">---什么也没找到---</view>-->
   <block wx:for="{{listData}}" wx:key="orgName">
   <navigator url="/pages/checkOrg/checkOrg?id={{item._id}}" open-type="navigate">
     <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
