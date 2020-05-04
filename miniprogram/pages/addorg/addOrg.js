@@ -25,7 +25,6 @@ Page({
     src: '',
     openid: '',
     dbName:'org',
-    longlatstr:'',
     srcName:'',
     autosize:{ maxHeight: 300, minHeight: 50 },
     width: 250,//宽度
@@ -33,7 +32,6 @@ Page({
     nameLabel:{
       orgName:"组织名称",
       orgType:"组织类型",
-      longlatstr:"位置",
       locationAddress:"详细地址",
       orgDesc:"组织简介",
       contactName:"负责人",
@@ -110,6 +108,8 @@ Page({
     const db = wx.cloud.database()
     let locationGeo = db.Geo.Point(this.data.longitude, this.data.latitude)
     data['longLatiute'] = locationGeo
+    delete data['longitude']
+    delete data['latitude']
     data['postTime'] = db.serverDate()
     let dbres = {}
     try{
@@ -306,7 +306,6 @@ Page({
           locationAddress: res.address,
           latitude: res.latitude,
           longitude: res.longitude,
-          longlatstr:res.longitude + ' , ' + res.latitude
         })
         self.formData['locationAddress'] = res.address
         self.autoSave()
