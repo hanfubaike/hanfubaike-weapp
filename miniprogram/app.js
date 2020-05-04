@@ -170,6 +170,8 @@ App({
   checkLogin(){
     if (!this.globalData.userInfo.nickName){
       this.getUserInfo()
+    }else{
+      return true
     }
   }
 })

@@ -33,7 +33,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    app.checkLogin()
+    if (!app.checkLogin()){
+      return
+    }
+    if (!app.globalData.isAdmin){
+      return
+    }
     this.setData({
       needChecklist:[],
       isChecklist:[]
