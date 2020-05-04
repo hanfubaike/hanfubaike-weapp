@@ -245,7 +245,7 @@ Page({
       content: '确认【通过】吗？',
       success(res) {
         if (res.confirm) {
-          self.dbUpdate(self.data._id, 1)
+          self.dbUpdate(self.data._id, 1,checkText)
         } else if (res.cancel) {
           console.log('用户点击取消')
         }
