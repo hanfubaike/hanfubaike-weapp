@@ -308,6 +308,7 @@ Page({
           longitude: res.longitude,
           longlatstr:res.longitude + ' , ' + res.latitude
         })
+        self.formData['locationAddress'] = res.address
         self.autoSave()
       }
     })
