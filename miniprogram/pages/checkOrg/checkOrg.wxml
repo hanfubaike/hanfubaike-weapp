@@ -55,9 +55,10 @@
   </van-row>
   </view>
   </van-cell-group>
+    
+    <van-field wx:if="{{readonly}}" readonly="{{true}}" id="checker" name="poster" value="{{ poster }}" clearable label="提交者"  placeholder="" bind:click-icon="onClickIcon" />
 
-    <van-field wx:if="{{readonly}}" readonly="{{true}}" id="checker" name="checker" value="{{ checker }}" clearable label="审核人"  placeholder="" bind:click-icon="onClickIcon" />
-    <van-field wx:if="{{readonly}}" readonly="{{true}}" id="checkStatus" name="checkStatus" value="{{ checkStatus==-1?'未通过':'通过' }}" clearable label="审核结果"  placeholder="" bind:click-icon="onClickIcon" />
+
 
 <form bindsubmit="formSubmit" bindreset="formSubmit">
         <view class="weui-cells__title">审核说明</view>
@@ -76,3 +77,8 @@
     <button form-type="reset" class="bt weui-btn mini-btn" type="primary" size="mini">通过</button>
   </view>
   </form>
+
+
+    <van-field wx:if="{{readonly}}" readonly="{{true}}" id="checkStatus" name="checkStatus" value="{{ checkStatus==-1?'未通过':'通过' }}" clearable label="审核结果"  placeholder="" bind:click-icon="onClickIcon" />
+    <van-field wx:if="{{readonly}}" readonly="{{true}}" id="checker" name="checkTime" value="{{ checkTime }}" clearable label="审核日期"  placeholder="" bind:click-icon="onClickIcon" />
+    <van-field wx:if="{{readonly}}" readonly="{{true}}" id="checker" name="checker" value="{{ checker }}" clearable label="审核人"  placeholder="" bind:click-icon="onClickIcon" />

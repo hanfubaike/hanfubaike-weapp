@@ -30,7 +30,7 @@
     </view>
     <view wx:if="{{locationName}}" class="item" id="address" bindtap="navigateTo">
       <i class="iconfont icondizhi"></i>
-      地址：<text selectable>{{locationName}}</text>
+      地址：<text selectable>{{locationAddress}}</text>
     </view>
     <view wx:if="{{marker.contact.phone}}" class="item" id="phone" bindtap="navigateTo">
       <i class="iconfont icon-phone"></i>

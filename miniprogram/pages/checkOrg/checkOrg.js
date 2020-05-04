@@ -229,9 +229,9 @@ Page({
         let userName = result.data[0].name
         data.checker = userName
       }
+      data.checkTime = app.formatTime(data.updateTime)
       data.checkStatus = data.status
     }
-
     delete data.status
     this.setData(
       data
