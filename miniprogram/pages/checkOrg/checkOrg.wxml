@@ -64,7 +64,7 @@
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell">
                 <view class="weui-cell__bd">
-                    <textarea name="checkText" bindinput="txtInput" class="textarea weui-textarea" placeholder="请输入审核说明。审核不通过时，此信息会发送给提交者。" disabled="{{readonly}}"/>
+                    <textarea value="{{readonly?checkText:''}}" name="checkText" bindinput="txtInput" class="textarea weui-textarea" placeholder="请输入审核说明。审核不通过时，此信息会发送给提交者。" disabled="{{readonly}}"/>
                     <view class="weui-textarea-counter">{{txtLenght}}/20</view>
                 </view>
             </view>

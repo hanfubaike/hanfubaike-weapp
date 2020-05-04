@@ -23,7 +23,8 @@ Page({
     locationAddress:'',
     srcName:'',
     readonly:false,
-    checker:''
+    checker:'',
+    checkText:''
  
   },
   title:"通知",
