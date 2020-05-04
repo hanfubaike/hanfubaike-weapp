@@ -128,40 +128,50 @@ Page({
       title: '提交中...',
       mask:true
     })
-    const db = wx.cloud.database()
-    db.collection(this.data.dbName).doc(id).update({
-      // data 传入需要局部更新的数据
+
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'checkOrg',
+      // 传给云函数的参数
       data: {
-        checkOpenid:app.globalData.userInfo.openid,
-        status: status,
-        updateTime:db.serverDate(),
-        checkText:value
+        id,
+        status,
+        value
       },
-      success: function(res) {
-        console.log(res)
-        let thisTime = app.formatTime(new Date())
+    })
+    .then(res => {
+      console.log(res)
+      let thisTime = app.formatTime(new Date())
+      if(res.result.ischeck){
         wx.showLoading({
           title: '正在发送审核通知...',
           mask:true
         })
         self.sendMsg("汉服百科管理员",self.title,thisTime,self.tips)
-
-      },
-      fail: err => {
+      }else{
         setTimeout(function () {
           wx.hideLoading()
         }, 200)
         wx.showToast({
           icon: 'none',
-          title: '更新记录失败'
+          title: '审核失败'
         })
-        console.error('[数据库] [更新记录] 失败：', err)
-      },
-      //complete:res => {
-        //setTimeout(function () {
-          //wx.hideLoading()
-        //}, 200)
-      //}
+        console.error('[数据库] [更新记录] 失败：', error)
+      }
+
+    })
+    .catch(error =>{
+      console.error(error)
+      setTimeout(function () {
+        wx.hideLoading()
+      }, 200)
+      wx.showToast({
+        icon: 'none',
+        title: '审核失败'
+      })
+      console.error('[数据库] [更新记录] 失败：', error)
+    })
+    .finally(function(){
     })
   },
   update(dataList){

@@ -34,7 +34,6 @@ exports.main = async (event, context) => {
     return {
       orgList: orgList,
       isAdmin: isAdmin,
-      openid: wxContext.OPENID
     }
   } catch (err) {
     console.log(err)
