@@ -25,13 +25,13 @@ Page({
   },
   navigateTo(e) {
     switch (e.target.id) {
-      case "address":
+      //case "address":
       case "navigate":
         wx.openLocation({
           latitude: Number(this.data.latitude),
           longitude: Number(this.data.longitude),
           name: this.data.orgName,
-          address:this.data.locationName,
+          address:this.data.locationAddress,
           scale: 15
         });
         break;

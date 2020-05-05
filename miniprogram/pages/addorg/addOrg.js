@@ -535,7 +535,7 @@ Page({
     let _id = e.currentTarget.id
     this.formData[_id] = e.detail
     //如果距离上次保存时间超过指定时间（微秒），则保存。
-    if (new Date() - this.lastSaveTime > 10000){
+    if (new Date() - this.lastSaveTime > 5000){
       console.log(e)
       this.autoSave()
       if (this.lastSaveTime==0){
