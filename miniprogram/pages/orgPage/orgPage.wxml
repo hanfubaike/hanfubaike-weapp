@@ -23,12 +23,12 @@
   </view>
 
   <!-- MORE -->
-  <view class="more" wx:if="{{locationName || marker.contact.phone || marker.panorama}}">
+  <view class="more">
     <view wx:if="{{orgType}}" class="item" id="orgType" bindtap="navigateTo">
       <i class="iconfont iconleixing"></i>
       组织类型：{{orgType}}
     </view>
-    <view wx:if="{{locationName}}" class="item" id="address" bindtap="navigateTo">
+    <view wx:if="{{locationAddress}}" class="item" id="address" bindtap="navigateTo">
       <i class="iconfont icondizhi"></i>
       地址：<text selectable>{{locationAddress}}</text>
     </view>

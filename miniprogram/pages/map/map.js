@@ -724,6 +724,7 @@ Page({
         wx.navigateTo({
           url: "/pages/orgPage/orgPage?id=" + id + "&longitude=" + longitude + "&latitude=" + latitude ,
         })
+        return
       }
     }
     console.log("名字不匹配！！")
