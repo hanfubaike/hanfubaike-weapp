@@ -123,7 +123,7 @@ Page({
           listData.push(thisData)
         }
         self.setData({
-          needChecklist:listData
+          needChecklist:listData.reverse()
         })
         wx.hideLoading()
       }else{
@@ -154,7 +154,7 @@ Page({
           listData.push(thisData)
         }
         self.setData({
-          isChecklist:listData
+          isChecklist:listData.reverse()
         })
         wx.hideLoading()
       }else{
