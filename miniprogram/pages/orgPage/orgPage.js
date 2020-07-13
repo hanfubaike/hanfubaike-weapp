@@ -57,11 +57,7 @@ Page({
     wx.showLoading({
       title:"加载中"
     })
-
-  },
-  onShow(){
     let marker
-    let options = this.options
     const imgUrls = [];
     this.setData({orgid:options.id})
     switch (options.type) {
@@ -69,6 +65,10 @@ Page({
         this.getOrgInfo(options.id, options.longitude,options.latitude)
         break;
     }
+
+  },
+  onShow(){
+
   },
   getOrgInfo(id,longitude,latitude){
     let orgInfo = {}

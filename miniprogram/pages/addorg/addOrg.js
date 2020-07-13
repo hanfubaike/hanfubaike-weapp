@@ -264,9 +264,12 @@ Page({
             icon:'success',
             title: '修改成功！',
           })
+          let id = self.data._id
+          let longitude = self.data.longitude
+          let latitude = self.data.latitude
           setTimeout(function(){
-            wx.navigateBack({
-              
+            wx.navigateTo({
+              url: "/pages/orgPage/orgPage?id=" + id + "&longitude=" + longitude + "&latitude=" + latitude ,
             })
           },1500)
 
