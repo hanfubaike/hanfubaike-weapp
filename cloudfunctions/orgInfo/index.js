@@ -11,7 +11,8 @@ exports.main = async (event, context) => {
   const db = cloud.database()
 
   let orgInfo = {}
-  //const wxContext = cloud.getWXContext()
+  let isManager = false
+  const wxContext = cloud.getWXContext()
   try {
     const qeueResult = await db.collection('org').doc(event.id).field({
       "orgType":true,
@@ -23,12 +24,16 @@ exports.main = async (event, context) => {
       "orgImageList":true,
       "locationAddress":true,
       "locationName":true,
-      "updateTime":true
+      "updateTime":true,
+      "_openid":true
     }).get()
 
     orgInfo = qeueResult.data
+    if(wxContext.OPENID == orgInfo._openid){
+      isManager = true
+    }
     console.log(orgInfo)
-    return orgInfo
+    return {orgInfo:orgInfo,isManager:isManager}
   } catch (err) {
     console.log(err)
     return err

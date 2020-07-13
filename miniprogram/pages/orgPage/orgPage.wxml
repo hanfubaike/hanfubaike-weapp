@@ -19,7 +19,7 @@
     <view class="title">
       <view class="name">{{orgName}}</view>
       <view>
-        <image class="navigate" id="modify" src="/res/modify.png" bindtap="navigateTo"></image>
+        <image class="navigate" id="modify" wx:if="{{isManager}}" src="/res/modify.png" bindtap="navigateTo"></image>
         <image class="navigate" id="navigate" src="/res/navigate.png" bindtap="navigateTo"></image>
       </view>
     </view>

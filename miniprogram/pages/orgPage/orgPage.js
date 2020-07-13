@@ -10,7 +10,8 @@ Page({
     enablePanorama:false,
     imgUrls: [],
     name:"",
-    orgInfo:{}
+    orgInfo:{},
+    isManager:false
   },
   previewImage(e) {
     wx.previewImage({
@@ -65,6 +66,7 @@ Page({
   },
   getOrgInfo(id,longitude,latitude){
     let orgInfo = {}
+    let isManager = false
     const self = this
     wx.cloud.callFunction({
       // 云函数名称
@@ -75,12 +77,13 @@ Page({
     })
     .then(res => {
       console.log(res.result)
-      if (res.result.orgType.length < 1){
+      if (res.result.orgInfo.orgType.length < 1){
         console.log("获取组织信息失败！")
       }else{
         console.log("成功获取组织信息！")
       }
-      orgInfo = res.result
+      orgInfo = res.result.orgInfo
+      isManager = res.result.isManager
       orgInfo.logoImage = orgInfo.logoList.length>0 ? orgInfo.logoList[0] : "/res/defaultLogo.png"
       //orgInfo.orgImageList = orgInfo.orgImageList.length>0 ? orgInfo.orgImageList:["/res/backImage.png"]
     })
@@ -101,6 +104,7 @@ Page({
     orgInfo.id = id
     orgInfo.longitude = longitude
     orgInfo.latitude = latitude
+    orgInfo.isManager = isManager
     wx.setNavigationBarTitle({
       title: "【" + orgInfo.orgName + "】的主页"
     }) 

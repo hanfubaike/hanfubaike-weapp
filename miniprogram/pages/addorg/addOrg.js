@@ -213,21 +213,24 @@ Page({
   postForm: async function(){
     let self = this
     let dbres = {}
-    try{
-      dbres = await this.dbQuery()
-      console.log('[数据库] [查询记录] 成功: ', dbres)
-    }catch (err) {
-      wx.showToast({
-        icon: 'none',
-        title: '查询记录失败'
-      })
-      console.error('[数据库] [查询记录] 失败：', err)
-      return
+    if(!this.data.isModify){
+      try{
+        dbres = await this.dbQuery()
+        console.log('[数据库] [查询记录] 成功: ', dbres)
+      }catch (err) {
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
+        })
+        console.error('[数据库] [查询记录] 失败：', err)
+        return
+      }
+      if (dbres.data.length!=0){
+        app.showToast("组织名称已存在，请重新输入")
+        return
+      }
     }
-    if (dbres.data.length!=0){
-      app.showToast("组织名称已存在，请重新输入")
-      return
-    }
+
     if (!this.checkFormData()){
       return
     }
@@ -251,10 +254,24 @@ Page({
         //}, 1500)
         //app.showToast("提交成功","success")
         //提交成功之后清除表单缓存
+
         wx.setStorage({
           key:'formData',
           data:{}
         })
+        if(this.data.isModify){
+          wx.showToast({
+            icon:'success',
+            title: '修改成功！',
+          })
+          setTimeout(function(){
+            wx.navigateBack({
+              complete: (res) => {},
+            })
+          },1500)
+
+          return
+        }
         setTimeout(function(){
           wx.showLoading({
             title: '正在跳转...',
@@ -284,11 +301,20 @@ Page({
             //}
           //}
         //})
+    }else{
+      wx.showModal({
+        showCancel:false,
+        title: '提示',
+        content: '提交失败！',
+      })
     }
   },
   checkFormData(){
     console.log("开始检查数据")
     let ignoreList = ['wxmp','latitude','longitude','logoFileList','orgImageFileList','reasonFileList']
+    if(this.data.isModify){
+      ignoreList.push("reason")
+    }
     let formData = this.formData
     let nameLabel = this.data.nameLabel
     if (this.data.logoFileList.length==0){
@@ -300,7 +326,7 @@ Page({
       //return
     }
     
-    if (this.data.reasonFileList.length == 0) {
+    if (this.data.reasonFileList.length == 0 && !this.data.isModify) {
       app.showToast("请上传【证明材料】")
       return false
     }
@@ -378,6 +404,7 @@ Page({
     let fileListName = 'reasonFileList'
     if (name == "logo"){
       fileListName = 'logoFileList'
+
     }else if(name == "orgImage"){
       fileListName = 'orgImageFileList'
     }
@@ -396,6 +423,13 @@ Page({
     let uploadTasks = []
     for (let x in fileList){
       let filePath = fileList[x].url
+      if (filePath.indexOf("cloud://")>-1){
+        console.log("跳过云端已存在的文件",filePath)
+        uploadTasks.push(new Promise(function (resolve, reject){
+          return resolve({url:filePath,fileName:fileListName})
+        }))
+        continue
+      }
       let cloudPath = this.imageName(fileName, filePath, x, fileList)
       uploadTasks.push(new Promise(function (resolve, reject){
         wx.cloud.uploadFile({
@@ -431,7 +465,9 @@ Page({
       mask:true
     })
     uploadTasks = uploadTasks.concat(self.uploadfile(logoFileList, "logoList",logoName))
-    uploadTasks = uploadTasks.concat(self.uploadfile(reasonFileList, "reasonImageList",name))
+    if(!this.data.isModify){
+      uploadTasks = uploadTasks.concat(self.uploadfile(reasonFileList, "reasonImageList",name))
+    }
     uploadTasks = uploadTasks.concat(self.uploadfile(orgImageFileList, "orgImageFileList",orgImageName))
     console.log(uploadTasks)
     let logoList =[]
@@ -569,7 +605,7 @@ Page({
       console.log(e)
       this.autoSave()
       if (this.lastSaveTime==0){
-        Notify({ type: 'success', message: '已开启自动保存' });
+        //Notify({ type: 'success', message: '已开启自动保存' });
       }
       this.lastSaveTime = new Date()
       console.log("表单已自动保存")
@@ -586,7 +622,7 @@ Page({
     for (let x in data.logoList){
       listData.push({url:data.logoList[x]})
     }
-    data.logoList = listData
+    data.logoFileList = listData
     
     
     for (let x in data.reasonImageList){
@@ -597,7 +633,7 @@ Page({
     for (let x in data.orgImageList){
       listData3.push({url:data.orgImageList[x]})
     }
-    data.orgImageList = listData3
+    data.orgImageFileList = listData3
     this.setData(
       data
     )
