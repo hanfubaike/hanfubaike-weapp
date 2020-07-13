@@ -266,7 +266,7 @@ Page({
           })
           setTimeout(function(){
             wx.navigateBack({
-              complete: (res) => {},
+              
             })
           },1500)
 

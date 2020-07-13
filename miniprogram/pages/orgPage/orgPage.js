@@ -53,8 +53,13 @@ Page({
   },
   onLoad(options) {
     console.log(options);
-    
+    this.options = options
+
+
+  },
+  onShow(){
     let marker
+    let options = this.options
     const imgUrls = [];
     this.setData({orgid:options.id})
     switch (options.type) {
@@ -62,12 +67,14 @@ Page({
         this.getOrgInfo(options.id, options.longitude,options.latitude)
         break;
     }
-
   },
   getOrgInfo(id,longitude,latitude){
     let orgInfo = {}
     let isManager = false
     const self = this
+    wx.showLoading({
+      title:"加载中"
+    })
     wx.cloud.callFunction({
       // 云函数名称
       name: 'orgInfo',
@@ -95,7 +102,7 @@ Page({
     .finally(function(){
       setTimeout(function(){
         wx.hideNavigationBarLoading()
-        wx.hideLoading()},1000)
+        wx.hideLoading()},500)
       if (JSON.stringify(orgInfo) == "{}"){
         console.log("数据为空")
         return
