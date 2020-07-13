@@ -39,7 +39,7 @@ swiper .slide {
 }
 .head-wrapper .navigate {
   width: 100rpx;
-  height: 90rpx;
+  height: 100rpx;
   padding: 20rpx;
   box-sizing: border-box;
 }

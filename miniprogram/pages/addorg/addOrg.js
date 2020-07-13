@@ -40,6 +40,7 @@ Page({
       wxmp:"微信公众号",
       reason:"申请说明"
     },
+    isModify:false
    
   },
   lastSaveTime:0
@@ -51,6 +52,14 @@ Page({
   onLoad(option){
     const self = this
     app.checkLogin()
+    if(option.mod == "modify"){
+      self.setData({isModify:true})
+      wx.setNavigationBarTitle({
+        title: "修改组织信息"
+      })
+      self.getOrgInfo(option.id,self.setOrgInfo)
+      return
+    }
     let fs = wx.getFileSystemManager();
     wx.getStorage({
       key: 'formData',
@@ -104,26 +113,47 @@ Page({
       data:this.formData
     })
   },
-  dbAdd: async function (data) {
+  dbUpdate: async function (data) {
     const db = wx.cloud.database()
     let locationGeo = db.Geo.Point(this.data.longitude, this.data.latitude)
     data['longLatiute'] = locationGeo
     delete data['longitude']
     delete data['latitude']
-    data['postTime'] = db.serverDate()
+    delete data['reasonFileList']
+    delete data['orgImageFileList']
+    delete data['logoFileList']
+    delete data['saveTime']
+    
     let dbres = {}
     try{
-       dbres = await db.collection(this.data.dbName).add({
-        data: data,
-      })
-      console.log('[数据库] [新增记录] 成功，记录 _id: ', dbres._id)
+      if (this.data.isModify){
+        delete data['reason']
+        delete data['checkOpenid']
+        delete data['reasonImageList']
+        delete data['poster']
+        delete data['_openid']
+        delete data['status']
+        delete data['postType']
+        data['updateTime'] = db.serverDate()
+        dbres = await db.collection(this.data.dbName).doc(this.data._id).update({
+          data: data,
+        })
+      }else{
+        data['postTime'] = db.serverDate()
+        dbres = await db.collection(this.data.dbName).add({
+          data: data,
+        })
+      }
+      
+
+      console.log('[数据库] [更新记录] 成功，记录 _id: ', dbres._id)
       this.setData({
         counterId: dbres._id,
       })
       return true
 
     }catch(err){
-      console.error('[数据库] [新增记录] 失败：', err)
+      console.error('[数据库] [更新记录] 失败：', err)
       return false
     }
 
@@ -206,7 +236,7 @@ Page({
       return
     }
 
-    if (await self.dbAdd(self.formData)){
+    if (await self.dbUpdate(self.formData)){
         //setTimeout(function () {
           //wx.hideLoading()
         //}, 2000)
@@ -546,6 +576,67 @@ Page({
 
     }
 
+  },
+  setOrgInfo(dataList){
+    const data = dataList
+    //console.log(data)
+    let listData = []
+    let listData2 = []
+    let listData3 = []
+    for (let x in data.logoList){
+      listData.push({url:data.logoList[x]})
+    }
+    data.logoList = listData
+    
+    
+    for (let x in data.reasonImageList){
+      listData2.push({url:data.reasonImageList[x]})
+    }
+    data.reasonImageList = listData2
+
+    for (let x in data.orgImageList){
+      listData3.push({url:data.orgImageList[x]})
+    }
+    data.orgImageList = listData3
+    this.setData(
+      data
+    )
+  },
+  getOrgInfo: function (id,func) {
+    wx.showLoading({
+      title: '加载中...',
+      mask:true
+    })
+    let field = {
+      postTime:false
+    }
+    if (!this.data.readonly){
+      field.status = false
+    }
+    const db = wx.cloud.database()
+    //查询当前用户所有的 counters
+    db.collection(this.data.dbName).doc(id).field(field).get({
+      success: res => { 
+        console.log('[数据库] [查询记录] 成功: ', res)
+        if (res.data){
+          func(res.data)
+        }else{
+          
+        }
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
+        })
+        console.error('[数据库] [查询记录] 失败：', err)
+      },
+      complete:res => {
+        setTimeout(function () {
+          wx.hideLoading()
+        }, 1000)
+      }
+    })
   }
 
 });

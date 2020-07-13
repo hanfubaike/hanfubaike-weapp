@@ -91,7 +91,7 @@ Page({
     })
     const db = wx.cloud.database()
     //查询当前用户所有的 counters
-    db.collection(this.data.dbName).field(field).where(where).get({
+    db.collection(this.data.dbName).orderBy('postTime', 'desc').field(field).where(where).get({
       success: res => { 
         console.log('[数据库] [查询记录] 成功: ', res)
         success(res)  
@@ -123,7 +123,7 @@ Page({
           listData.push(thisData)
         }
         self.setData({
-          needChecklist:listData.reverse()
+          needChecklist:listData
         })
         wx.hideLoading()
       }else{
@@ -154,7 +154,7 @@ Page({
           listData.push(thisData)
         }
         self.setData({
-          isChecklist:listData.reverse()
+          isChecklist:listData
         })
         wx.hideLoading()
       }else{

@@ -9,7 +9,8 @@ Page({
     cloudRoot: app.globalData.cloudRoot,
     enablePanorama:false,
     imgUrls: [],
-    name:""
+    name:"",
+    orgInfo:{}
   },
   previewImage(e) {
     wx.previewImage({
@@ -40,9 +41,9 @@ Page({
           phoneNumber: this.data.marker.contact.phone
         });
         break;
-      case "panorama":
+      case "modify":
         wx.navigateTo({
-          url: `/pages/web-view/web-view?id=${this.data.marker.panorama}`
+          url: `/pages/addOrg/addOrg?mod=modify&id=${this.data.id}`
         });
         break;
       default:
@@ -54,11 +55,8 @@ Page({
     
     let marker
     const imgUrls = [];
-
+    this.setData({orgid:options.id})
     switch (options.type) {
-      case "商家":
-        //pass
-        break;
       default:
         this.getOrgInfo(options.id, options.longitude,options.latitude)
         break;
