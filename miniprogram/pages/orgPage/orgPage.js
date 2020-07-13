@@ -54,7 +54,9 @@ Page({
   onLoad(options) {
     console.log(options);
     this.options = options
-
+    wx.showLoading({
+      title:"加载中"
+    })
 
   },
   onShow(){
@@ -72,9 +74,7 @@ Page({
     let orgInfo = {}
     let isManager = false
     const self = this
-    wx.showLoading({
-      title:"加载中"
-    })
+
     wx.cloud.callFunction({
       // 云函数名称
       name: 'orgInfo',
