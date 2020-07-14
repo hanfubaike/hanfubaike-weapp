@@ -268,9 +268,19 @@ Page({
           let longitude = self.data.longitude
           let latitude = self.data.latitude
           setTimeout(function(){
-            wx.navigateTo({
-              url: "/pages/orgPage/orgPage?id=" + id + "&longitude=" + longitude + "&latitude=" + latitude ,
+            let Page = getCurrentPages()[getCurrentPages().length - 2];
+            let options = {
+              id,
+              longitude,
+              latitude
+            }
+            Page.onLoad(options)
+            wx.navigateBack({
+              complete: (res) => {},
             })
+            //wx.navigateTo({
+              //url: "/pages/orgPage/orgPage?id=" + id + "&longitude=" + longitude + "&latitude=" + latitude ,
+            //})
           },1500)
 
           return
