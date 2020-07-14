@@ -29,9 +29,42 @@ Page({
     //map_text_style: "width: 92%; height: 16%;",
     longitude:"113.324520",
     latitude:"23.099994",
+    showCats:false,
     textData:{
       logoImage:"/res/defaultLogo.png"
-    }
+    },
+    allCat:[
+      {
+        name:'亚洲',
+        latitude: 30.994017872726864,
+        longitude: 108.85968390674591
+      },
+      {
+        name:'欧洲',
+        latitude: 54.81679492648824,
+        longitude: 19.5628048834324
+      },
+      {
+        name:'非洲',
+        latitude: 3.3746344583865246,
+        longitude: 19.28155112833978
+      },
+      {
+        name:'北美洲',
+        latitude: 47.16092146406117,
+        longitude: -100.67159559755324
+      },
+      {
+        name:'南美洲',
+        latitude: -23.948640541334264,
+        longitude: -60.17157253055571
+      },
+      //{
+        //name:'南极洲',
+        //latitude: -78.66429562135107,
+        //longitude: 51.34403094471694
+      //}
+    ]
   },
   //allOrgList: [],
   orgList: [],
@@ -828,6 +861,7 @@ Page({
     let self = this
     self.mapCtx.getCenterLocation({
       success: function (ress) {
+        console.log(ress)
         self.mapCtx.getScale({
           success: function (res) {
             var scale = res.scale
@@ -965,5 +999,48 @@ Page({
         // 转发失败
       }
     }
+  },
+  diqu(){
+    this.setData({
+      showCats:!this.data.showCats
+    })
+  },
+  selectCat(e){
+    //console.log(e)
+    let index = e.target.dataset.id
+    let self = this
+    this.setData({
+      catIndex:index
+    })
+    let longitude = this.data.allCat[index].longitude
+    let latitude = this.data.allCat[index].latitude
+    if (app.compareVersion(app.version, '2.8.0') >= 0){
+      self.mapCtx.moveToLocation({
+        longitude:longitude,
+        latitude:latitude,
+        success: function (res){
+          console.log(res)
+          self.setData({
+            scale:3
+          })
+        },
+        fail(res){
+          console.log(res)
+          self.setData({
+            scale:3,
+            longitude:longitude,
+            latitude:latitude,
+          })
+        }
+      })
+    }else{
+      self.setData({
+        scale:3,
+        longitude:longitude,
+        latitude:latitude,
+      })
+    }
+ 
+
   }
 })

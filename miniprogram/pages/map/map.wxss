@@ -1,5 +1,5 @@
 /* pages/index/map.wxss */
-@import '/style/weui.wxss';
+
 @import "../../wxSearchView/wxSearchView.wxss";
 
 .image {
@@ -117,4 +117,66 @@ width:auto;
 bottom:110px;
 position:absolute;
 right:20rpx;
+}
+
+.diqu{
+  width:auto;
+  top:90px;
+  position:absolute;
+  right:10px;
+  }
+
+
+.picker {
+  position: absolute;
+  width: 40px;
+  right: 8px;
+  top: 131px;
+  max-height: 600rpx;  
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 4px;
+  overflow-y: scroll;
+  opacity: 1;
+  transition: all 0.3s cubic-bezier(0.25, 0.75, 0.5, 1.25);
+}
+.picker.hide {
+  opacity: 0;
+  right: -10%;
+}
+.picker .option {
+  font-size: 10px;
+  width: 110%;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  transition: 0.3s;
+}
+.picker .option.selected {
+  background: #9bcff4;
+}
+
+.item {
+  width: 80rpx;
+  height: 80rpx;
+}
+.item:not(:last-child) {
+  margin-bottom: 20rpx;
+}
+.item::last-child {
+  position: relative;
+}
+
+.cats {
+  background: #fff;
+}
+.cats > view {
+  display: inline-block;
+  width: 100rpx;
+  height: auto;
+  line-height: 60rpx;
+  font-size: 24rpx;
+  text-align: center;
+}
+.cats > view.active {
+  border-bottom: 2px solid #8bcfff;
 }
