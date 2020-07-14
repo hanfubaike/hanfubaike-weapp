@@ -32,8 +32,14 @@ exports.main = async (event, context) => {
     if(wxContext.OPENID == orgInfo._openid){
       isManager = true
     }
+    returnData = {}
+    for(let x in orgInfo){
+      returnData[x] = orgInfo[x]
+    }
+    returnData.orgInfo = qeueResult.data
+    returnData.isManager = isManager
     console.log(orgInfo)
-    return {orgInfo:orgInfo,isManager:isManager}
+    return returnData
   } catch (err) {
     console.log(err)
     return err
