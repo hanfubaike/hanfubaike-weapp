@@ -302,4 +302,7 @@ Page({
       }
     })
   },
+  onShareTimeline(){
+    
+  }
 })

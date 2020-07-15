@@ -749,8 +749,9 @@ Page({
       console.log("搜索页面，不更新视野")
       return
     }
-    console.log("regionchange", e)
+    
     if (e.type == "end") {
+      console.log("regionchange", e)
       self.loadingMark()
     }
   },
@@ -1063,5 +1064,8 @@ Page({
     }
  
 
+  },
+  onShareTimeline(){
+    
   }
 })

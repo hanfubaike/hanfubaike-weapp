@@ -138,5 +138,8 @@ Page({
         // 转发失败
       }
     }
+  },
+  onShareTimeline(){
+    
   }
 });
