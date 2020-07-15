@@ -457,6 +457,7 @@ Page({
             wx.hideLoading()
           }, 1000)
           wx.showToast({ title: '上传失败', icon: 'none' });
+          
           return error;
         })
       }))
@@ -647,6 +648,8 @@ Page({
       listData3.push({url:data.orgImageList[x]})
     }
     data.orgImageFileList = listData3
+    data.latitude = data.longLatiute.latitude
+    data.longitude = data.longLatiute.longitude
     this.setData(
       data
     )
