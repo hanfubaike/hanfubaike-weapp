@@ -135,7 +135,11 @@ Page({
         delete data['status']
         delete data['postType']
         data['updateTime'] = db.serverDate()
-        dbres = await db.collection(this.data.dbName).doc(this.data._id).update({
+        dbres = await db.collection(this.data.dbName).
+        where({
+          _id:this.data._id,
+          _openid: '{openid}'
+        }).update({
           data: data,
         })
       }else{
@@ -667,7 +671,10 @@ Page({
     }
     const db = wx.cloud.database()
     //查询当前用户所有的 counters
-    db.collection(this.data.dbName).doc(id).field(field).get({
+    db.collection(this.data.dbName).where({
+      _id:id,
+      _openid: '{openid}'
+    }).field(field).get({
       success: res => { 
         console.log('[数据库] [查询记录] 成功: ', res)
         if (res.data){

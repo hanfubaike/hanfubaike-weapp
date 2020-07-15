@@ -137,7 +137,8 @@ Page({
       postTime:true,
     }
     let where = {
-        status: 0
+        status: 0,
+        _openid: '{openid}'
     }
     this.dbQuery(field,where,success)
   },

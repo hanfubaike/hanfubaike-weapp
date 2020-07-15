@@ -20,7 +20,10 @@ exports.main = async (event, context) => {
       isAdmin:true,
     }).get()
     if (userQeue.data.length > 0) {
-      const updateResult = await db.collection('org').doc(id).update({
+      const updateResult = await db.collection('org').where({
+        _id:id,
+        _openid: '{openid}'
+      }).update({
         // data 传入需要局部更新的数据
           data: {
             checkOpenid:wxContext.OPENID,

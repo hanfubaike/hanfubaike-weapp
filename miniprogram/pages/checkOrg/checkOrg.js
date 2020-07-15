@@ -140,7 +140,8 @@ Page({
     return db.collection('user').field({
         name: true
       }).where({
-        openid: openid
+        openid: openid,
+        _openid: '{openid}'
       }).get()
   },
   dbUpdate(id,status,value=""){
