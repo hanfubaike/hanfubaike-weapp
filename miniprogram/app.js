@@ -3,6 +3,8 @@ const VERSION = "1.0.0"
 const config = require('config.js')
 var nowTime = new Date().getTime()
 
+var systemInfo = wx.getSystemInfoSync()
+
 App({
   onLaunch: function () {
     
@@ -221,5 +223,7 @@ App({
   
     return 0
   },
-  version : wx.getSystemInfoSync().SDKVersion
+  version : systemInfo.SDKVersion,
+  systemInfo:systemInfo
+  
 })

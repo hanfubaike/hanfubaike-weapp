@@ -30,6 +30,7 @@ Page({
     longitude:"113.324520",
     latitude:"23.099994",
     showCats:false,
+    screenHeight:app.systemInfo.screenHeight,
     textData:{
       logoImage:"/res/defaultLogo.png"
     },
@@ -1066,6 +1067,6 @@ Page({
 
   },
   onShareTimeline(){
-    
+
   }
 })

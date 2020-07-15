@@ -107,21 +107,21 @@ left:20rpx;
 
 .controlsPlus{
 width:auto;
-bottom:150px;
+bottom:60px;
 position:absolute;
 right:20rpx;
 }
 
 .controlsZoom{
 width:auto;
-bottom:110px;
+bottom:20px;
 position:absolute;
 right:20rpx;
 }
 
 .diqu{
   width:auto;
-  top:90px;
+  top:70px;
   position:absolute;
   right:10px;
   }
@@ -130,8 +130,8 @@ right:20rpx;
 .picker {
   position: absolute;
   width: 40px;
-  right: 8px;
-  top: 131px;
+  right: 7px;
+  top: 111px;
   max-height: 600rpx;  
   background: rgba(255, 255, 255, 0.6);
   border-radius: 4px;
@@ -146,7 +146,7 @@ right:20rpx;
 .picker .option {
   font-size: 10px;
   width: 110%;
-  height: 80rpx;
+  height: 70rpx;
   line-height: 80rpx;
   text-align: center;
   transition: 0.3s;
