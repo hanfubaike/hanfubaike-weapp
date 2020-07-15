@@ -113,7 +113,7 @@ Page({
     orgInfo.latitude = latitude
     orgInfo.isManager = isManager
     wx.setNavigationBarTitle({
-      title: "【" + orgInfo.orgName + "】的主页"
+      title: "『" + orgInfo.orgName + "』的主页"
     }) 
     self.setData(
       orgInfo
@@ -129,7 +129,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: "【" + this.data.orgName + "】的主页", 
+      title: "『" + this.data.orgName + "』的主页", 
       path:  getCurrentPages().slice(-1).route,
       success: function (res) {
         // 转发成功
