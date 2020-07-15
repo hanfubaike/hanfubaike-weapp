@@ -45,9 +45,9 @@ Page({
         longitude: 19.5628048834324
       },
       {
-        name:'非洲',
-        latitude: 3.3746344583865246,
-        longitude: 19.28155112833978
+        name:'大洋洲',
+        latitude: -38.93085035746002,
+        longitude: 144.43781856269837
       },
       {
         name:'北美洲',
@@ -58,6 +58,11 @@ Page({
         name:'南美洲',
         latitude: -23.948640541334264,
         longitude: -60.17157253055571
+      },
+      {
+        name:'非洲',
+        latitude: 3.3746344583865246,
+        longitude: 19.28155112833978
       },
       //{
         //name:'南极洲',
@@ -117,7 +122,7 @@ Page({
     })
   },
   moveToLocation: function () {
-    return
+    
     let self = this
     this.mapCtx.moveToLocation()
     setTimeout(function () { self.loadingMark(true) }, 1000)
@@ -218,7 +223,7 @@ Page({
       
       //self.setCircles(self.orgList)
       // complete
-      //self.loadingMark(true)
+      self.loadingMark(true)
       //console.log('orgList', orgList);
     })
 
@@ -375,7 +380,6 @@ Page({
     let data = orgList
     let markersData = {}
     let markers = []
-
     for (var x in data) {
       var index = self.data.markers.indexOf(data[x])
       index = index == -1 ? 0 : index
@@ -383,24 +387,31 @@ Page({
       //markersData["markers[" + index + "].width"] = (self.scale * self.scale) / 11
       //markersData["markers[" + index + "].height"] = (self.scale * self.scale) / 11
 
-      if (self.scale > 9 || fromSearch) {
-        if (self.scale > 18) {
-          self.scale = 25
+      if (self.scale > 7 || fromSearch || orgList['length'] < 10) {
+        //if (self.scale > 15) {
+          //self.scale = 20
+        //}
+        let markers_width_height = (self.scale * self.scale) / 7
+        console.log("显示组织名称")
+        if(orgList['length'] < 10){
+          markers_width_height = 20
+        }else{
+
         }
-        markersData["markers[" + index + "].width"] = (self.scale * self.scale) / 8
-        markersData["markers[" + index + "].height"] = (self.scale * self.scale) / 8
+        markersData["markers[" + index + "].width"] = markers_width_height
+        markersData["markers[" + index + "].height"] = markers_width_height
         markersData["markers[" + index + "].callout.fontSize"] = 12
         markersData["markers[" + index + "].callout.display"] = "ALWAYS"
       }
       else {
-        markersData["markers[" + index + "].width"] = 10
-        markersData["markers[" + index + "].height"] = 10
+        markersData["markers[" + index + "].width"] = 18
+        markersData["markers[" + index + "].height"] = 18
         markersData["markers[" + index + "].callout.display"] = "BYCLICK"
 
       }
     }
     markersData.map_text_hidden = true
-    if (self.isEquals(markersData, self.markersData)) {
+    if (self.isEquals(markersData, self.markersData) && orgList.length > 10) {
       console.log('数据一致，不刷新。')
       //return
     }
@@ -538,9 +549,9 @@ Page({
 
     let data = orgList
     let markers = []
-    let width_height = isSearch ? 26 : 20
+    let width_height = isSearch ? 26 : 15
     //let calloutDisplay = isSearch ? "ALWAYS" : "BYCLICK"
-    let calloutDisplay = "ALWAYS"
+    let calloutDisplay = "BYCLICK"
     for (var x in data) {
       let markeJson = {}
       //var org_type = data[x].org_type > 5 ? 0 : data[x].org_type
@@ -604,6 +615,7 @@ Page({
     }
   }
   ,
+  //圆形区域
   setCircles: function (orgList) {
     //wx.showLoading({
     //title: '正在加载',
@@ -669,65 +681,69 @@ Page({
         var scale = res.scale
         var isScaleEquals = false
         console.log("scale", scale)
-        if (Math.abs(scale - self.scale) > 3 ) {
+        if (Math.abs(scale - self.scale) > 1 ) {
           isScaleEquals = true
         }
         self.scale = scale
-        if (scale > 9 || Force) {
+        self.mapCtx.getRegion({
+          success: function (res) {
+            //console.log(res)
+            //西南
+            var southwest = res.southwest
+            //东北
+            var northeast = res.northeast
+            //东南
+            var southeast = { longitude: northeast.longitude, latitude: southwest.latitude }
+            //西北
+            var northwest = { longitude: southwest.longitude, latitude: northeast.latitude }
+            var polist = [southwest, southeast, northeast, northwest]
+            console.log("polist", polist)
 
-          self.mapCtx.getRegion({
-            success: function (res) {
-              //console.log(res)
-              //西南
-              var southwest = res.southwest
-              //东北
-              var northeast = res.northeast
-              //东南
-              var southeast = { longitude: northeast.longitude, latitude: southwest.latitude }
-              //西北
-              var northwest = { longitude: southwest.longitude, latitude: northeast.latitude }
-              var polist = [southwest, southeast, northeast, northwest]
-              console.log("polist", polist)
+            for (var x in markers) {
 
-              for (var x in markers) {
-
-                let lat = markers[x].latitude
-                let lng = markers[x].longitude
-                if (util.IsPtInPoly(lng, lat, polist)) {
-                  console.log("在视野范围：", markers[x].orgName)
-                  _data.push(markers[x])
-                }
-                else {
-                }
+              let lat = markers[x].latitude
+              let lng = markers[x].longitude
+              if (util.IsPtInPoly(lng, lat, polist)) {
+                console.log("在视野范围：", markers[x].orgName)
+                _data.push(markers[x])
               }
-              console.log(_data)
-              if ((_data.length != 0 && !self.isEquals(_data, self.regionMarkers)) || isScaleEquals || Force) {
+              else {
+              }
+            }
+            console.log(_data)
+
+            if (scale > 8 || _data.length < 10 || Force) {
+              if ((_data.length != 0 && !self.isEquals(_data, self.regionMarkers)) || isScaleEquals || Force || _data.length < 10 ) {
                 self.regionMarkers = _data
-
+                console.log("设置局部标记")
                 self.setIndexMarkers(_data)
-
+    
               }
               else {
                 console.log("视野数据一致，不刷新")
               }
             }
-          })
-        }
-        else if (scale <= 8) {
-          self.setMarkers(self.orgList)
+            else if (scale <= 8) {
+              console.log("重置markers数据")
+              self.setMarkers(self.orgList)
+    
+              //self.setData({
+              //markers: []
+              //})
+              //self.setCircles(self.orgList)
+              //self.setMarkers(self.orgList, false)
+            }
 
-          //self.setData({
-          //markers: []
-          //})
-          //self.setCircles(self.orgList)
-          //self.setMarkers(self.orgList, false)
-        }
+
+          },
+          })
+
       }
     })
   },
 
   regionchange: function (e) {
-    return
+    
     let self = this
     if (self.isSearch) {
       console.log("搜索页面，不更新视野")

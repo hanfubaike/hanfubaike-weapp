@@ -5,7 +5,7 @@
 
 
 
-  <map id="map" subkey="AIZBZ-F5M62-ACTUF-C2LQH-DQKC7-TVB7A" hidden="{{!isMap}}" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" controls="{{controls}}" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap" bindcallouttap="markertap" bindupdated="mapUpdated" show-location style="{{map_style}}">
+  <map id="map" subkey="AIZBZ-F5M62-ACTUF-C2LQH-DQKC7-TVB7A" hidden="{{!isMap}}" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{scale}}" controls="{{controls}}" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap" bindcallouttap="markertap" bindupdated="mapUpdated" bindregionchange="regionchange" show-location style="{{map_style}}">
  
     <cover-view class="controlsMe" bindtap='locationMe'>
       <cover-image  src='/res/locationMe.png' class="locationMe">
@@ -43,7 +43,7 @@
 
   </map>
 
-    <view class="item cats {{showCats ? '' : 'hide'}}">
+    <view hidden="{{!showCats}}" class="item cats">
       <view class="picker {{showCats ? '' : 'hide'}}" bindtap='diqu' catchtap="selectCat" >
         <view 
           wx:for="{{allCat}}"

@@ -278,7 +278,7 @@ Page({
       }
     })
   },
-  getLocation: function (scale=15) {
+  getLocation: function (scale=10) {
     let self = this
     wx.getLocation({
       type: 'gcj02',
