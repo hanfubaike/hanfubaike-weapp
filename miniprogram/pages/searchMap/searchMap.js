@@ -24,47 +24,6 @@ Page({
 
   initData: function () {
     var self = this
-    wx.getSystemInfo({
-      success: function (res) {
-        console.log("screenHeight", res.screenHeight)
-        self.setData({
-          controls: [{
-            id: 1,
-            iconPath: '/res/locationMe.png',
-            position: {
-              left: 20,
-              top: (res.screenHeight - 20 - 60 - 90) / 1.3,
-              width: 30,
-              height: 30
-            },
-            clickable: true
-          },
-          {
-            id: 2,
-            iconPath: '/res/plus.png',
-            position: {
-              left: res.screenWidth - 50,
-              top: (res.screenHeight - 20 - 60 - 48 - 90) / 1.3,
-              width: 40,
-              height: 40
-            },
-            clickable: true
-          },
-          {
-            id: 3,
-            iconPath: '/res/zoom.png',
-            position: {
-              left: res.screenWidth - 50,
-              top: (res.screenHeight - 20 - 60 - 90) / 1.3,
-              width: 40,
-              height: 40
-            },
-            clickable: true
-          }
-          ],
-        })
-      }
-    })
   },
 
 
@@ -75,9 +34,10 @@ Page({
     let points = app.points
     let tipKeys = app.tipKeys
     self.orgList = tipKeys
+    self.points = points
     console.log(tipKeys, points)
     if (tipKeys && points){
-      self.setMarkers(tipKeys, points)
+      self.setMarkers(tipKeys, true)
     }
     else{
       console.log("什么也没找到")
@@ -93,67 +53,82 @@ Page({
   onUnload:function(){
 
   },
-  setMarkers: function (orgList, points) {
+  isEquals: function (a, b) {
+    return JSON.stringify(a) === JSON.stringify(b);
+  },
+  setMarkers: function (orgList, isSearch = false) {
+    let self = this
     //wx.showLoading({
     //title: '正在加载',
     //mask: true
     //})
-    let self = this
+
     let data = orgList
     let markers = []
-
+    let width_height = isSearch ? 26 : 20
+    //let calloutDisplay = isSearch ? "ALWAYS" : "BYCLICK"
+    let calloutDisplay = "ALWAYS"
     for (var x in data) {
       let markeJson = {}
-      var org_type = data[x].org_type > 5 ? 0 : data[x].org_type
+      //var org_type = data[x].org_type > 5 ? 0 : data[x].org_type
 
-      markeJson.iconPath = orgType[org_type].img
-      //markeJson.iconPath = "/res/defaultMarker.png"
-      markeJson.width = 25
-      markeJson.height = 25
-      markeJson.alpha = 0.8
+      //markeJson.iconPath = orgType[org_type].img
+      markeJson.iconPath = "/res/defaultMarker.png"
+      markeJson.width = width_height
+      markeJson.height = width_height
+      markeJson.alpha = 0.9
 
       markeJson.id = x
-      markeJson.latitude = data[x].latitude
+     // markeJson._id = data[x]._id
       markeJson.longitude = data[x].longitude
+      markeJson.latitude = data[x].latitude
       //markeJson.anchor = { x: -20, y: 3 }
-      markeJson.organizationname = data[x].organizationname
-
-      //markeJson.title = data[x].organizationname
+      markeJson.orgName = data[x].orgName
       markeJson.callout = {
-        content: data[x].organizationname,
+        content: data[x].orgName,
         fontSize: 12,
-        borderWidth: 4,
+        borderWidth: 2,
         color: "#000000",
         borderColor: "#ddeef8",
         borderRadius: 6,
         bgColor: "#fafafa",
         padding: 6,
-        display: "ALWAYS"
+        display: calloutDisplay
       }
       markers.push(markeJson)
     }
-
-
-    self.setData({
-      points: points,
-      markers: markers,
-      map_text_hidden: true,
+    if (self.isEquals(markers, self.data.markers)) {
+      console.log('数据一致，不刷新。')
+      //return
     }
+    else {
+      self.setData({
+        circles: [],
+        markers: markers,
+        map_text_hidden: true,
+      }
         ,
-      function () {
-        if (self.searchMapCtx) {
-          if (points.length != 0) {
-            setTimeout(function () {
-              self.searchMapCtx.includePoints({
-                points: points,
-                padding: [50]
-              })
-            }, 100);
+        function () {
+          self.Updated = true
+          if (!isSearch) {
+            return
+          }
+          var points = self.points
+          var _points = []
+          if (self.mapCtx) {
+            if (self.points.length != 0) {
+              setTimeout(function () {
+                self.mapCtx.includePoints({
+                  points: points,
+                  padding: [50]
+                })
+              }, 100);
+
+            }
 
           }
-
-        }
-      })
+        })
+    }
   },
   mapTap(e) {
     this.setData({
@@ -222,48 +197,35 @@ Page({
   markertap(e) {
     let self = this
     let textData = {}
+    let markerID = e.markerId
     var _markersData = {}
-    var org_type = self.orgList[e.markerId].org_type > 5 ? 0 : self.orgList[e.markerId].org_type 
-    //console.log(e.markerId, self.orgList)
-    textData.locationName = self.orgList[e.markerId]. locationName
-    textData.organizationname = self.orgList[e.markerId].organizationname
-    textData.QQGroup = self.orgList[e.markerId].QQGroup
-    textData. wxmp = self.orgList[e.markerId]. wxmp
-    textData.wbnum = self.orgList[e.markerId].wbnum
-    textData.status = self.orgList[e.markerId].status
-    textData.orgDesc = self.orgList[e.markerId].orgDesc
-    textData.logoList = self.orgList[e.markerId].logoList
-    textData.organizationid = self.orgList[e.markerId].organizationid
-    textData.orgType = orgType[org_type].name
-    if (textData.logoList == "res/defaultLogo.png" || textData.logoList == "") {
-      textData.logoList = '/res/defaultLogo.png'
+    if (markerID.indexOf("c") > -1) {
+      console.log("聚合图标,不处理")
+      return
     }
-    var webUrl = app.WEBVIEWURL + '/organization_detail.html?organizationid=' + textData.organizationid + "&rand=" + app.VERSION
-    textData.webUrl = '/pages/webpage/webpage?url=' + encodeURIComponent(webUrl) + '&title=' + textData.organizationname;
-    //textData.logoList = "/res/".concat(self.orgList[e.markerId].organizationname, ".jpg")
-    textData.latitude = self.orgList[e.markerId].latitude
-    textData.longitude = self.orgList[e.markerId].longitude
-    //textData.mode = "aspectFit"
-    if (!self.data.markers[e.markerId].callout) {
-      _markersData["markers[" + e.markerId + "].callout"] = {
-        content: textData.organizationname,
-        fontSize: 12,
-        borderWidth: 2,
-        color: "#000000",
-        borderColor: "#DCDCDC",
-        borderRadius: 6,
-        bgColor: "#FFFFFF",
-        padding: 6,
-        display: "BYCLICK"
+    let orgName = this.data.markers[e.markerId].orgName
+    for(let x in this.orgList){
+      if (this.orgList[x].orgName == orgName){
+        let id = this.orgList[x]._id
+        let longitude = this.orgList[x].longitude
+        let latitude = this.orgList[x].latitude
+        wx.navigateTo({
+          url: "/pages/orgPage/orgPage?id=" + id + "&longitude=" + longitude + "&latitude=" + latitude ,
+        })
+        return
       }
-      console.log("不存在callout，添加callout")
     }
-    _markersData.textData = textData
-    _markersData.map_text_hidden = false
-    self.setData(
-      _markersData
-    )
-    //self.updataOneLogo()
-    console.log(self.orgList[e.markerId].organizationname)
+    console.log("名字不匹配！！")
+    return
+    //this.setData({
+     // textData:{
+       // logoImage:"/res/defaultLogo.png",
+       // orgName:orgName,
+     //   orgType:"获取中...",
+      //  locationName:"获取中..."
+     // }
+    //})
+
+
   },
 })

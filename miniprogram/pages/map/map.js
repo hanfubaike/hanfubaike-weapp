@@ -81,7 +81,7 @@ Page({
     WxSearch.init(
       that,  // 本页面一个引用
       [], // 热点搜索推荐，[]表示不使用
-      that.mySearchFunction, // 提供一个搜索回调函数,
+      that.mySearchFunctionJmp, // 提供一个搜索回调函数,
       that.backwxSearchKeyTap,
       that.myGobackFunction //提供一个返回回调函数
     );
@@ -968,7 +968,7 @@ Page({
     var _value = {}
     _value.value = name
     _value.tipKeys = [value]
-    self.mySearchFunction(_value)
+    self.mySearchFunctionJmp(_value)
     //var points = []
     //console.log("points", { latitude: latitude, longitude: longitude })
     //self.mapCtx.includePoints({

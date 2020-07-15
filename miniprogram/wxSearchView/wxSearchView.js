@@ -125,6 +125,14 @@ function wxSearchKeyTap(e) {
   // 更新数据
   temData.value = e.currentTarget.dataset.key.orgName;
   temData.tipKeys = [e.currentTarget.dataset.key]
+  let orgInfo = e.currentTarget.dataset.key
+  let id = orgInfo._id
+  let longitude = orgInfo.longitude
+  let latitude = orgInfo.latitude
+  wx.navigateTo({
+    url: "/pages/orgPage/orgPage?id=" + id + "&longitude=" + longitude + "&latitude=" + latitude ,
+  })
+  return
   __that.setData({
     wxSearchData: temData,
     isWxSearch: false,
