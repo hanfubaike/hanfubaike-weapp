@@ -130,7 +130,7 @@ right:20rpx;
 .picker {
   position: absolute;
   width: 50px;
-  right: 7px;
+  right: 6px;
   top: 111px;
   max-height: 600rpx;  
   background: rgba(255, 255, 255, 0.6);
