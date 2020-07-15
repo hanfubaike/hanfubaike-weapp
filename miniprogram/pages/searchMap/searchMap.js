@@ -32,6 +32,7 @@ Page({
     this.searchMapCtx = wx.createMapContext('searchMap')
     self.initData()
     let points = app.points
+    this.mapCtx = wx.createMapContext('map')
     let tipKeys = app.tipKeys
     self.orgList = tipKeys
     self.points = points
@@ -227,5 +228,78 @@ Page({
     //})
 
 
+  },
+  locationMe () {
+    let self = this
+    self.getLocation()
+    //self.moveToLocation()
+    //self.setData({
+    //scale: 15
+    //})
+    },
+
+  plus () {
+    let self = this
+    self.mapCtx.getCenterLocation({
+      success: function (ress) {
+        self.mapCtx.getScale({
+          success: function (res) {
+            var scale = res.scale
+            if (scale <= 19) {
+              self.setData({
+                scale: scale + 1,
+                latitude: ress.latitude,
+                longitude: ress.longitude
+              })
+            }
+          }
+        })
+      }
+    })
+  },
+  zoom () {
+    let self = this
+    self.mapCtx.getCenterLocation({
+      success: function (ress) {
+        console.log(ress)
+        self.mapCtx.getScale({
+          success: function (res) {
+            var scale = res.scale
+            if (scale >= 4) {
+              self.setData({
+                scale: scale - 1,
+                latitude: ress.latitude,
+                longitude: ress.longitude
+              })
+            }
+          }
+        })
+
+      }
+    })
+  },
+  getLocation: function (scale=15) {
+    let self = this
+    wx.getLocation({
+      type: 'gcj02',
+      success: function (res) {
+        self.setData({
+          scale: scale,
+          latitude: res.latitude,
+          longitude: res.longitude,
+        })
+        //self.loadingMark(true)
+      },
+      fail: function () {
+        console.log("获取初始位置失败，使用默认位置")
+        self.setData({
+          latitude: 23.099994,
+          longitude: 113.324520,
+        })
+      }
+      ,
+      complete: function () {
+      }
+    })
   },
 })

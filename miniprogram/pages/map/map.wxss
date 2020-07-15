@@ -180,3 +180,8 @@ right:20rpx;
 .cats > view.active {
   border-bottom: 2px solid #8bcfff;
 }
+
+.hide {
+  opacity: 0;
+  right: -10%;
+}

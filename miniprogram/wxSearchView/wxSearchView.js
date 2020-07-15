@@ -132,6 +132,10 @@ function wxSearchKeyTap(e) {
   wx.navigateTo({
     url: "/pages/orgPage/orgPage?id=" + id + "&longitude=" + longitude + "&latitude=" + latitude ,
   })
+  __that.setData({
+    isMap: true,
+    isWxSearch:false
+  });
   return
   __that.setData({
     wxSearchData: temData,

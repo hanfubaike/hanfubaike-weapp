@@ -40,13 +40,10 @@
 
     </cover-view>
 
+
   </map>
 
-
-
-
-
-    <view class="item cats">
+    <view class="item cats {{showCats ? '' : 'hide'}}">
       <view class="picker {{showCats ? '' : 'hide'}}" bindtap='diqu' catchtap="selectCat" >
         <view 
           wx:for="{{allCat}}"
@@ -58,6 +55,10 @@
 
       </view>
     </view>
+
+
+
+
 
 
 </view>
