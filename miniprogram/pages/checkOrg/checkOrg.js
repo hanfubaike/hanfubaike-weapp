@@ -110,7 +110,10 @@ Page({
     }
     const db = wx.cloud.database()
     //查询当前用户所有的 counters
-    db.collection(this.data.dbName).doc(id).field(field).get({
+    db.collection(this.data.dbName).where({
+      _id:id,
+      _openid: '{openid}'
+    }).field(field).get({
       success: res => { 
         console.log('[数据库] [查询记录] 成功: ', res)
         if (res.data){

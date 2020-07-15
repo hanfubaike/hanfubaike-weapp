@@ -173,7 +173,8 @@ Page({
     return db.collection(this.data.dbName).field({
         orgName: true
       }).where({
-        orgName: this.formData.orgName
+        orgName: this.formData.orgName,
+        _openid: '{openid}'
       }).get()
   },
 
@@ -584,7 +585,8 @@ Page({
          return db.collection('user').field({
           openid:false
         }).where({
-          isAdmin:true
+          isAdmin:true,
+          _openid: '{openid}'
         }).get()
         
       }catch(err){
