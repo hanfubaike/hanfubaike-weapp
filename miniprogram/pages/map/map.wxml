@@ -21,7 +21,7 @@
       <cover-image  src='/res/zoom.png' class="controls">
       </cover-image>
     </cover-view>
-    
+
     <cover-view class="diqu" bindtap='diqu'>
       <cover-image  src='/res/地区.png' class="controls">
       </cover-image>
@@ -50,7 +50,7 @@
       <view class="picker {{showCats ? '' : 'hide'}}" bindtap='diqu' catchtap="selectCat" >
         <view 
           wx:for="{{allCat}}"
-          wx:key="{{index}}"
+          wx:key="index"
           data-id="{{index}}"
           class="option {{catIndex === index ? 'selected' : ''}}">
         {{item.name}}
