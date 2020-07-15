@@ -38,7 +38,7 @@ function init(that, hotKeys, searchFunction, backwxSearchKeyTap, goBackFunction)
   __that.setData({
     wxSearchData: temData,
     inputText:"",
-    bottonText:"搜索"
+    bottonText:"刷新"
   });
 }
 
@@ -111,8 +111,8 @@ function wxSearchClear() {
     inputText: temData.value,
     isWxSearch:false,
     isMap: true,
-    scale: 3,
-    bottonText : "搜索"
+    scale: 9,
+    bottonText : "刷新"
   });
   __that.isSearch = false
   __that.setMarkers(__that.orgList)
