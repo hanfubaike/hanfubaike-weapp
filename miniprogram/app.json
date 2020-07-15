@@ -9,7 +9,8 @@
     "pages/checkOrg/checkOrg",
     "pages/msg/msg_success",
     "pages/orgPage/orgPage",
-    "pages/webpage/webpage"
+    "pages/webpage/webpage",
+    "pages/searchMap/searchMap"
   ],
   "cloud": true,
   "window": {

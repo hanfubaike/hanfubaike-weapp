@@ -900,13 +900,18 @@ Page({
     var self = this
     var points = []
     if (!values.value) {
-      console.log("搜索参数为空")
+      self.points = []
+      self.setData({
+        scale: 3
+      })
+      self.getOrgList()
       return
-
     }
+    self.isSearch = false
+
     console.log(values)
     var tipKeys = values.tipKeys
-    var value = values.value
+    let value = values.value
     var points = []
     //self.setIndexMarkers(tipKeys, true)
     for (var x in tipKeys) {

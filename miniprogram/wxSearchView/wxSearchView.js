@@ -133,17 +133,13 @@ function wxSearchKeyTap(e) {
     url: "/pages/orgPage/orgPage?id=" + id + "&longitude=" + longitude + "&latitude=" + latitude ,
   })
   __that.setData({
-    isMap: true,
-    isWxSearch:false
-  });
-  return
-  __that.setData({
     wxSearchData: temData,
     isWxSearch: false,
     inputText: e.currentTarget.dataset.key.orgName,
     isMap: true
   });
   console.log(e.currentTarget.dataset.key)
+  return
   __wxSearchKeyTap(e.currentTarget.dataset.key);
 }
 
