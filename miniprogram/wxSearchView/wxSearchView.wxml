@@ -24,7 +24,7 @@
       <view hidden="{{wxSearchData.tipKeys.length == 0 ? false : true}}" class="no-more">---什么也没找到---</view>
         <block wx:for="{{wxSearchData.tipKeys}}" wx:key="_id">
           <view class="wxSearchMindKeyimage" bindtap="wxSearchKeyTap" data-key="{{item}}">
-            <image style="width: 20px; height: 20px; background-color: #eeeeee;" src="{{item.logoImage}}"></image>
+            <image wx:if="{{item.logoImage}}" style="width: 20px; height: 20px; background-color: #eeeeee;" src="{{item.logoImage ? item.logoImage : '/res/defaultLogo.png'}}"></image>
             <view class="wxSearchMindKeyItem">
               <text class="wxSearchMindKeyText" selectable="true">{{item.orgName}}</text>
             </view>
@@ -42,7 +42,7 @@
     <view class="weui-grids" style='border-top:0'>
         <block wx:for="{{wxSearchData.hotKeys}}" wx:key="_id">
         <view class='weui-grid' style='border-right: 0;border-bottom: 0;width: 25%;' bindtap="wxSearchKeyTap" data-key="{{item}}">
-          <image class="weui-grid__icon" src="{{item.logoImage ? item.logoImage : '/res/defaultLogo.png'}}" style="width: 100rpx;height: 100rpx;" binderror="imageError" data-key="{{item}}"/>
+          <image wx:if="{{item.logoImage}}" class="weui-grid__icon" src="{{item.logoImage ? item.logoImage : '/res/defaultLogo.png'}}" style="width: 100rpx;height: 100rpx;" binderror="imageError" data-key="{{item}}"/>
           <view class="weui-grid__label">{{item.orgName}}</view>
           </view>
         </block>
