@@ -130,22 +130,22 @@ right:20rpx;
 .picker {
   position: absolute;
   width: 50px;
-  right: 6.5px;
+  right: 7px;
   top: 111px;
   max-height: 600rpx;  
   background: rgba(255, 255, 255, 0.6);
   border-radius: 4px;
-  overflow-y: scroll;
+  /*overflow-y: scroll;*/
   opacity: 1;
   transition: all 0.3s cubic-bezier(0.25, 0.75, 0.5, 1.25);
 }
 .picker.hide {
   opacity: 0;
-  right: -10%;
+  right: -20%;
 }
 .picker .option {
   font-size: 10px;
-  width: 100%;
+  width: 110%;
   height: 70rpx;
   line-height: 80rpx;
   text-align: center;
