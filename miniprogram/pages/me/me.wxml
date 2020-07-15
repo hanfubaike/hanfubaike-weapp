@@ -110,7 +110,7 @@
         <view class="weui-half-screen-dialog__desc">
           如果你在使用中遇到了问题，可以点击下方的按钮进行反馈。
         </view>
-        <view class="weui-half-screen-dialog__tips">
+        <view wx:if="{{false}}" class="weui-half-screen-dialog__tips">
           如果你有好的意见和建议，请关闭此窗口，然后点击右上角的【三个点】图标，选择 反馈与投诉→ 产品建议。或者通过邮箱联系我们：hanfubaike@163.com
         </view>
       </view>

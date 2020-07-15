@@ -25,7 +25,7 @@
 		},
 		"useIsolateContext": true,
 		"useCompilerModule": true,
-		"userConfirmedUseCompilerModuleSwitch": false
+		"userConfirmedUseCompilerModuleSwitch": true
 	},
 	"appid": "wx4bd261cc69bfbb78",
 	"projectname": "hanfubaike-weapp",
