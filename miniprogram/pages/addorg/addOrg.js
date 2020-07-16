@@ -205,6 +205,7 @@ Page({
     this.autoSave()
     if (!this.postForm()){
       console.error("提交失败")
+
       wx.showToast({
         icon: 'none',
         title: '提交失败！'
@@ -320,6 +321,9 @@ Page({
           //}
         //})
     }else{
+      wx.hideLoading({
+        success: (res) => {},
+      })
       wx.showModal({
         showCancel:false,
         title: '提示',
@@ -634,7 +638,7 @@ Page({
 
   },
   setOrgInfo(dataList){
-    const data = dataList
+    const data = dataList[0]
     //console.log(data)
     let listData = []
     let listData2 = []
