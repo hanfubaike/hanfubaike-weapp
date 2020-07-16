@@ -164,7 +164,7 @@ Page({
                 }
               }
             })
-            console.error('[数据库] [更新记录] 失败：', error)
+            console.error('[数据库] [更新记录] 失败：', res)
           }
     
         })
@@ -210,8 +210,7 @@ Page({
     return db.collection(this.data.dbName).field({
         orgName: true
       }).where({
-        orgName: this.formData.orgName,
-        _openid: '{openid}'
+        orgName: this.formData.orgName
       }).get()
   },
 
@@ -626,8 +625,7 @@ Page({
          return db.collection('user').field({
           openid:false
         }).where({
-          isAdmin:true,
-          _openid: '{openid}'
+          isAdmin:true
         }).get()
         
       }catch(err){

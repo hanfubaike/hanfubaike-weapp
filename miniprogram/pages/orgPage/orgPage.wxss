@@ -14,7 +14,7 @@ swiper .slide {
   background: #fff;
 }
 .head-wrapper.logo-mode .title {
-  padding: 0 20rpx 20rpx 180rpx;
+  padding: 10rpx 20rpx 20rpx 180rpx;
 }
 .head-wrapper .logo {
   position: absolute;
