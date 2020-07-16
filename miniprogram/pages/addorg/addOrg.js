@@ -134,27 +134,64 @@ Page({
         delete data['_openid']
         delete data['status']
         delete data['postType']
-        data['updateTime'] = db.serverDate()
-        dbres = await db.collection(this.data.dbName).
-        where({
-          _id:this.data._id,
-          _openid: '{openid}'
-        }).update({
-          data: data,
+        let id = this.data._id
+        var updated = false
+        await wx.cloud.callFunction({
+          // 云函数名称
+          name: 'updateOrg',
+          // 传给云函数的参数
+          data: {
+            id,
+            orgData:data,
+          },
         })
+        .then(res => {
+          console.log(res)
+          if(res.result.updated){
+            console.log('[数据库] [更新记录] 成功')
+            updated = true
+          }else{
+            setTimeout(function () {
+              wx.hideLoading()
+            }, 200)
+            wx.showModal({
+              showCancel:false,
+              title: '提示',
+              content: res.result.msg,
+              success (res) {
+                if (res.confirm) {
+                  console.log('用户点击确定')
+                }
+              }
+            })
+            console.error('[数据库] [更新记录] 失败：', error)
+          }
+    
+        })
+        .catch(error =>{
+          console.error(error)
+          setTimeout(function () {
+            wx.hideLoading()
+          }, 200)
+          wx.showModal({
+            showCancel:false,
+            title: '提示',
+            content: "更新失败：未知错误"
+          })
+          console.error('[数据库] [更新记录] 失败：', error)
+        })
+        .finally(function(){
+        })
+        return updated
+
       }else{
         data['postTime'] = db.serverDate()
         dbres = await db.collection(this.data.dbName).add({
           data: data,
         })
+        console.log(dbres)
+        return true
       }
-      
-
-      console.log('[数据库] [更新记录] 成功，记录 _id: ', dbres._id)
-      this.setData({
-        counterId: dbres._id,
-      })
-      return true
 
     }catch(err){
       console.error('[数据库] [更新记录] 失败：', err)
