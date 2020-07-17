@@ -1,8 +1,6 @@
-import Toast from '../../vant-weapp/toast/toast';
-import Notify from '../../vant-weapp/notify/notify';
-var wxApi = require('../../utils/wxApi.js')
-const wxRequest = require('../../utils/wxRequest.js');
+
 const app = getApp()
+const chooseLocation = requirePlugin('chooseLocation');
 
 Page({
   data: {
@@ -90,6 +88,7 @@ Page({
     //setInterval(this.autoSave,10000)
   },
   onShow(option){
+    let self = this
     if (app.cropperImg.url){
       let fileName = app.cropperImg.fileName
       this.setData({
@@ -100,6 +99,26 @@ Page({
     },
       )
     }
+    const location = chooseLocation.getLocation(); // 如果点击确认选点按钮，则返回选点结果对象，否则返回null
+    if(location){
+      console.log(location)
+      let addres = ""
+      if(location.city && location.district && location.name){
+        addres = `${location.city}${location.district}${location.name}`
+      }else{
+        addres = location.address
+      }
+      
+      console.log(addres)
+      self.setData({
+        locationAddress: addres,
+        latitude: location.latitude,
+        longitude: location.longitude,
+      })
+      self.formData['locationAddress'] = addres
+      self.autoSave()
+    }
+    
   },
   autoSave(){
     this.formData['latitude'] = this.data.latitude
@@ -413,7 +432,16 @@ Page({
   },
   chooseLocation: function () {
     let self = this
-    wx.chooseLocation({
+    const key = 'AIZBZ-F5M62-ACTUF-C2LQH-DQKC7-TVB7A'; //使用在腾讯位置服务申请的key
+    const referer = '汉服小百科'; //调用插件的app的名称
+    const location = ""
+    const category = '';
+    
+    wx.navigateTo({
+      url: `plugin://chooseLocation/index?key=${key}&referer=${referer}&location=${location}&category=${category}`
+    });
+    
+    /*wx.chooseLocation({
       success: function (res) {
         console.log(res)
         self.setData({
@@ -424,7 +452,7 @@ Page({
         self.formData['locationAddress'] = res.address
         self.autoSave()
       }
-    })
+    })*/
   },
   afterRead(event) {
     const {

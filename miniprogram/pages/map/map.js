@@ -2,7 +2,6 @@
 var WxSearch = require('../../wxSearchView/wxSearchView.js');
 var util = require('../../utils/util.js');
 var MakerCluster = require('../../utils/MakerCluster.js');
-const wxRequest = require('../../utils/wxRequest.js');
 var app = getApp();
 
 var orgType = [{ name: "其它组织", img: "/res/collection.png" },
