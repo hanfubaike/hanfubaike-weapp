@@ -7,7 +7,13 @@ var systemInfo = wx.getSystemInfoSync()
 
 App({
   onLaunch: function () {
-    
+    Promise.prototype.finally = function (callback) {
+      let P = this.constructor;
+      return this.then(
+        value => P.resolve(callback()).then(() => value),
+        reason => P.resolve(callback()).then(() => { throw reason })
+      );
+    };
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {

@@ -14,6 +14,7 @@
 		"autoAudits": false,
 		"showShadowRootInWxmlPanel": true,
 		"scopeDataCheck": false,
+		"uglifyFileName": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
 		"uploadWithSourceMap": true,
@@ -23,6 +24,7 @@
 			"disablePlugins": [],
 			"outputPath": ""
 		},
+		"bundle": false,
 		"useIsolateContext": true,
 		"useCompilerModule": true,
 		"userConfirmedUseCompilerModuleSwitch": true
