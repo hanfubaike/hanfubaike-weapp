@@ -39,6 +39,7 @@
 
 .no-more{
   text-align: center;
+  color: #acacae;
 
 }
 

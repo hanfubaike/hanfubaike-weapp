@@ -434,7 +434,14 @@ Page({
     let self = this
     const key = 'AIZBZ-F5M62-ACTUF-C2LQH-DQKC7-TVB7A'; //使用在腾讯位置服务申请的key
     const referer = '汉服小百科'; //调用插件的app的名称
-    const location = ""
+    let longLatiute = {}
+    if(self.data.longitude && self.data.latitude){
+      longLatiute.longitude = self.data.longitude
+      longLatiute.latitude = self.data.latitude
+    }
+
+    const location = longLatiute ? JSON.stringify(longLatiute) : '';
+    console.log(location)
     const category = '';
     
     wx.navigateTo({

@@ -10,7 +10,7 @@
       <view class="th ">提交人</view>
       <view class="th ">提交时间</view>
     </view>
-    <!--<view hidden="{{listData.length == 0 ? false : true}}" class="no-more">---什么也没找到---</view>-->
+     <view hidden="{{noMore ? false : true}}" class="no-more">--- 什么也没有 ---</view>
     <block wx:for="{{needChecklist}}" wx:key="orgName">
     <navigator url="/pages/checkOrg/checkOrg?id={{item._id}}" open-type="navigate">
       <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
@@ -45,7 +45,7 @@
       <view class="th ">审核结果</view>
       <view class="th ">审核时间</view>
     </view>
-    <!--<view hidden="{{listData.length == 0 ? false : true}}" class="no-more">---无---</view>-->
+    <view hidden="{{noMore ? false : true}}" class="no-more">--- 什么也没有 ---</view>
     <block wx:for="{{isChecklist}}" wx:key="orgName">
     <navigator url="/pages/checkOrg/checkOrg?id={{item._id}}&readonly=true" open-type="navigate">
       <view class="tr bg-g" wx:if="{{index % 2 == 0}}">

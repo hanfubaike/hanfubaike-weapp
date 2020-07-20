@@ -9,6 +9,7 @@ Page({
   data: {
     needChecklist:[
     ],
+    noMore:false,
     isChecklist:[],
     dbName:'org',
     active: 0,
@@ -39,7 +40,8 @@ Page({
     }
     this.setData({
       needChecklist:[],
-      isChecklist:[]
+      isChecklist:[],
+      noMore:false
     })
     if (this.title == "待审核"){
       this.needCheck()
@@ -123,12 +125,17 @@ Page({
           listData.push(thisData)
         }
         self.setData({
-          needChecklist:listData
+          needChecklist:listData,
+          noMore:false
         })
         wx.hideLoading()
       }else{
         console.log('没有需要审核的组织')
-        app.showToast("没有需要审核的组织")
+        wx.hideLoading({
+          success: (res) => {},
+        })
+        self.setData({noMore:true})
+        //app.showToast("没有需要审核的组织")
       }
     }
     let field = {
@@ -154,12 +161,17 @@ Page({
           listData.push(thisData)
         }
         self.setData({
-          isChecklist:listData
+          isChecklist:listData,
+          noMore:false
         })
         wx.hideLoading()
       }else{
         console.log('没有已审核的组织')
-        app.showToast("没有已审核的组织")
+        self.setData({noMore:true})
+        wx.hideLoading({
+          success: (res) => {},
+        })
+        //app.showToast("没有已审核的组织")
       }
     }
     let field = {

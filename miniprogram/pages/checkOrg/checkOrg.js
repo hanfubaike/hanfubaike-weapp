@@ -360,6 +360,16 @@ Page({
     this.setData({
       txtLenght:e.detail.cursor
     })
+  },
+  checkLocation(e){
+    console.log(e)
+    let latitude = this.data.longLatiute.latitude
+    let longitude = this.data.longLatiute.longitude
+    wx.openLocation({
+      latitude,
+      longitude,
+      scale: 15
+    })
   }
 
 });
