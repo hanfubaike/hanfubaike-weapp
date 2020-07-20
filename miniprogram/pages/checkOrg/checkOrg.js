@@ -368,6 +368,8 @@ Page({
     wx.openLocation({
       latitude,
       longitude,
+      name: this.data.orgName,
+      address:this.data.locationAddress,
       scale: 15
     })
   }
