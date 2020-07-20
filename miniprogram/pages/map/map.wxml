@@ -23,7 +23,7 @@
     </cover-view>
 
     <cover-view class="diqu" bindtap='diqu' style="top:{{screenHeight/7-10}}px">
-      <cover-image  src='/res/地区.png' class="controls">
+      <cover-image  src='/res/地区.png' class="navitage">
       </cover-image>
     </cover-view>
 
