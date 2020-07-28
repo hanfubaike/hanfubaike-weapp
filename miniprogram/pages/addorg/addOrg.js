@@ -508,7 +508,8 @@ Page({
 
   imageName:function(name, filePath, index, fileList){
     let loc = fileList.length == 1 ? '' : "-" + index
-    const cloudPath = "orgReg/" + name + loc + filePath.match(/\.[^.]+?$/)[0]
+    //const cloudPath = "orgReg/" + name + loc + filePath.match(/\.[^.]+?$/)[0]
+    const cloudPath = "orgReg/" + name + loc + '.jpg'
     return cloudPath
   },
   uploadfile(fileList,fileListName,fileName){

@@ -4,7 +4,7 @@ const config = require('config.js')
 var nowTime = new Date().getTime()
 
 var systemInfo = wx.getSystemInfoSync()
-
+console.log(systemInfo)
 App({
   onLaunch: function () {
     Promise.prototype.finally = function (callback) {
