@@ -216,7 +216,7 @@ Component({
 
         //开始画图
         let h = Math.round(w * imgObj.h2w)
-        let quality = 0.8
+        let quality = 0.7
         if (h > 1.4 * w && h <= 2*w) quality = 0.66
         else if (h > 2 * w && h<= 2.5*w) quality = 0.58
         else if(h > 2.5 * w) quality = 0.5

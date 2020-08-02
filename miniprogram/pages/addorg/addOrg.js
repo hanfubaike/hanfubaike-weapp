@@ -9,7 +9,7 @@ Page({
     showMask:false,
     loading:false,
     postType:'新增',
-    sizeType:['compressed'],
+    sizeType:['original'],
     reasonFileList: [],
     logoFileList: [],
     orgImageFileList:[],
@@ -510,8 +510,8 @@ Page({
       wx.navigateTo({
         url: '../cropper/cropper?fileName=logoFileList&export_scale=1&url='+file.path,
       })
-    }else 
-    {if(app.isPC){
+    }else {
+//      if(app.isPC){
       wx.yx.compressImage({
         filePath:file,
         success(res){
@@ -526,9 +526,9 @@ Page({
 //        fail: function (res) {
 //        }
 //      })
-    }else{
-      setImg(file,true,name,self)
-    }
+    //}else{
+      //setImg(file,true,name,self)
+    //}
   }
 
 
