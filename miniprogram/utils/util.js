@@ -158,6 +158,14 @@ function getDateOut(dateStr) {
     return result;
 }
 
+function getDateName(myDate=""){
+  if(myDate==""){
+    myDate = new Date();
+  }
+  let fileName = myDate.toLocaleDateString().replace(/\//g, "-") + "_" + myDate.toTimeString().substr(0, 8).replace(/:/g,"_")
+  return fileName
+}
+
 function cutstr(str, len,flag) {
         var str_length = 0;
         var str_len = 0;
@@ -499,7 +507,8 @@ module.exports = {
   getDateStr: getDateStr,
   isWhiteSpace:isWhiteSpace,
   lightenColor:lightenColor,
-  isArrayFn:isArrayFn
+  isArrayFn:isArrayFn,
+  getDateName:getDateName
   
 }
 

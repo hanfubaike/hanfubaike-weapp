@@ -40,7 +40,8 @@ Page({
       reason:"申请说明"
     },
     isModify:false,
-    isPC:app.isPC
+    isPC:app.isPC,
+    cloudData:{}
    
   },
   lastSaveTime:0
@@ -550,21 +551,29 @@ Page({
 
   imageName:function(name, filePath, index, fileList){
     let loc = fileList.length == 1 ? '' : "-" + index
-    const cloudPath = "orgReg/" + name + loc + filePath.match(/\.[^.]+?$/)[0]
+    let uploadPath = "orgImg/"
+    if(name.indexOf('-reason')>-1){
+      uploadPath = "reasonImg/"
+    }
+    const cloudPath =  uploadPath + name  + "-" + util.getDateName() + filePath.match(/\.[^.]+?$/)[0]
     //const cloudPath = "orgReg/" + name + loc + '.jpg'
     return cloudPath
   },
   uploadfile(fileList,fileListName,fileName){
     const self = this
     let uploadTasks = []
+
     for (let x in fileList){
       let filePath = fileList[x].url
       if (filePath.indexOf("cloud://")>-1){
+      //if(cloudFileList.indexOf(filePath)>-1){
         console.log("跳过云端已存在的文件",filePath)
         uploadTasks.push(new Promise(function (resolve, reject){
           return resolve({url:filePath,fileName:fileListName})
         }))
         continue
+      }else{
+
       }
       let cloudPath = this.imageName(fileName, filePath, x, fileList)
       uploadTasks.push(new Promise(function (resolve, reject){
@@ -588,12 +597,16 @@ Page({
     return uploadTasks
   },
   async uploadFiles(orgName){
-    let logoFileList = this.data.logoFileList
-    let reasonFileList = this.data.reasonFileList
-    let orgImageFileList = this.data.orgImageFileList
-    let uploadTasks = []
+    function setFileList(fileList){
+      let newFileList = []
+      for(let x in fileList){
+        newFileList.push(fileList[x].url)
+      }
+      return newFileList
+    }
+
     const self = this
-    let name = orgName + "-apply"
+    let name = orgName + "-reason"
     let logoName = orgName + "-logo"
     let orgImageName = orgName + "-orgImage"
     console.log("正在上传图片")
@@ -601,6 +614,30 @@ Page({
       title: "正在上传图片...",
       mask:true
     })
+
+    let logoFileList = this.data.logoFileList
+    let reasonFileList = this.data.reasonFileList
+    let orgImageFileList = this.data.orgImageFileList
+    let uploadTasks = []
+    let cloudFileList = []
+    let removeList = []
+    if(self.data.isModify){
+      cloudFileList = cloudFileList.concat(self.cloudData.orgImageList).concat(self.cloudData.logoList)
+      let allFileList = []
+      allFileList = allFileList.concat(logoFileList).concat(reasonFileList).concat(orgImageFileList)
+      allFileList = setFileList(allFileList)
+      console.log('allFileList',allFileList)
+      console.log('cloudFileList',cloudFileList)
+      for(let x in cloudFileList){
+        let fileUrl = cloudFileList[x]
+        if(allFileList.indexOf(fileUrl)>-1){
+  
+        }else{
+          removeList.push(fileUrl)
+        }
+      }
+    }
+
     uploadTasks = uploadTasks.concat(self.uploadfile(logoFileList, "logoList",logoName))
     if(!this.data.isModify){
       uploadTasks = uploadTasks.concat(self.uploadfile(reasonFileList, "reasonImageList",name))
@@ -634,6 +671,15 @@ Page({
       self.formData['postType'] = self.data.postType;
       //注册状态，0：待审核，-1：审核未通过，1：审核通过 
       self.formData['status'] = 0;
+      if(removeList.length > 0){
+        console.log('删除文件列表：',removeList)
+        let delResult = await wx.cloud.deleteFile({
+          fileList: removeList
+        })
+        console.log(delResult)
+      }
+
+      
       return true;
     }
     catch (reason) {
@@ -773,6 +819,7 @@ Page({
     data.orgImageFileList = listData3
     data.latitude = data.longLatiute.latitude
     data.longitude = data.longLatiute.longitude
+    this.cloudData = data
     this.setData(
       data
     )
