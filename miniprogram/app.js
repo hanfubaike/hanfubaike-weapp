@@ -4,6 +4,12 @@ const config = require('config.js')
 var nowTime = new Date().getTime()
 
 var systemInfo = wx.getSystemInfoSync()
+var isPC = false
+//判断是否是PC版
+if(systemInfo.platform=="windows" || systemInfo.platform=="mac" || systemInfo.platform=="devtools"){
+  console.log("PC环境")
+  isPC = true
+}
 console.log(systemInfo)
 App({
   onLaunch: function () {
@@ -46,6 +52,7 @@ App({
     
       }
     }
+
     this.globalData = wx.getStorageSync('globalData') || this.globalData
     if (this.globalData.VERSION != VERSION){
       this.globalData.userInfo = {}
@@ -230,6 +237,7 @@ App({
     return 0
   },
   version : systemInfo.SDKVersion,
-  systemInfo:systemInfo
+  systemInfo:systemInfo,
+  isPC:isPC
   
 })

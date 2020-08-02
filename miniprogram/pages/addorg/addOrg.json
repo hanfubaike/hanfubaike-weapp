@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "image-cropper": "../../image-cropper/image-cropper"
+    "image-cropper": "../../image-cropper/image-cropper",
+    "mini-compress": "../../components/mini-compress/mini-compress"
   },
   "navigationBarTitleText":"新增组织"
 }

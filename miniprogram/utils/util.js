@@ -466,6 +466,14 @@ function lightenColor(col, amt) {
   return "#" + padZero(r.toString(16)) + padZero(b.toString(16)) + padZero(g.toString(16));
 }
 
+function isArrayFn(value){
+  if (typeof Array.isArray === "function") {
+  return Array.isArray(value);
+  }else{
+  return Object.prototype.toString.call(value) === "[object Array]";
+  }
+  }
+
 module.exports = {
   formatTime: formatTime,
   getDateDiff: getDateDiff,
@@ -490,7 +498,8 @@ module.exports = {
   getRandomArrayElements: getRandomArrayElements,
   getDateStr: getDateStr,
   isWhiteSpace:isWhiteSpace,
-  lightenColor:lightenColor
+  lightenColor:lightenColor,
+  isArrayFn:isArrayFn
   
 }
 

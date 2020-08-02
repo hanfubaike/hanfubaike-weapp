@@ -36,13 +36,13 @@
 
     <van-field id="orgDesc" name="orgDesc" bind:change="inputChage" value="{{orgDesc}}"  label="组织简介" type="textarea" maxlength="1000" show-word-limit placeholder="请输入组织简介（如有其它联系方式，可在此填写）" border="{{ true }}" autosize="{{autosize}}" />
 
-    <van-field wx:if="{{!isModify}}" id="reason"  name="reason" bind:change="inputChage" value="{{ reason }}" label="申请说明" maxlength="500" show-word-limit type="textarea" placeholder="请输入申请说明" autosize="{{autosize}}" border="{{ true }}" />
+    <van-field wx:if="{{!isModify}}" id="reason"  name="reason" bind:change="inputChage" value="{{ reason }}" label="申请说明" maxlength="500" show-word-limit type="textarea" placeholder="请输入申请说明，如社团介绍，或推荐人。可以留空。" autosize="{{autosize}}" border="{{ true }}" />
   </van-cell-group>
   <view class="field-index--van-field van-cell van-cell--center" style="padding-top: 8px;">
   <van-row wx:if="{{!isModify}}" gutter="10">
-    <van-col span="24" ><view class="van-cell__title" style="margin-bottom: 5%;" >证明材料<text class="tips">（请上传有效的证明材料，如社会团体证、营业执照、微信或QQ群的后台截图等任何能证明此信息真实有效的材料）</text></view></van-col>
+    <van-col span="24" ><view class="van-cell__title" style="margin-bottom: 5%;" >证明材料<text class="tips">（请上传有效的证明材料，如社会团体证、营业执照、微信或QQ群的管理界面截图等任何能证明此信息真实有效的材料）</text></view></van-col>
     <van-col span="24">
-    <van-uploader name="reasonFile" preview-size="70px" upload-text="" file-list="{{ isModify?reasonImageList:reasonFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ false }}" multiple="{{ false }}" image-fit="aspectFit" max-count="5" sizeType="{{sizeType}}"/>
+    <van-uploader name="reasonFile" preview-size="70px" upload-text="" file-list="{{ isModify?reasonImageList:reasonFileList }}" bind:before-read="beforeRead" bind:after-read="afterRead" bind:delete="delete" bind:click-preview="clickPreview" use-before-read="{{ false }}" multiple="{{ true }}" image-fit="aspectFit" max-count="3" sizeType="{{sizeType}}"/>
     </van-col>
   </van-row>
   </view>
@@ -58,3 +58,5 @@
   <button type="primary" bindtap="postBt" form-type="submit" color="linear-gradient(to right, #4bb0ff, #6149f6)" loading='{{loading}}' block>{{isModify?"修改资料":"提交资料"}}</button>
 </form>
 </block>
+
+<mini-compress />

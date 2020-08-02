@@ -1,6 +1,7 @@
 
 const app = getApp()
 const chooseLocation = requirePlugin('chooseLocation');
+import util from '../../utils/util.js';
 
 Page({
   data: {
@@ -38,7 +39,8 @@ Page({
       wxmp:"微信公众号",
       reason:"申请说明"
     },
-    isModify:false
+    isModify:false,
+    isPC:app.isPC
    
   },
   lastSaveTime:0
@@ -461,34 +463,74 @@ Page({
       }
     })*/
   },
+  beforeRead(event) {
+    console.log(event.detail)
+    const { file, callback } = event.detail;
+    let fileSure = false
+//    if(file.size > 1*1024*1024){
+//    }else{
+//      fileSure = true
+//    }
+//    callback(fileSure);
+    
+  },
+
   afterRead(event) {
     const {
       file,
       name
     } = event.detail;
+    console.log(event.detail)
 
+    function setImg(imgArray,isOrigin,name,self){
+      let fileList = []
+      for(let x in imgArray){
+        if(isOrigin){
+          fileList.push({url:imgArray[x].path})
+        }else{
+          fileList.push({url:imgArray[x].url})
+        }
+        
+      }
+      if(name == 'orgImage'){
+        self.setData({
+         orgImageFileList: self.data.orgImageFileList.concat(fileList)
+        });
+      }
+      else{
+        self.setData({
+          reasonFileList: self.data.reasonFileList.concat(fileList)
+        });
+      }
+    }
+
+    let self = this
     if (name == 'logo'){
       //getCurrentPages().slice(-1)
       wx.navigateTo({
         url: '../cropper/cropper?fileName=logoFileList&export_scale=1&url='+file.path,
       })
-    }else if(name == 'orgImage'){
-      //wx.navigateTo({
-        //url: '../cropper/cropper?ratio=16.9&fileName=orgImageFileList&export_scale=2&url='+file.path,
-      //})
-      let orgImageFileList = []
-      for(let x in file){
-        orgImageFileList.push({url:file[x].path})
-      }
-      this.setData({
-       orgImageFileList: this.data.orgImageFileList.concat(orgImageFileList)
-      });
+    }else 
+    {if(app.isPC){
+      wx.yx.compressImage({
+        filePath:file,
+        success(res){
+          console.log(res)
+          setImg(res.imgArray,false,name,self)
+        }
+      })
+//      wx.showModal({
+//        title: '提示',
+//        content: '图片太大了，请将图片压缩至1M或使用手机上传!',
+//        showCancel: false,
+//        fail: function (res) {
+//        }
+//      })
+    }else{
+      setImg(file,true,name,self)
     }
-    else{
-      this.setData({
-        reasonFileList: this.data.reasonFileList.concat({url:file.path})
-      });
-    }
+  }
+
 
   },
 
@@ -508,8 +550,8 @@ Page({
 
   imageName:function(name, filePath, index, fileList){
     let loc = fileList.length == 1 ? '' : "-" + index
-    //const cloudPath = "orgReg/" + name + loc + filePath.match(/\.[^.]+?$/)[0]
-    const cloudPath = "orgReg/" + name + loc + '.jpg'
+    const cloudPath = "orgReg/" + name + loc + filePath.match(/\.[^.]+?$/)[0]
+    //const cloudPath = "orgReg/" + name + loc + '.jpg'
     return cloudPath
   },
   uploadfile(fileList,fileListName,fileName){
