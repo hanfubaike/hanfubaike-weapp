@@ -25,7 +25,7 @@
 </view>
 
 <!-- 其它信息 -->
-<view class='card' hidden="{{!userInfo.name}}">
+<view class='card'>
 	<view class='horizontal' bindtap='addOrg'>
 		<image class='icon-small icon' src='/res/add.png'></image>
 		<text class='title'>新增</text>

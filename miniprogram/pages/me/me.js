@@ -178,7 +178,7 @@ Page({
         url: '/pages/check/check',
       })
     }else{
-      app.showToast("请先登录！")
+      //app.showToast("请先登录！")
     }
   },
   about: function (e) {
@@ -234,9 +234,12 @@ Page({
     })
   },
   inviteUser(e){
-    wx.navigateTo({
-      url: '/pages/invite/invite',
-    })
+    if (this.checkLogin()){
+      wx.navigateTo({
+        url: '/pages/invite/invite',
+      })
+    }
+
   }
 
 })
