@@ -7,6 +7,7 @@
     <view class="tr bg-w">
       <view class="index th">序号</view>
       <view class="th">组织名称</view>
+      <view class="th ">提交类型</view>
       <view class="th ">提交人</view>
       <view class="th ">提交时间</view>
     </view>
@@ -17,6 +18,7 @@
       
         <view class="index td">{{index+1}}</view>
         <view class="td">{{item.orgName}}</view>
+        <view class="td">{{item.revise?'重新修改':'初次提交'}}</view>
         <view class="td">{{item.poster}}</view>
         <view class="td">{{item.postTime}}</view>
 

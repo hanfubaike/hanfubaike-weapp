@@ -241,6 +241,7 @@ Page({
   },
   passed(checkText){
     const self = this
+    this.checkPass = true
     this.title = "【"+ this.data.orgName.slice(0,13) +"】审核通过！"
     this.tips = "恭喜，你又为汉服百科添了一块砖啦!"
     wx.showModal({
@@ -280,6 +281,7 @@ Page({
   },
   noPassed(checkText){
     const self = this
+    this.checkPass = false
     let value = checkText
     this.title = "【"+ this.data.orgName.slice(0,12) +"】审核未通过！"
     this.tips = value
@@ -297,13 +299,19 @@ Page({
   },
   sendMsg(name,title,time,tips){
     const self = this
+    let pageUrl = ''
+    if(this.checkPass){
+      pageUrl = `/pages/orgPage/orgPage?id=${this.option.id}`
+    }else{
+      pageUrl = `/pages/addOrg/addOrg?mod=revise&id=${this.option.id}`
+    }
     wx.cloud.callFunction({
       // 云函数名称
       name: 'sendMsg',
       // 传给云函数的参数
       data: {
         openid: self.data._openid,
-        page: "/pages/map/map",
+        page: pageUrl,
         templateId:app.templateId,
         miniprogram_state:app.envVersion,
         lang: 'zh_CN',

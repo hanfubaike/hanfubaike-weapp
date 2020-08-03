@@ -142,6 +142,7 @@ Page({
       orgName: true,
       poster:true,
       postTime:true,
+      revise:true
     }
     let where = {
         status: 0

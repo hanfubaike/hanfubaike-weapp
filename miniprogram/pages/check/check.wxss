@@ -17,6 +17,10 @@
     justify-content: center;
     text-align: center;
 }
+
+.type{
+  width:15%;
+}
 .bg-w{
   background: snow;
 }

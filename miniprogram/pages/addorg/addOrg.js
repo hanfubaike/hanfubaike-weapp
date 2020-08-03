@@ -53,7 +53,8 @@ Page({
   onLoad(option){
     const self = this
     app.checkLogin()
-    if(option.mod == "modify"){
+    this.option = option
+    if(option.mod == "modify" || option.mod=="revise"){
       self.setData({isModify:true})
       wx.setNavigationBarTitle({
         title: "修改组织信息"
@@ -157,6 +158,11 @@ Page({
         delete data['_openid']
         delete data['status']
         delete data['postType']
+        if(self.option.mod == "revise"){
+          data['status'] = 0
+          //修改标识
+          data['revise'] = true
+        }
         let id = this.data._id
         let removeList = self.removeList || []
         let updated = false
@@ -326,7 +332,7 @@ Page({
           key:'formData',
           data:{}
         })
-        if(self.data.isModify){
+        if(self.data.isModify && self.option.mod!='revise'){
           wx.showToast({
             icon:'success',
             title: '修改成功！',

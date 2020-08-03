@@ -75,7 +75,7 @@
 					"id": 2,
 					"name": "pages/addOrg/addOrg",
 					"pathName": "pages/addOrg/addOrg",
-					"query": "",
+					"query": "mod=revise&id=a7d38b365f0ecc8b004eda670244f2e8",
 					"scene": null
 				},
 				{
