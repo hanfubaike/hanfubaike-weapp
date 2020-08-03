@@ -2,121 +2,107 @@
 <import src="../../templates/copyright.wxml" />
 
 <view class='card' style='margin: 18rpx 0 18rpx 0;'>
-  <view class='horizontal'>
-    <image class='avatar' 
-      src="{{userInfo.avatarUrl?userInfo.avatarUrl:'/res/placeholder.png'}}">
-    </image>
-    <view style='margin-left:18rpx;'>
-      <view>
-        <text wx:if="{{userInfo.nickName}}" style='font-size:36rpx;'>{{userInfo.nickName}}</text>
-        <view hidden='{{userInfo.nickName}}'>
-          <button
-          class='btn-clear btn' 
-          hover-class='btn-hover'
-          style='color: {{theme.color}};'
-          open-type="getUserInfo" 
-          bindgetuserinfo="agreeGetUser"
-          >点击登录</button>
-        </view>
-        <text wx:if="{{expLabel && userInfo.nickName}}" 
-          class='grade' 
+	<view class='horizontal'>
+		<image class='avatar' src="{{userInfo.avatarUrl?userInfo.avatarUrl:'/res/placeholder.png'}}">
+		</image>
+		<view style='margin-left:18rpx;'>
+			<view>
+				<text wx:if="{{userInfo.name}}" style='font-size:36rpx;'>{{userInfo.name}}</text>
+				<view hidden='{{userInfo.name}}'>
+					<button class='btn-clear btn' hover-class='btn-hover' style='color: {{theme.color}};' bindtap="getUserInfo">点击登录</button>
+				</view>
+				<text wx:if="{{expLabel && userInfo.name}}"
+          class='grade'
           style='background-color:{{theme.gradeColor}}'
           bindtap='clickExp'>{{expLabel}}</text>
-      </view>
-      <button wx:if="{{userInfo.nickName && false}}"
-        open-type="getPhoneNumber"
-        bindgetphonenumber="getPhoneNumber"
-        class='btn-clear subtitle'>{{userInfo.phone? userInfo.phone: '绑定手机号'}}</button>
-    </view>
-    <view wx:if="{{userInfo.nickName && false}}" class="setting" bindtap="clickEdit" > 
-      <image class="arrow-right" src="{{theme.images}}/arrow_right.png"></image>
-    </view>
-  </view>
+			</view>
+			<button wx:if="{{userInfo.name && false}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" class='btn-clear subtitle'>{{userInfo.phone? userInfo.phone: '绑定手机号'}}</button>
+		</view>
+		<view wx:if="{{userInfo.name && false}}" class="setting" bindtap="clickEdit">
+			<image class="arrow-right" src="{{theme.images}}/arrow_right.png"></image>
+		</view>
+	</view>
 </view>
 
 <!-- 其它信息 -->
-<view class='card'>
-  <view class='horizontal' bindtap='addOrg'>
-    <image class='icon-small icon'
-      src='/res/add.png'></image>
-    <text class='title'>新增</text>
-    <image class='arrow-right' style='margin-left:auto;'
-      src='{{theme.images}}/arrow_right.png'></image>
-  </view>
-  
-  <block wx:if="{{showCheck}}">
-  <view class='line me-line' ></view>
-  <view class='horizontal' bindtap='checkOrg'>
-    <image class='icon-small icon'
-      src='/res/check.png'></image>
-    <text class='title'>审核</text>
-    <image class='arrow-right' style='margin-left:auto;'
-      src='{{theme.images}}/arrow_right.png'></image>
-  </view>
-  </block>
+<view class='card' hidden="{{!userInfo.name}}">
+	<view class='horizontal' bindtap='addOrg'>
+		<image class='icon-small icon' src='/res/add.png'></image>
+		<text class='title'>新增</text>
+		<image class='arrow-right' style='margin-left:auto;' src='{{theme.images}}/arrow_right.png'></image>
+	</view>
+  <view class='line me-line'></view>
+	<view class='horizontal' bindtap='inviteUser'>
+		<image class='icon-small icon' src='/res/inviteUser.png'></image>
+		<text class='title'>邀请</text>
+		<image class='arrow-right' style='margin-left:auto;' src='{{theme.images}}/arrow_right.png'></image>
+	</view>
+
+	<block wx:if="{{showCheck}}">
+		<view class='line me-line'></view>
+		<view class='horizontal' bindtap='checkOrg'>
+			<image class='icon-small icon' src='/res/check.png'></image>
+			<text class='title'>审核</text>
+			<image class='arrow-right' style='margin-left:auto;' src='{{theme.images}}/arrow_right.png'></image>
+		</view>
+	</block>
 </view>
 
 <view class="card">
-  <view class='horizontal' bindtap='about'>
-    <image class='icon-small icon'
-      src='/res/about.png'></image>
-    <text class='title'>关于</text>
-    <image class='arrow-right' style='margin-left:auto;'
-      src='{{theme.images}}/arrow_right.png'></image>
-  </view>
-  <view class='line me-line' ></view>
-  <view class='horizontal' bindtap='updateLog'>
-    <image class='icon-small icon'
-      src='/res/log.png'></image>
-    <text class='title'>更新日志</text>
-    <image class='arrow-right' style='margin-left:auto;'
-      src='{{theme.images}}/arrow_right.png'></image>
-  </view>
-  <view class='line me-line' ></view>
-  <view class='horizontal' bindtap='feedback'>
-    <image class='icon-small icon'
-      src='/res/feedback.png'></image>
-    <text class='title'>意见反馈</text>
-    <image class='arrow-right' style='margin-left:auto;'
-      src='{{theme.images}}/arrow_right.png'></image>
-  </view>
+	<view class='horizontal' bindtap='about'>
+		<image class='icon-small icon' src='/res/about.png'></image>
+		<text class='title'>关于</text>
+		<image class='arrow-right' style='margin-left:auto;' src='{{theme.images}}/arrow_right.png'></image>
+	</view>
+	<view class='line me-line'></view>
+	<view class='horizontal' bindtap='updateLog'>
+		<image class='icon-small icon' src='/res/log.png'></image>
+		<text class='title'>更新日志</text>
+		<image class='arrow-right' style='margin-left:auto;' src='{{theme.images}}/arrow_right.png'></image>
+	</view>
+	<view class='line me-line'></view>
+	<view class='horizontal' bindtap='feedback'>
+		<image class='icon-small icon' src='/res/feedback.png'></image>
+		<text class='title'>意见反馈</text>
+		<image class='arrow-right' style='margin-left:auto;' src='{{theme.images}}/arrow_right.png'></image>
+	</view>
 
 </view>
 
 <!-- 版权信息 -->
-  <view class="copyright" style="display:{{floatDisplay}}">
-    <template is="tempCopyright" />
-  </view>
+<view class="copyright" style="display:{{floatDisplay}}">
+	<template is="tempCopyright" />
+</view>
 
 <!-- login dialog -->
 <login class="login" bind:onOk="onOk" />
 
 <view class="weui-demo-dialog {{isDialog ? 'weui-demo-dialog_show' : ''}}">
-    <view class="weui-mask" bindtap="closeDialog"></view>
-    <view class="weui-half-screen-dialog" catchtap="stopEvent">
-      <view class="weui-half-screen-dialog__hd">
-        <view class="weui-half-screen-dialog__hd__side">
-          <view bindtap="closeDialog" class="weui-icon-btn weui-icon-btn_close">关闭</view>
-        </view>
-        <view class="weui-half-screen-dialog__hd__main">
-          <text class="weui-half-screen-dialog__title">意见反馈</text>
-          <text class="weui-half-screen-dialog__subtitle"></text>
-        </view>
-        <view class="weui-half-screen-dialog__hd__side">
-          <view wx:if="{{false}}" class="weui-icon-btn weui-icon-btn_more">更多</view>
-        </view>
-      </view>
-      <view class="weui-half-screen-dialog__bd">
-        <view class="weui-half-screen-dialog__desc">
-          如果你在使用中遇到了问题，可以点击下方的按钮进行反馈。
-        </view>
-        <view wx:if="{{false}}" class="weui-half-screen-dialog__tips">
-          如果你有好的意见和建议，请关闭此窗口，然后点击右上角的【三个点】图标，选择 反馈与投诉→ 产品建议。或者通过邮箱联系我们：hanfubaike@163.com
-        </view>
-      </view>
-      <view class="button-sp-area" style="padding: 10px 10px 20px 10px">
-          <button type="default" open-type="contact" bindtap="buttonClick" class="weui-btn mini-btn" role="button" size="mini" style="font-size: 16px;">联系客服</button>
-          <button type="primary" open-type="feedback" bindtap="buttonClick" class="weui-btn mini-btn" size="mini" style="font-size: 16px;">问题反馈</button>
-      </view>
-    </view>
+	<view class="weui-mask" bindtap="closeDialog"></view>
+	<view class="weui-half-screen-dialog" catchtap="stopEvent">
+		<view class="weui-half-screen-dialog__hd">
+			<view class="weui-half-screen-dialog__hd__side">
+				<view bindtap="closeDialog" class="weui-icon-btn weui-icon-btn_close">关闭</view>
+			</view>
+			<view class="weui-half-screen-dialog__hd__main">
+				<text class="weui-half-screen-dialog__title">意见反馈</text>
+				<text class="weui-half-screen-dialog__subtitle"></text>
+			</view>
+			<view class="weui-half-screen-dialog__hd__side">
+				<view wx:if="{{false}}" class="weui-icon-btn weui-icon-btn_more">更多</view>
+			</view>
+		</view>
+		<view class="weui-half-screen-dialog__bd">
+			<view class="weui-half-screen-dialog__desc">
+				如果你在使用中遇到了问题，可以点击下方的按钮进行反馈。
+			</view>
+			<view wx:if="{{false}}" class="weui-half-screen-dialog__tips">
+				如果你有好的意见和建议，请关闭此窗口，然后点击右上角的【三个点】图标，选择 反馈与投诉→ 产品建议。或者通过邮箱联系我们：hanfubaike@163.com
+			</view>
+		</view>
+		<view class="button-sp-area" style="padding: 10px 10px 20px 10px">
+			<button type="default" open-type="contact" bindtap="buttonClick" class="weui-btn mini-btn" role="button" size="mini" style="font-size: 16px;">联系客服</button>
+			<button type="primary" open-type="feedback" bindtap="buttonClick" class="weui-btn mini-btn" size="mini" style="font-size: 16px;">问题反馈</button>
+		</view>
+	</view>
 </view>

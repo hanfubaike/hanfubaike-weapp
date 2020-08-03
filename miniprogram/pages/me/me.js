@@ -31,12 +31,16 @@ Page({
     isLoginPopup: false,
     showCheck:false,
     expLabel:'',
-    isDialog:false
+    isDialog:false,
+    isLogin:false
   },
 
 
   onLoad: function (options) {
     var self = this;
+    wx.hideShareMenu({
+      menus: ['shareAppMessage', 'shareTimeline']
+    })
     this.checkLogin(this)
 
   },
@@ -57,7 +61,7 @@ Page({
       isLoginPopup:false
     })
   },
-  getUserInfo(){
+  getUserInfo_old(){
     const self = this
     wx.getSetting({
       success (res){
@@ -78,14 +82,43 @@ Page({
   }  
   ,
   checkLogin(){
-    if (!app.globalData.userInfo.nickName){
+    if (!app.globalData.userInfo.name){
       this.getUserInfo()
       return false
     }else{
+      this.setData({
+        isLogin:true
+      })
       return true
     }
   }
   ,
+  getUserInfo: function() {
+    let self = this
+    // 调用云函数
+    wx.cloud.callFunction({
+      name: 'getUserInfo',
+      data: {},
+      success: res => {
+        console.log('[云函数] [getUserInfo]: ', res.result)
+        let userInfo = res.result.userInfo
+        if(!userInfo.name){
+          wx.showModal({
+            showCancel:false,
+            title:"登录失败",
+            content:"汉服百科正在内测中，目前仅开放邀请注册，请联系已注册的组织或用户获取邀请链接。"
+          })
+        }else{
+          app.setUserInfo(userInfo,self)
+        }
+        
+      },
+      fail: err => {
+        console.error('[云函数] [login] 调用失败', err)
+      }
+    })
+  },
+
   getOpenid: function() {
     // 调用云函数
     wx.cloud.callFunction({
@@ -108,7 +141,7 @@ Page({
 
   onShow: function () {
     //console.log('onShow')
-    if (app.globalData.isAdmin){
+    if (app.globalData.userInfo.isAdmin){
       this.setData({showCheck:true})
     }
     
@@ -159,15 +192,8 @@ Page({
       urls: [this.data.imgUrl]
     })
   },
-  onShareAppMessage: function () {
-    return {
-      success: function (res) {
-        // 转发成功
-      },
-      fail: function (res) {
-        // 转发失败
-      }
-    }
+  onShareAppMessage: function (res) {
+
   },
   addOrg(e){
     if (this.checkLogin()){
@@ -206,5 +232,11 @@ Page({
     wx.navigateTo({
       url: '/pages/webpage/webpage?url=https://mp.weixin.qq.com/s/I4A1BjfMYboKNoTK1IwWew',
     })
+  },
+  inviteUser(e){
+    wx.navigateTo({
+      url: '/pages/invite/invite',
+    })
   }
+
 })

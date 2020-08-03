@@ -147,6 +147,7 @@ App({
     if (page){
       page.setData({
         userInfo: this.globalData.userInfo,
+        isLogin:true
       })
     }
 

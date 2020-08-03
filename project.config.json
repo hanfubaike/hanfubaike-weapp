@@ -140,6 +140,13 @@
 					"pathName": "pages/index/index",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": 12,
+					"name": "pages/regUser/regUser",
+					"pathName": "pages/regUser/regUser",
+					"query": "inviteCode=84e72bb95f282787005dff583c7d625e",
+					"scene": null
 				}
 			]
 		}

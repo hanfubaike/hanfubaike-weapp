@@ -1,0 +1,17 @@
+  <view class="wrapper">
+    <view class="weui-msg">
+        <view class="weui-msg__icon-area">
+            <image class="avatar" src="/res/logo.png"></image>
+        </view>
+        <view class="weui-msg__text-area">
+            <view class="weui-msg__title">邀请用户</view>
+            <view class="weui-msg__desc">请将此页面转发给联系人或群聊</view>
+        </view>
+        <view class="weui-msg__opr-area">
+            <view class="weui-btn-area">
+                <button class="weui-btn" type="primary" bindtap="inviteButton" open-type="share">邀请</button>
+            </view>
+        </view>
+
+    </view>
+  </view>

@@ -1,0 +1,20 @@
+/* miniprogram/pages/invite/invite.wxss */
+.wrapper {
+  /*display: flex;*/
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.avatar {
+  margin: 8rpx 0px;
+  width: 146rpx;
+  height: 146rpx;
+  max-height: 146rpx;
+  max-width: 146rpx;
+  border-radius: 50%;
+}
+
+page{
+  height: 100%;
+}

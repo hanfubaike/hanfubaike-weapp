@@ -10,7 +10,9 @@
     "pages/msg/msg_success",
     "pages/orgPage/orgPage",
     "pages/webpage/webpage",
-    "pages/searchMap/searchMap"
+    "pages/searchMap/searchMap",
+    "pages/invite/invite",
+    "pages/regUser/regUser"
   ],
   "cloud": true,
   "window": {
@@ -39,7 +41,6 @@
     "van-image": "vant-weapp/image/index",
     "van-tab": "vant-weapp/tab/index",
     "van-tabs": "vant-weapp/tabs/index"
-
   },
   "tabBar": {
     "color": "#a9b7b7",

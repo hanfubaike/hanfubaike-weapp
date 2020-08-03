@@ -1,0 +1,28 @@
+<view class="page">
+    <view class="weui-msg">
+        <view class="weui-msg__icon-area">
+            <image class="avatar" src="/res/logo.png"></image>
+        </view>
+        <view class="weui-msg__text-area">
+            <view class="weui-msg__title">汉服百科</view>
+            <view class="weui-msg__desc">{{inviter}}邀请你加入汉服百科第一期计划，请点击确定加入</view>
+            <van-cell-group>
+                <van-field
+                    label="雅号"
+                    value="{{ name }}"
+                    placeholder="请输入雅号或昵称"
+                    border
+                    error="{{error}}"
+                    bind:change="inputChage"
+                />
+            </van-cell-group>
+        </view>
+
+        <view class="weui-msg__opr-area">
+            <view class="weui-btn-area">
+                <button class="weui-btn" type="primary" open-type="getUserInfo" bindgetuserinfo="agreeGetUser">确定</button>
+            </view>
+        </view>
+
+    </view>
+</view>

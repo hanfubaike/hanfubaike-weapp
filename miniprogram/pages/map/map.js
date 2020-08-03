@@ -187,11 +187,8 @@ Page({
       self.isSearch = false
 
       self.orgList = res.result["orgList"]
-      app.globalData.isAdmin = res.result.isAdmin
-      wx.setStorage({
-        data: app.globalData,
-        key: 'globalData',
-      })
+      let userInfo = res.result["userInfo"]
+      app.setUserInfo(userInfo,self)
     })
     .catch(error =>{
       console.error(error)
