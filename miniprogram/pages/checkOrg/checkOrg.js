@@ -151,16 +151,19 @@ Page({
       title: '提交中...',
       mask:true
     })
-
+    let data = {
+      id,
+      status,
+      value
+    }
+    if (this.data.revise==true){
+      data.revise = false
+    }
     wx.cloud.callFunction({
       // 云函数名称
       name: 'checkOrg',
       // 传给云函数的参数
-      data: {
-        id,
-        status,
-        value
-      },
+      data: data,
     })
     .then(res => {
       console.log(res)

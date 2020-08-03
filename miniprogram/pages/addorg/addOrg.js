@@ -800,6 +800,8 @@ Page({
   },
   setOrgInfo(dataList){
     const data = dataList[0]
+    let self = this
+    console.log(data)
     if(data.status==1 && self.option.mod=="revise"){
       console.log("已审核通过，正在跳转到主页")
       wx.showModal({
