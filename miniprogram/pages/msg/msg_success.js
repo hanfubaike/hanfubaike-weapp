@@ -18,61 +18,21 @@ Page({
     this.setData(option)
   },
   button(){
+    function callback(){
+      app.showToast("订阅成功","success")
+      Notify({type: 'success',message:'正在返回首页...'})
+      
+      setTimeout(function(){
+        wx.reLaunch({
+          url: '/pages/map/map',
+        })
+      },3000)
+    }
     if (this.option.SubscribeMessage){   
-      this.getMsgSetting()
+      app.getMsgSetting(callback)
     }
 
   },
-  getMsgSetting(){
-    let tmplid = app.templateId
-    wx.requestSubscribeMessage({
-      tmplIds: [tmplid],
-      success (res) { 
-        if (res[tmplid]=='accept'){
-          app.showToast("订阅成功","success")
-          Notify({type: 'success',message:'正在返回首页...'})
-          
-          setTimeout(function(){
-            wx.reLaunch({
-              url: '/pages/map/map',
-            })
-          },3000)
-        }else{
-          console.log("用户拒绝或没有权限")
-          wx.getSetting({
-            withSubscriptions: true,
-            success (res){
-              console.log(res)
-              if (res.subscriptionsSetting && (!res.subscriptionsSetting.mainSwitch || (res.subscriptionsSetting.itemSettings &&res.subscriptionsSetting.itemSettings[tmplid]!="accept"))){
-                wx.showModal({
-                  title: '温馨提示',
-                  content: '请点击确定按钮打开订阅消息开关，以便接收审核消息。',
-                  success (res) {
-                    if (res.confirm) {
-                      console.log('用户点击确定')
-                      wx.openSetting({
-                        success (res) {
-                          console.log(res.authSetting)
-                          // res.authSetting = {
-                          //   "scope.userInfo": true,
-                          //   "scope.userLocation": true
-                          // }
-                        }
-                      })
-                    } else if (res.cancel) {
-                      console.log('用户点击取消')
-                    }
-                  }
-                })
-              }
-            }
-           })
-          }
-      },
-      fail(res){
-        console.log(res)
-      }
-    })
-  }
+
 
 });

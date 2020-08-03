@@ -298,11 +298,11 @@ Page({
     if (!this.checkFormData()){
       return
     }
-    let uploadRes = await this.uploadFiles(self.formData.orgName)
+    let uploadRes = await self.uploadFiles(self.formData.orgName)
     if (!uploadRes){
       return
     }
-
+  
     if (await self.dbUpdate(self.formData)){
         //setTimeout(function () {
           //wx.hideLoading()
@@ -323,7 +323,7 @@ Page({
           key:'formData',
           data:{}
         })
-        if(this.data.isModify){
+        if(self.data.isModify){
           wx.showToast({
             icon:'success',
             title: '修改成功！',
@@ -355,7 +355,7 @@ Page({
             mask:true
           })
         },1000)
-        await this.sendEmailToAdmin()
+        await self.sendEmailToAdmin()
         setTimeout(function(){
           wx.hideLoading()
           wx.navigateTo({
@@ -370,10 +370,10 @@ Page({
           //content: '提交成功，请等待管理员审核，点击确定按钮返回首页',
           //success(res) {
             //if (res.confirm) {
-             // wx.redirectTo({
-               // url: 'map'
-             // })
-           // } else if (res.cancel) {
+              // wx.redirectTo({
+                // url: 'map'
+              // })
+            // } else if (res.cancel) {
               //console.log('用户点击取消')
             //}
           //}
@@ -692,6 +692,7 @@ Page({
 
   postBt(e){
     //console.log(e)
+    //app.getMsgSetting(this.postForm)
   },
   sendEmail(from,title,to,cc,text){
     const self = this

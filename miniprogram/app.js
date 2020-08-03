@@ -236,6 +236,51 @@ App({
   
     return 0
   },
+  getMsgSetting(callback){
+    let tmplid = this.templateId
+    wx.requestSubscribeMessage({
+      tmplIds: [tmplid],
+      success (res) { 
+        if (res[tmplid]=='accept'){
+          console.log("订阅成功！")
+          callback()
+        }else{
+          console.log("用户拒绝或没有权限")
+          wx.getSetting({
+            withSubscriptions: true,
+            success (res){
+              console.log(res)
+              if (res.subscriptionsSetting && (!res.subscriptionsSetting.mainSwitch || (res.subscriptionsSetting.itemSettings &&res.subscriptionsSetting.itemSettings[tmplid]!="accept"))){
+                wx.showModal({
+                  title: '温馨提示',
+                  content: '请点击确定按钮打开订阅消息开关，以便接收审核消息。',
+                  success (res) {
+                    if (res.confirm) {
+                      console.log('用户点击确定')
+                      wx.openSetting({
+                        success (res) {
+                          console.log(res.authSetting)
+                          // res.authSetting = {
+                          //   "scope.userInfo": true,
+                          //   "scope.userLocation": true
+                          // }
+                        }
+                      })
+                    } else if (res.cancel) {
+                      console.log('用户点击取消')
+                    }
+                  }
+                })
+              }
+            }
+           })
+          }
+      },
+      fail(res){
+        console.log(res)
+      }
+    })
+  },
   version : systemInfo.SDKVersion,
   systemInfo:systemInfo,
   isPC:isPC
