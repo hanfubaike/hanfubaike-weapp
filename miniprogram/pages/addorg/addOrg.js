@@ -800,6 +800,22 @@ Page({
   },
   setOrgInfo(dataList){
     const data = dataList[0]
+    if(data.status==1 && self.option.mod=="revise"){
+      console.log("已审核通过，正在跳转到主页")
+      wx.showModal({
+        title: '提示',
+        content: '已审核通过，点击确定跳转到主页。',
+        showCancel: false,
+        success (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            wx.reLaunch({
+              url: '/pages/map/map',
+            })
+          }
+        }
+      })
+    }
     //console.log(data)
     let listData = []
     let listData2 = []
@@ -833,9 +849,6 @@ Page({
     })
     let field = {
       postTime:false
-    }
-    if (!this.data.readonly){
-      field.status = false
     }
     const db = wx.cloud.database()
     //查询当前用户所有的 counters
