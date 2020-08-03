@@ -40,6 +40,9 @@ exports.main = async (event, context) => {
           fileList: removeList
         })
         console.log(delResult)
+        if(delResult.errMsg=="deleteFile:ok"){
+          console.log('文件删除成功！')
+        }
       }
       console.log(updateResult)
       result.updated = true

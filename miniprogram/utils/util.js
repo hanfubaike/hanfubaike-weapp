@@ -158,12 +158,14 @@ function getDateOut(dateStr) {
     return result;
 }
 
-function getDateName(myDate=""){
-  if(myDate==""){
-    myDate = new Date();
-  }
-  let fileName = myDate.toLocaleDateString().replace(/\//g, "-") + "_" + myDate.toTimeString().substr(0, 8).replace(/:/g,"_")
-  return fileName
+function getDateName(date){
+    var year = date.getFullYear()
+    var month = date.getMonth() + 1
+    var day = date.getDate()
+    var hour = date.getHours()
+    var minute = date.getMinutes()
+    var second = date.getSeconds()
+    return [year, month, day].map(formatNumber).join('') + '_' + [hour, minute, second].map(formatNumber).join('')
 }
 
 function cutstr(str, len,flag) {

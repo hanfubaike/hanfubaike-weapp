@@ -558,7 +558,7 @@ Page({
     if(name.indexOf('-reason')>-1){
       uploadPath = "reasonImg/"
     }
-    const cloudPath =  uploadPath + name  + "-" + util.getDateName() + filePath.match(/\.[^.]+?$/)[0]
+    const cloudPath =  uploadPath + name  + "-" + util.getDateName(new Date()) + filePath.match(/\.[^.]+?$/)[0]
     //const cloudPath = "orgReg/" + name + loc + '.jpg'
     return cloudPath
   },
