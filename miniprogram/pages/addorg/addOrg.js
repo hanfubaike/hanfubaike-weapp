@@ -137,6 +137,7 @@ Page({
   },
   dbUpdate: async function (data) {
     const db = wx.cloud.database()
+    let self = this
     let locationGeo = db.Geo.Point(this.data.longitude, this.data.latitude)
     data['longLatiute'] = locationGeo
     delete data['longitude']
@@ -157,7 +158,8 @@ Page({
         delete data['status']
         delete data['postType']
         let id = this.data._id
-        var updated = false
+        let removeList = self.removeList || []
+        let updated = false
         await wx.cloud.callFunction({
           // 云函数名称
           name: 'updateOrg',
@@ -165,6 +167,7 @@ Page({
           data: {
             id,
             orgData:data,
+            removeList
           },
         })
         .then(res => {
@@ -665,21 +668,13 @@ Page({
             break;
         }
       }
+      self.removeList = removeList
       self.formData["logoList"] = logoList;
       self.formData["orgImageList"] = orgImageList;
       self.formData["reasonImageList"] = reasonImageList;
       self.formData['postType'] = self.data.postType;
       //注册状态，0：待审核，-1：审核未通过，1：审核通过 
       self.formData['status'] = 0;
-      if(removeList.length > 0){
-        console.log('删除文件列表：',removeList)
-        let delResult = await wx.cloud.deleteFile({
-          fileList: removeList
-        })
-        console.log(delResult)
-      }
-
-      
       return true;
     }
     catch (reason) {

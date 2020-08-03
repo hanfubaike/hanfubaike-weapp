@@ -23,6 +23,7 @@ exports.main = async (event, context) => {
 
     if (userQeue.data.length > 0) {
       let orgData = event.orgData
+      let removeList = event.removeList
       let updateTime = db.serverDate()
       orgData.updateTime = updateTime
       orgData.updateLog = command.push({updateTime:updateTime,openid:wxContext.OPENID})
@@ -33,6 +34,13 @@ exports.main = async (event, context) => {
           data: orgData
         }
       )
+      if(removeList.length > 0){
+        console.log('删除文件列表：',removeList)
+        let delResult = await cloud.deleteFile({
+          fileList: removeList
+        })
+        console.log(delResult)
+      }
       console.log(updateResult)
       result.updated = true
       result.msg = '更新成功！'
