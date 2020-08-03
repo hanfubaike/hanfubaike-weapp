@@ -73,8 +73,8 @@
 
   <view wx:if="{{!readonly}}" class="button-sp-area">
 
-    <button form-type="submit" class="bt weui-btn mini-btn" type="warn" size="mini">拒绝</button>
-    <button form-type="reset" class="bt weui-btn mini-btn" type="primary" size="mini">通过</button>
+    <button id="noPass" form-type="submit" class="bt weui-btn mini-btn" type="warn" size="mini">拒绝</button>
+    <button id="pass" form-type="submit" class="bt weui-btn mini-btn" type="primary" size="mini">通过</button>
   </view>
   </form>
 
