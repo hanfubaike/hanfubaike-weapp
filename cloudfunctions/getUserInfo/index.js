@@ -14,7 +14,8 @@ exports.main = async (event, context) => {
   try {
 
     const userQeue = await db.collection('user').where({
-      openid: wxContext.OPENID
+      openid: wxContext.OPENID,
+      status:1
     }).get()
     if (userQeue.data.length > 0) {
       userInfo = userQeue.data[0]

@@ -209,7 +209,7 @@ App({
   }
   ,
   checkLogin(){
-    if (!this.globalData.userInfo.nickName){
+    if (this.globalData.userInfo.status!=1){
       this.getUserInfo()
     }else{
       return true

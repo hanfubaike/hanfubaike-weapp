@@ -82,7 +82,7 @@ Page({
   }  
   ,
   checkLogin(onLoad=false){
-    if (!app.globalData.userInfo.name){
+    if (app.globalData.userInfo.status!=1){
       this.getUserInfo(onLoad)
       return false
     }else{
@@ -102,7 +102,7 @@ Page({
       success: res => {
         console.log('[云函数] [getUserInfo]: ', res.result)
         let userInfo = res.result.userInfo
-        if(!userInfo.name){
+        if(userInfo.status!=1){
           if(!onLoad){
             wx.showModal({
               showCancel:false,
