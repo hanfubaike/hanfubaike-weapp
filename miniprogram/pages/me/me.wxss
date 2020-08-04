@@ -11,8 +11,8 @@
 }
 
 .icon-small {
-  width: 62rpx;
-  height: 62rpx;
+  width: 56rpx;
+  height: 56rpx;
   max-height: 72rpx;
   max-width: 72rpx;
 }
@@ -86,7 +86,8 @@
 }
 
 .icon{
-  margin: 9.36rpx 25rpx 9.36rpx 0;
+  /*margin: 9.36rpx 25rpx 9.36rpx 0;*/
+  margin: 1rpx 25rpx 1rpx 0;
 }
 
 .me-line{
@@ -116,3 +117,6 @@
   text-align:center;
 }
 
+.title {
+  font-size: 28rpx;
+}

@@ -64,6 +64,12 @@
 		<image class='arrow-right' style='margin-left:auto;' src='{{theme.images}}/arrow_right.png'></image>
 	</view>
 	<view class='line me-line'></view>
+		<view class='horizontal' bindtap='about'>
+		<image class='icon-small icon' src="/res/question.png"></image>
+		<text class='title'>常见问题</text>
+		<image class='arrow-right' style='margin-left:auto;' src='{{theme.images}}/arrow_right.png'></image>
+	</view>
+	<view class='line me-line'></view>
 	<view class='horizontal' bindtap='updateLog'>
 		<image class='icon-small icon' src='/res/log.png'></image>
 		<text class='title'>更新日志</text>
