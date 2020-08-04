@@ -17,6 +17,8 @@ Page({
     wx.hideShareMenu({
       menus: ['shareAppMessage', 'shareTimeline']
     })
+    const self = this
+    app.checkLogin(self)
     this.inviteUser()
   },
 

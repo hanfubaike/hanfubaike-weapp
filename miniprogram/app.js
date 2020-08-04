@@ -188,8 +188,46 @@ App({
       }
     })
   },
-  getUserInfo: function(page) {
+  getUserInfo: async function(page="",isTips=false) {
+    let self = this
+    // 调用云函数
+    try{
+      const userResult = await wx.cloud.callFunction({
+        name: 'getUserInfo',
+        data: {}})
 
+      console.log('[云函数] [getUserInfo]: ', userResult.result)
+      let userInfo = userResult.result.userInfo
+      if(userInfo.status!=1){
+        if(isTips){
+          wx.showModal({
+            title: '提示',
+            content: '没有权限。',
+            showCancel:false,
+            success (res) {
+              if (res.confirm) {
+                wx.reLaunch({
+                  url: '/pages/map/map',
+                })
+              }
+            }
+          })
+        }
+        //wx.showModal({
+          //showCancel:false,
+          //title:"登录失败",
+          //content:"汉服百科目前仅开放邀请注册，请联系已注册的组织或用户获取邀请链接。"
+        //})
+        return false
+        }
+        else{
+          self.setUserInfo(userInfo,page)
+          return true
+        }
+    } 
+    catch{
+          console.error('[云函数] [login] 调用失败', err)
+        }
   },
   checkManager(){
     if (!this.checkLogin()){
@@ -214,33 +252,9 @@ App({
     }
   }
   ,
-  checkLogin(page=""){
+  checkLogin(page="",isTips=true){
     if (this.globalData.userInfo.status!=1){
-      let self = this
-      // 调用云函数
-      wx.cloud.callFunction({
-        name: 'getUserInfo',
-        data: {},
-        success: res => {
-          console.log('[云函数] [getUserInfo]: ', res.result)
-          let userInfo = res.result.userInfo
-          if(userInfo.status!=1){
-            //wx.showModal({
-              //showCancel:false,
-              //title:"登录失败",
-              //content:"汉服百科目前仅开放邀请注册，请联系已注册的组织或用户获取邀请链接。"
-            //})
-          return false
-          }else{
-            self.setUserInfo(userInfo,page)
-            return true
-          }
-          
-        },
-        fail: err => {
-          console.error('[云函数] [login] 调用失败', err)
-        }
-      })
+      return this.getUserInfo(page,isTips)
     }else{
       if(page){
         page.setData({

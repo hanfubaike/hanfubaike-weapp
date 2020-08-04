@@ -52,7 +52,7 @@ Page({
 
   onLoad(option){
     const self = this
-    app.checkLogin()
+    app.checkLogin(self)
     this.option = option
     if(option.mod == "modify" || option.mod=="revise"){
       self.setData({isModify:true})
