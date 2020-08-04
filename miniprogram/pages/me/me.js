@@ -144,7 +144,7 @@ Page({
 
   onShow: function () {
     //console.log('onShow')
-    //if (app.globalData.userInfo.isAdmin){
+    //if (app.globalData.userInfo.isManager){
       //this.setData({showCheck:true})
     //}
     
@@ -249,6 +249,11 @@ Page({
   questionBt(e){
     wx.navigateTo({
       url: '/pages/webpage/webpage?url=https://mp.weixin.qq.com/s/kRp3CifJk0np028R7WPdXQ',
+    })
+  },
+  managerBt(e){
+    wx.navigateTo({
+      url: '/pages/user-manager/user-manager',
     })
   }
 

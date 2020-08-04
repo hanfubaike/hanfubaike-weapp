@@ -751,7 +751,7 @@ Page({
          return db.collection('user').field({
           openid:false
         }).where({
-          isAdmin:true
+          isManager:true
         }).get()
         
       }catch(err){

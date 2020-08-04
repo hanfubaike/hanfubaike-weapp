@@ -47,11 +47,19 @@
 		<image class='arrow-right' style='margin-left:auto;' src='{{theme.images}}/arrow_right.png'></image>
 	</view>
 
-	<block wx:if="{{userInfo.isAdmin}}">
+	<block wx:if="{{userInfo.isManager}}">
 		<view class='line me-line'></view>
 		<view class='horizontal' bindtap='checkOrg'>
 			<image class='icon-small icon' src='/res/check.png'></image>
 			<text class='title'>审核</text>
+			<image class='arrow-right' style='margin-left:auto;' src='{{theme.images}}/arrow_right.png'></image>
+		</view>
+	</block>
+		<block wx:if="{{userInfo.isAdmin}}">
+		<view class='line me-line'></view>
+		<view class='horizontal' bindtap='managerBt'>
+			<image class='icon-small icon' src='/res/manager.png'></image>
+			<text class='title'>管理</text>
 			<image class='arrow-right' style='margin-left:auto;' src='{{theme.images}}/arrow_right.png'></image>
 		</view>
 	</block>

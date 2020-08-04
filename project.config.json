@@ -154,6 +154,13 @@
 					"pathName": "pages/me/edit",
 					"query": "inviteCode=84e72bb95f282787005dff583c7d625e",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/user-manager/user-manager",
+					"pathName": "pages/user-manager/user-manager",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

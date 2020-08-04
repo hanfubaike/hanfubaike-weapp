@@ -17,7 +17,7 @@ exports.main = async (event, context) => {
   try {
     const userQeue = await db.collection('user').where({
       openid: wxContext.OPENID,
-      isAdmin:true,
+      isManager:true,
     }).get()
     if (userQeue.data.length > 0) {
       const updateResult = await db.collection('org').where({

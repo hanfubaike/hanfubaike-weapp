@@ -1,0 +1,38 @@
+<view class="weui-cells weui-cells_after-title" style="text-align:center">
+  <view style="margin:10px;text-align:center">
+    <van-button bind:click="inviteUser" block plain type="primary">邀请成员</van-button>
+  </view>
+</view>
+
+<view class="weui-cells weui-cells_after-title">
+  <block wx:for="{{userList}}" wx:key="id">
+        <view url="" bindtap="userClick" class="weui-cell weui-cell_access" hover-class="weui-cell_active" data-item="{{item}}">
+            <view class="weui-cell__hd">
+                <image src="{{item.avatarUrl?item.avatarUrl:'/res/placeholder.png'}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+            </view>
+            <view class="weui-cell__bd">{{item.name||item.nickName}}</view>
+            <view class="weui-cell__ft ">{{item.isAdmin?'超级管理员':item.isManager?'管理员':'普通用户'}}{{item.status==-1?"(禁用)":""}}</view>
+        </view>
+  </block>
+</view>
+
+
+<van-overlay show="{{ show }}" bind:click="">
+  <view class="wrapper">
+    <view class="weui-msg">
+        <view class="weui-msg__icon-area">
+            <image class="avatar" src="/res/logo.png"></image>
+        </view>
+        <view class="weui-msg__text-area">
+            <view class="weui-msg__title">邀请用户</view>
+            <view class="weui-msg__desc">请将此页面转发给联系人或群聊，一次邀请只能注册一个用户。</view>
+        </view>
+        <view class="weui-msg__opr-area">
+            <view class="weui-btn-area">
+                <button class="weui-btn" type="primary" bindtap="inviteButton" open-type="share">邀请</button>
+            </view>
+        </view>
+
+    </view>
+  </view>
+</van-overlay>

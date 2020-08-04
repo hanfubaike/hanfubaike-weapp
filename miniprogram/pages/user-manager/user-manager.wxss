@@ -1,0 +1,116 @@
+.zone-memeber-page {
+  padding: 50rpx 30rpx 30rpx 30rpx;
+}
+
+.zone-memeber-invite {
+  margin-top: 30rpx;
+  height: 62rpx;
+  line-height: 62rpx;
+  border-radius: 31rpx;
+  text-align: center;
+}
+
+.zone-memeber-invite::before {
+  border-radius: 62rpx;
+}
+
+.zone-memeber-list {
+  margin-top: 26rpx;
+}
+
+.zone-memeber-detail {
+  padding: 16rpx 0;
+}
+
+.zone-member-img {
+  display: block;
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 10rpx;
+  margin-right: 21rpx;
+}
+
+.zone-member-container,.zone-memeber-name-wrap {
+  width: 0;
+}
+
+.zone-member-name {
+  margin-right: 10rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shield-icon {
+  margin-right: 10rpx;
+  width: 36rpx;
+  height: 21rpx;
+  background: url(https://res0.shangshi360.com/ss/app/image/look03.png) no-repeat 0 0;
+  background-size: contain;
+}
+
+.creator-identity,.manage-identity {
+  margin-right: 10rpx;
+  padding: 0 8rpx;
+  height: 32rpx;
+  line-height: 32rpx;
+  border-radius: 16rpx;
+  background: #09ba07;
+  font-size: 20rpx;
+}
+
+.manage-identity {
+  background: #f5a623;
+}
+
+.user-visit {
+  margin-left: 18rpx;
+}
+
+.user-buy-icon,.user-part-icon,.user-visit-icon {
+  margin-right: 6rpx;
+  width: 42rpx;
+  height: 42rpx;
+  background: url(https://res0.shangshi360.com/ss/app/image/money_icon03.png) no-repeat 0 0;
+  background-size: contain;
+}
+
+.user-part-icon {
+  width: 32rpx;
+  height: 32rpx;
+  background: url(https://res0.shangshi360.com/ss/app/image/actBuy_side_icon02.png) no-repeat 0 0;
+  background-size: contain;
+}
+
+.user-visit-icon {
+  width: 40rpx;
+  height: 40rpx;
+  background: url(https://res0.shangshi360.com/ss/app/image/look05.png) no-repeat 0 0;
+  background-size: contain;
+}
+
+.zone-member-log {
+  margin-top: 15rpx;
+}
+
+.avatar {
+  margin: 8rpx 0px;
+  width: 146rpx;
+  height: 146rpx;
+  max-height: 146rpx;
+  max-width: 146rpx;
+  border-radius: 50%;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.block {
+  width: 120px;
+  height: 120px;
+  background-color: #fff;
+}

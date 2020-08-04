@@ -9,7 +9,7 @@ cloud.init({
 // 云函数入口函数
 exports.main = async (event, context) => {
   const db = cloud.database()
-  let isAdmin = false
+  let isManager = false
   let orgList = []
   let userInfo = {}
   const wxContext = cloud.getWXContext()
@@ -29,12 +29,13 @@ exports.main = async (event, context) => {
     }).get()
     if (userQeue.data.length > 0) {
       userInfo = userQeue.data[0]
-      isAdmin = userInfo.isAdmin
+      if(userInfo.isAdmin){
+        userInfo.isManager = true
+      }
     }
     console.log(userQeue)
     return {
       orgList: orgList,
-      isAdmin: isAdmin,
       userInfo:userInfo
     }
   } catch (err) {

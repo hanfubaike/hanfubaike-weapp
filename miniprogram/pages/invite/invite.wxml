@@ -5,7 +5,7 @@
         </view>
         <view class="weui-msg__text-area">
             <view class="weui-msg__title">邀请用户</view>
-            <view class="weui-msg__desc">请将此页面转发给联系人或群聊,一次邀请只能注册一个用户。</view>
+            <view class="weui-msg__desc">请将此页面转发给联系人或群聊，一次邀请只能注册一个用户。</view>
         </view>
         <view class="weui-msg__opr-area">
             <view class="weui-btn-area">

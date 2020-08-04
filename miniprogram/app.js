@@ -100,7 +100,7 @@ App({
 
   globalData:{
     lastUptime: 0,
-    userInfo:{isAdmin:false},
+    userInfo:{isManager:false},
     isGetUserInfo:false,
     isGetOpenid:false,
     catList:[],
@@ -143,6 +143,9 @@ App({
   templateId :"k-NuZiPt5DP1bMDO2REFkfuhz1C907aDm3wJAVJdScw",
 
   setUserInfo(userInfo,page=""){
+    if(userInfo.isAdmin){
+      userInfo.isManager = true
+    }
     this.globalData.userInfo = userInfo
     if (page){
       page.setData({
@@ -186,7 +189,7 @@ App({
     if (!this.checkLogin()){
       return false
     }
-    if (!this.globalData.userInfo.isAdmin){
+    if (!this.globalData.userInfo.isManager){
       wx.showModal({
         title: '提示',
         content: '没有权限。',

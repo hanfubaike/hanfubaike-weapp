@@ -9,22 +9,30 @@ cloud.init({
 // 云函数入口函数
 exports.main = async (event, context) => {
   const db = cloud.database()
-  let userInfo = {}
+  let isAdmin = false
+  let userList = []
   const wxContext = cloud.getWXContext()
   try {
 
     const userQeue = await db.collection('user').where({
-      openid: wxContext.OPENID
+      openid: wxContext.OPENID,
+      isAdmin:true,
     }).get()
     if (userQeue.data.length > 0) {
-      userInfo = userQeue.data[0]
-      if(userInfo.isAdmin){
-        userInfo.isManager = true
+      isAdmin = true
+      const qeueResult = await db.collection('user').orderBy('addTime', 'desc').field({
+      }).where({}).get()
+      if (qeueResult.data.length > 0) {
+        userList = qeueResult.data
       }
+      console.log(qeueResult)
     }
     console.log(userQeue)
+    
+
+
     return {
-      userInfo:userInfo
+      userList: userList
     }
   } catch (err) {
     console.log(err)

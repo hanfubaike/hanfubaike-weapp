@@ -13,7 +13,8 @@
     "pages/webpage/webpage",
     "pages/searchMap/searchMap",
     "pages/invite/invite",
-    "pages/regUser/regUser"
+    "pages/regUser/regUser",
+    "pages/user-manager/user-manager"
   ],
   "cloud": true,
   "window": {
