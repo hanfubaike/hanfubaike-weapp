@@ -41,8 +41,10 @@ Page({
     wx.hideShareMenu({
       menus: ['shareAppMessage', 'shareTimeline']
     })
-    this.checkLogin(true)
-
+    if(!app.checkLogin(self)){
+      app.globalData.userInfo = {}
+      app.checkLogin(self)
+    }
   },
   agreeGetUser: function (e) {
     var userInfo = e.detail.userInfo;
@@ -79,49 +81,7 @@ Page({
         }
       }
     })
-  }  
-  ,
-  checkLogin(onLoad=false){
-    if (app.globalData.userInfo.status!=1){
-      this.getUserInfo(onLoad)
-      return false
-    }else{
-      this.setData({
-        isLogin:true
-      })
-      return true
-    }
-  }
-  ,
-  getUserInfo: function(onLoad=false) {
-    let self = this
-    // 调用云函数
-    wx.cloud.callFunction({
-      name: 'getUserInfo',
-      data: {},
-      success: res => {
-        console.log('[云函数] [getUserInfo]: ', res.result)
-        let userInfo = res.result.userInfo
-        if(userInfo.status!=1){
-          if(!onLoad){
-            wx.showModal({
-              showCancel:false,
-              title:"登录失败",
-              content:"汉服百科正在内测中，目前仅开放邀请注册，请联系已注册的组织或用户获取邀请链接。"
-            })
-          }
-
-        }else{
-          app.setUserInfo(userInfo,self)
-        }
-        
-      },
-      fail: err => {
-        console.error('[云函数] [login] 调用失败', err)
-      }
-    })
   },
-
   getOpenid: function() {
     // 调用云函数
     wx.cloud.callFunction({
@@ -176,7 +136,8 @@ Page({
     })
   },
   checkOrg:function(){
-    if (this.checkLogin()){
+    let self = this
+    if (app.checkLogin(self)){
       wx.navigateTo({
         url: '/pages/check/check',
       })
@@ -199,7 +160,8 @@ Page({
 
   },
   addOrg(e){
-    if (this.checkLogin()){
+    let self = this
+    if (app.checkLogin(self)){
       wx.navigateTo({
         url: '/pages/addOrg/addOrg',
       })
@@ -237,14 +199,16 @@ Page({
     })
   },
   inviteUser(e){
-    if (this.checkLogin()){
+    let self = this
+    if (app.checkLogin(self)){
       wx.navigateTo({
         url: '/pages/invite/invite',
       })
+    }else{
     }
   },
   loginBt(e){
-    this.getUserInfo()
+    app.checkLogin()
   },
   questionBt(e){
     wx.navigateTo({

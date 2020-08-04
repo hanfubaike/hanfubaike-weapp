@@ -38,7 +38,7 @@ Page({
   onLoad(option){
     const self = this
     console.log(app.globalData)
-    if (!app.checkAdmin()){
+    if (!app.checkManager()){
       return
     }
     this.option = option

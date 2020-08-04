@@ -35,7 +35,7 @@ Page({
    */
   onShow: function () {
     console.log(app.globalData)
-    if (!app.checkAdmin()){
+    if (!app.checkManager()){
       return
     }
     this.setData({
