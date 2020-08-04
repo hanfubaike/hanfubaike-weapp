@@ -100,12 +100,12 @@ App({
 
   globalData:{
     lastUptime: 0,
-    userInfo:{},
+    userInfo:{isAdmin:false},
     isGetUserInfo:false,
     isGetOpenid:false,
     catList:[],
     VERSION: VERSION,
-    isAdmin:false
+    
   },
   cropperImg:{},
 
@@ -186,7 +186,7 @@ App({
     if (!this.checkLogin()){
       return false
     }
-    if (!this.globalData.isAdmin){
+    if (!this.globalData.userInfo.isAdmin){
       wx.showModal({
         title: '提示',
         content: '没有权限。',

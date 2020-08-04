@@ -7,6 +7,7 @@
   max-height: 146rpx;
   max-width: 146rpx;
   border-radius: 50%;
+  overflow: hidden;
 }
 
 .icon-small {

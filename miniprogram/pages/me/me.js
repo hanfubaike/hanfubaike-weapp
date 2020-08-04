@@ -41,7 +41,7 @@ Page({
     wx.hideShareMenu({
       menus: ['shareAppMessage', 'shareTimeline']
     })
-    this.checkLogin(this)
+    this.checkLogin(true)
 
   },
   agreeGetUser: function (e) {
@@ -81,9 +81,9 @@ Page({
     })
   }  
   ,
-  checkLogin(){
+  checkLogin(onLoad=false){
     if (!app.globalData.userInfo.name){
-      this.getUserInfo()
+      this.getUserInfo(onLoad)
       return false
     }else{
       this.setData({
@@ -93,7 +93,7 @@ Page({
     }
   }
   ,
-  getUserInfo: function() {
+  getUserInfo: function(onLoad=false) {
     let self = this
     // 调用云函数
     wx.cloud.callFunction({
@@ -103,11 +103,14 @@ Page({
         console.log('[云函数] [getUserInfo]: ', res.result)
         let userInfo = res.result.userInfo
         if(!userInfo.name){
-          wx.showModal({
-            showCancel:false,
-            title:"登录失败",
-            content:"汉服百科正在内测中，目前仅开放邀请注册，请联系已注册的组织或用户获取邀请链接。"
-          })
+          if(!onLoad){
+            wx.showModal({
+              showCancel:false,
+              title:"登录失败",
+              content:"汉服百科正在内测中，目前仅开放邀请注册，请联系已注册的组织或用户获取邀请链接。"
+            })
+          }
+
         }else{
           app.setUserInfo(userInfo,self)
         }
@@ -141,9 +144,9 @@ Page({
 
   onShow: function () {
     //console.log('onShow')
-    if (app.globalData.userInfo.isAdmin){
-      this.setData({showCheck:true})
-    }
+    //if (app.globalData.userInfo.isAdmin){
+      //this.setData({showCheck:true})
+    //}
     
   },
 
@@ -183,7 +186,7 @@ Page({
   },
   about: function (e) {
     wx.navigateTo({
-      url: '/pages/webpage/webpage?url=https://mp.weixin.qq.com/s/UvMvvuwFlklON5V0zZHstw',
+      url: '/pages/webpage/webpage?url=https://mp.weixin.qq.com/s/KFIWjE8kWDNburB2paUBIA',
     })
    },
   previewImg: function () {
@@ -201,7 +204,7 @@ Page({
         url: '/pages/addOrg/addOrg',
       })
     }else{
-      app.showToast("请先登录！")
+      //app.showToast("请先登录！")
     }
 
   },
@@ -239,7 +242,9 @@ Page({
         url: '/pages/invite/invite',
       })
     }
-
+  },
+  loginBt(e){
+    this.getUserInfo()
   }
 
 })

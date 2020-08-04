@@ -5,6 +5,7 @@
     "pages/addOrg/addOrg",
     "pages/cropper/cropper",
     "pages/me/me",
+    "pages/me/edit",
     "pages/check/check",
     "pages/checkOrg/checkOrg",
     "pages/msg/msg_success",

@@ -147,6 +147,13 @@
 					"pathName": "pages/regUser/regUser",
 					"query": "inviteCode=84e72bb95f282787005dff583c7d625e",
 					"scene": null
+				},
+				{
+					"id": 13,
+					"name": "pages/me/edit/edit",
+					"pathName": "pages/me/edit",
+					"query": "inviteCode=84e72bb95f282787005dff583c7d625e",
+					"scene": null
 				}
 			]
 		}
