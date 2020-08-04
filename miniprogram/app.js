@@ -96,6 +96,7 @@ App({
       })
 
     }
+    this.getUserInfo()
   },
 
   globalData:{
