@@ -245,6 +245,11 @@ Page({
   },
   loginBt(e){
     this.getUserInfo()
+  },
+  questionBt(e){
+    wx.navigateTo({
+      url: '/pages/webpage/webpage?url=https://mp.weixin.qq.com/s/kRp3CifJk0np028R7WPdXQ',
+    })
   }
 
 })
