@@ -34,6 +34,9 @@ App({
       })
     }
     var self = this
+    wx.setBackgroundFetchToken({
+      token: 'xxx'
+    })
     self.envVersion = 'formal'
     if (typeof __wxConfig =="object"){
       let version = __wxConfig.envVersion;
@@ -53,7 +56,7 @@ App({
       }
     }
 
-    this.globalData = wx.getStorageSync('globalData') || this.globalData
+    //this.globalData = wx.getStorageSync('globalData') || this.globalData
     this.globalData.userInfo = {isManager:false}
     if (this.globalData.VERSION != VERSION){
       this.globalData.userInfo = {}
@@ -97,7 +100,30 @@ App({
       })
 
     }
-    this.getUserInfo()
+    //this.getUserInfo()
+    //预拉取数据
+    wx.getBackgroundFetchData({
+      fetchType: 'pre',
+      success(res) {
+        let fetchedData = res.fetchedData
+        if(typeof(fetchedData)=="string"){
+          fetchedData = JSON.parse(fetchedData)
+        }
+        console.log(getCurrentPages()[0])
+        let page = ""
+        page = getCurrentPages()[0]
+        if (page){
+          page.setData({
+            orgList:fetchedData.orgList
+          })
+        }
+        console.log("预拉取数据",fetchedData) // 缓存数据
+        self.globalData.orgList = fetchedData.orgList
+        self.globalData.userInfo = fetchedData.userInfo
+        self.checkLogin(page)
+
+      }
+    })
   },
 
   globalData:{
@@ -149,14 +175,13 @@ App({
     if(userInfo.isAdmin){
       userInfo.isManager = true
     }
+    this.globalData.isLogin = true
     this.globalData.userInfo = userInfo
     if (page){
       page.setData({
         userInfo: this.globalData.userInfo,
         isLogin:true
       })
-    }else{
-      this.globalData.isLogin = true
     }
 
     wx.setStorage({
@@ -258,12 +283,15 @@ App({
   }
   ,
   checkLogin(page="",isTips=true){
+    let self = this
     if (this.globalData.userInfo.status!=1){
+      console.log("checkLogin getUserInfo",this.globalData.userInfo)
       return this.getUserInfo(page,isTips)
     }else{
       if(page){
         page.setData({
-          isLogin:true
+          isLogin:true,
+          userInfo:self.globalData.userInfo
         })
       }
       return true

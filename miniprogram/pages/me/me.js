@@ -27,7 +27,7 @@ Page({
     showerror: "none",
     shownodata: "none",
     subscription: "",
-    userInfo: app.globalData.userInfo,
+    userInfo: "",
     isLoginPopup: false,
     showCheck:false,
     expLabel:'',
@@ -99,15 +99,12 @@ Page({
   },
 
   onShow: function () {
-    //console.log('onShow')
-    if (app.globalData.isLogin){
-      this.setData({
-        isLogin:true,
-        userInfo:app.globalData.userInfo
-      })
-    }else{
-      app.checkLogin(self,false)
-    }
+    //console.log('onShow',app.globalData)
+    this.setData({
+      isLogin:app.globalData.isLogin,
+      userInfo:app.globalData.userInfo
+    })
+    //app.checkLogin(app.globalData.userInfo,this)
     
   },
 
