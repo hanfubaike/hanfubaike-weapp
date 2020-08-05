@@ -12,7 +12,9 @@ if(systemInfo.platform=="windows" || systemInfo.platform=="mac" || systemInfo.pl
 }
 console.log(systemInfo)
 App({
-  onLaunch: function () {
+  onLaunch: function (option) {
+    console.log(option)
+    this.option = option
     Promise.prototype.finally = function (callback) {
       let P = this.constructor;
       return this.then(
@@ -34,9 +36,9 @@ App({
       })
     }
     var self = this
-    wx.setBackgroundFetchToken({
-      token: 'xxx'
-    })
+   // wx.setBackgroundFetchToken({
+      //token: 'xxx'
+    //})
     self.envVersion = 'formal'
     if (typeof __wxConfig =="object"){
       let version = __wxConfig.envVersion;
@@ -101,29 +103,6 @@ App({
 
     }
     //this.getUserInfo()
-    //预拉取数据
-    wx.getBackgroundFetchData({
-      fetchType: 'pre',
-      success(res) {
-        let fetchedData = res.fetchedData
-        if(typeof(fetchedData)=="string"){
-          fetchedData = JSON.parse(fetchedData)
-        }
-        console.log(getCurrentPages()[0])
-        let page = ""
-        page = getCurrentPages()[0]
-        if (page){
-          page.setData({
-            orgList:fetchedData.orgList
-          })
-        }
-        console.log("预拉取数据",fetchedData) // 缓存数据
-        self.globalData.orgList = fetchedData.orgList
-        self.globalData.userInfo = fetchedData.userInfo
-        self.checkLogin(page)
-
-      }
-    })
   },
 
   globalData:{
@@ -137,6 +116,31 @@ App({
     
   },
   cropperImg:{},
+
+  //预拉取数据
+  getFetchData(page){
+    let self = this
+    wx.getBackgroundFetchData({
+      fetchType: 'pre',
+      success(res) {
+        let fetchedData = res.fetchedData
+        if(typeof(fetchedData)=="string"){
+          fetchedData = JSON.parse(fetchedData)
+        }
+        if (page){
+          page.setData({
+            orgList:fetchedData.orgList
+          })
+        }
+        console.log("预拉取数据",fetchedData) // 缓存数据
+        self.globalData.orgList = fetchedData.orgList
+        self.globalData.userInfo = fetchedData.userInfo
+        self.checkLogin(page)
+
+      }
+    })
+  }
+  ,
 
   formatTime(date) {
     function formatNumber(n) {
