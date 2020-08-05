@@ -41,22 +41,24 @@ exports.main = async (event, context) => {
     }).get()
     if (checkNameResult.data.length > 0){
       console.log("雅号已被占用!")
-      return {status:false,msg:"雅号已被占用!"}
+      return {status:false,msg:"雅号已被占用!",exists:true}
     }
     const checkResult = await db.collection('user').field({
     }).where({
       openid: wxContext.OPENID
     }).get()
     if (checkResult.data.length > 0) {
+      console.log("用户已存在")
+      return {status:false,msg:"你已经注册过啦！"}
       //return {status:false,msg:"用户已存在！"}
-      console.log("用户已存在，更新用户信息")
-      let id = checkResult.data[0]._id
-      const addResult = await db.collection('user').doc(id).update(
-        {data:userInfo}
-      )
-      console.log(addResult)
-      msg = "成功更新个人资料"
-      result = addResult
+      //console.log("用户已存在，更新用户信息")
+      //let id = checkResult.data[0]._id
+      //const addResult = await db.collection('user').doc(id).update(
+        //{data:userInfo}
+      //)
+      //console.log(addResult)
+      //msg = "成功更新个人资料"
+      //result = addResult
     }else{
       const addResult = await db.collection('user').add(
         {data:userInfo}
