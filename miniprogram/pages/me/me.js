@@ -41,10 +41,6 @@ Page({
     wx.hideShareMenu({
       menus: ['shareAppMessage', 'shareTimeline']
     })
-    if(true){
-      //app.globalData.userInfo = {}
-      app.checkLogin(self,false)
-    }
   },
   agreeGetUser: function (e) {
     var userInfo = e.detail.userInfo;
@@ -104,9 +100,14 @@ Page({
 
   onShow: function () {
     //console.log('onShow')
-    //if (app.globalData.userInfo.isManager){
-      //this.setData({showCheck:true})
-    //}
+    if (app.globalData.isLogin){
+      this.setData({
+        isLogin:true,
+        userInfo:app.globalData.userInfo
+      })
+    }else{
+      app.checkLogin(self,false)
+    }
     
   },
 

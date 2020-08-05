@@ -54,6 +54,7 @@ App({
     }
 
     this.globalData = wx.getStorageSync('globalData') || this.globalData
+    this.globalData.userInfo = {isManager:false}
     if (this.globalData.VERSION != VERSION){
       this.globalData.userInfo = {}
       this.globalData.VERSION = VERSION
@@ -106,6 +107,7 @@ App({
     isGetOpenid:false,
     catList:[],
     VERSION: VERSION,
+    isLogin:false
     
   },
   cropperImg:{},
@@ -153,6 +155,8 @@ App({
         userInfo: this.globalData.userInfo,
         isLogin:true
       })
+    }else{
+      this.globalData.isLogin = true
     }
 
     wx.setStorage({
