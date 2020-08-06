@@ -1,0 +1,29 @@
+<view class="page">
+    <view class="weui-msg">
+        <view class="weui-msg__icon-area">
+            <image class="avatar" src="/res/logo.png"></image>
+        </view>
+        <view class="weui-msg__text-area">
+            <view class="weui-msg__title" style="margin-bottom: 15px;">注册成功</view>
+            <view class="weui-msg__desc" style="line-height: 30px;">欢迎您加入 <navigator url="/pages/webpage/webpage?url=https://mp.weixin.qq.com/s/KFIWjE8kWDNburB2paUBIA" class="weui-msg__link"> 汉服百科第一期计划 </navigator>，第一期的目标是完善汉服组织查询系统(即汉服地图)。您可以点击下方的按钮 <navigator url="/pages/addOrg/addOrg" class="weui-msg__link"> 新增组织 </navigator>，也可以点击此处 <navigator url="/pages/invite/invite" class="weui-msg__link"> 邀请 </navigator> 更多的汉服组织加入。或者点击返回首页查找身边的汉服组织。</view>
+        </view>
+        <view class="weui-msg__opr-area">
+            <view class="button-sp-area">
+              <van-button bind:click="backHome" class="bt weui-btn mini-btn" plain size="normal" type="primary">返回首页</van-button>
+              <van-button bind:click="addOrg" class="bt weui-btn mini-btn" size="normal" type="primary">新增组织</van-button>
+              
+            </view>
+        </view>
+        <view class="weui-msg__tips-area">
+            <view class="weui-msg__tips" >点击查看汉服百科规划：<navigator url="/pages/webpage/webpage?url=https://mp.weixin.qq.com/s/KbZgiqFt10DDUXDIVROgTQ" class="weui-msg__link">链接</navigator></view>
+        </view>
+        <view class="weui-msg__extra-area">
+            <view class="weui-footer">
+                <view class="weui-footer__links">
+                    <navigator wx:if="{{false}}" url="" class="weui-footer__link">汉服百科</navigator>
+                </view>
+                <view class="weui-footer__text">{{copyright}}</view>
+            </view>
+        </view>
+    </view>
+</view>

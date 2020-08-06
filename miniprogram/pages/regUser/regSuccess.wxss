@@ -1,0 +1,12 @@
+page{
+  background-color: #FFFFFF;
+}
+page,.page{height:100%;}
+.avatar {
+  margin: 8rpx 0px;
+  width: 146rpx;
+  height: 146rpx;
+  max-height: 146rpx;
+  max-width: 146rpx;
+  border-radius: 50%;
+}

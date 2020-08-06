@@ -161,6 +161,12 @@
 					"pathName": "pages/user-manager/user-manager",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/regUser/regSuccess",
+					"pathName": "pages/regUser/regSuccess",
+					"scene": null
 				}
 			]
 		}

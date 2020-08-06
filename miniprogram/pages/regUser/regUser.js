@@ -118,6 +118,7 @@ Page({
     //访问网络
     let tips = ""
     let nameExists = false
+    status = false
     userInfo.name = this.name
     wx.showNavigationBarLoading()
     let self = this
@@ -137,6 +138,7 @@ Page({
       console.log(res.result)
       if(res.result.status==true){
         tips = res.result.msg
+        status = true
         console.log(tips)
       }else{
         if(res.result.exists){
@@ -161,9 +163,16 @@ Page({
         success (res) {
           if (res.confirm && !nameExists) {
             console.log('用户点击确定')
-            wx.reLaunch({
-              url: '/pages/map/map',
-            })
+            if(status){
+              wx.redirectTo({
+                url: '/pages/regUser/regSucess',
+              })
+            }else{
+              wx.reLaunch({
+                url: '/pages/map/map',
+              })
+            }
+
           } else if (res.cancel) {
             console.log('用户点击取消')
           }

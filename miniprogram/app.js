@@ -172,7 +172,7 @@ App({
     })
   },
   cropperImgUrl:"",
-  copyright :"Copyright © 2020-2021 hanfubaike",
+  copyright :"© 2020 汉服百科 - hanfubaike@163.com",
   templateId :"k-NuZiPt5DP1bMDO2REFkfuhz1C907aDm3wJAVJdScw",
 
   setUserInfo(userInfo,page=""){
