@@ -118,7 +118,7 @@ Page({
     //访问网络
     let tips = ""
     let nameExists = false
-    status = false
+    let status = false
     userInfo.name = this.name
     wx.showNavigationBarLoading()
     let self = this
