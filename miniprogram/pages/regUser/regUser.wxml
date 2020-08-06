@@ -4,8 +4,8 @@
             <image class="avatar" src="/res/logo.png"></image>
         </view>
         <view class="weui-msg__text-area">
-            <view class="weui-msg__title">汉服百科</view>
-            <view class="weui-msg__desc">{{inviter}}邀请你加入 <navigator url='/pages/webpage/webpage?url=https://mp.weixin.qq.com/s/KFIWjE8kWDNburB2paUBIA' class="weui-msg__link">汉服百科第一期计划 </navigator>，请点击确定加入。</view>
+            <view class="weui-msg__title" style="margin-bottom: 15px;">汉服百科</view>
+            <view class="weui-msg__desc">{{inviter}}邀请你加入 <navigator url='/pages/webpage/webpage?url=https://mp.weixin.qq.com/s/KFIWjE8kWDNburB2paUBIA' class="weui-msg__link">汉服百科第一期计划 </navigator>，请输入雅号之后点击确定加入。雅号是你在项目中的唯一标识，暂不支持修改，请认真填写。</view>
             <van-cell-group>
                 <van-field
                     label="雅号"
@@ -16,7 +16,9 @@
                     bind:change="inputChage"
                 />
             </van-cell-group>
+            
         </view>
+        
 
         <view class="weui-msg__opr-area">
             <view class="weui-btn-area">
