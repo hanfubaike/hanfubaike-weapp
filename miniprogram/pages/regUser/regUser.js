@@ -159,7 +159,7 @@ Page({
             console.log('用户点击确定')
             if(status){
               wx.redirectTo({
-                url: '/pages/regUser/regSucess',
+                url: '/pages/regUser/regSuccess',
               })
             }else{
               wx.reLaunch({
