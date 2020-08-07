@@ -15,7 +15,8 @@
     "pages/invite/invite",
     "pages/regUser/regUser",
     "pages/user-manager/user-manager",
-    "pages/regUser/regSuccess"
+    "pages/regUser/regSuccess",
+    "pages/addOrg/addSuccess"
   ],
   "cloud": true,
   "window": {

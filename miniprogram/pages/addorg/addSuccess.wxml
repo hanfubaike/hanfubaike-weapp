@@ -4,8 +4,8 @@
             <image class="avatar" src="/res/logo.png"></image>
         </view>
         <view class="weui-msg__text-area">
-            <view class="weui-msg__title" style="margin-bottom: 15px;">注册成功</view>
-            <view class="weui-msg__desc" style="line-height: 30px;">欢迎您加入 <navigator url="/pages/webpage/webpage?url=https://mp.weixin.qq.com/s/KFIWjE8kWDNburB2paUBIA" class="weui-msg__link"> 汉服百科第一期计划 </navigator>，第一期的目标是完善汉服组织查询系统：即汉服地图。您可以点击下方的按钮 <navigator url="/pages/addOrg/addOrg" class="weui-msg__link" style="font-weight: bold;"> 新增组织 </navigator>，也可以点击此处 <navigator url="/pages/invite/invite" class="weui-msg__link" style="font-weight: bold;"> 邀请 </navigator> 更多的汉服组织加入。或者点击返回首页查找身边的汉服组织。</view>
+            <view class="weui-msg__title" style="margin-bottom: 15px;">审核通过</view>
+            <view class="weui-msg__desc" style="line-height: 30px;">恭喜，您提交的组织已通过审核 。现在您可以在地图上查找到您的组织了。您可以点击此处 <navigator url="/pages/invite/invite" class="weui-msg__link" style="font-weight: bold;"> 邀请 </navigator> 更多的汉服组织加入，或者返回首页查找身边的汉服组织。</view>
         </view>
         <view class="weui-msg__opr-area">
             <view class="button-sp-area">

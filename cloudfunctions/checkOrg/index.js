@@ -28,7 +28,7 @@ exports.main = async (event, context) => {
           data: {
             checkOpenid:wxContext.OPENID,
             status: event.status,
-            updateTime:db.serverDate(),
+            checkTime:db.serverDate(),
             checkText:event.value
           }
         }

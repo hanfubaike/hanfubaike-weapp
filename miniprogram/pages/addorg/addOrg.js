@@ -267,7 +267,7 @@ Page({
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
     let formData = e.detail.value
     let self = this
-    formData["poster"] = app.globalData.userInfo.nickName
+    formData["poster"] = app.globalData.userInfo.name
     this.formData = formData
     this.autoSave()
     if (!this.postForm()){

@@ -75,15 +75,31 @@ Page({
   },
 
   onShareAppMessage: function(options) {
-    var self = this;
-    var url = ''
-    var webViewUrl = options.webViewUrl;
+    let self = this;
+    let url = ''
+    let webViewUrl = options.webViewUrl;
     url = '/pages/webpage/webpage?url=' + encodeURIComponent(webViewUrl);
     console.log(url);
     return {
-      title: self.data.title,
+      title: self.data.title||"",
       //path: '/pages/map/map?path=' + encodeURIComponent(url),
       path: url,
+      success: function(res) {
+        // 转发成功
+        console.log(url);
+      },
+      fail: function(res) {
+        // 转发失败
+      }
+    }
+  },
+  onShareTimeline(){
+    let self = this;
+    let webViewUrl = options.webViewUrl;
+    let url = '/pages/webpage/webpage?url=' + encodeURIComponent(webViewUrl);
+    return {
+      title: self.data.title||"",
+      //path: '/pages/map/map?path=' + encodeURIComponent(url),
       success: function(res) {
         // 转发成功
         console.log(url);

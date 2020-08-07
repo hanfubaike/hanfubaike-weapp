@@ -166,6 +166,13 @@
 					"id": -1,
 					"name": "pages/regUser/regSuccess",
 					"pathName": "pages/regUser/regSuccess",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/addOrg/addSuccess",
+					"pathName": "pages/addOrg/addSuccess",
 					"scene": null
 				}
 			]

@@ -7,6 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    copyright:app.copyright
     
   },
   name:"",
@@ -144,12 +145,12 @@ Page({
         if(res.result.exists){
           nameExists = true
         }
-        tips = "注册失败！错误："+ res.result.msg
+        tips = "注册失败，"+ res.result.msg
         console.error(tips)
       }
     })
     .catch(error =>{
-      tips = "注册失败！错误："+error
+      tips = "注册失败，"+error
       console.error(tips)
     })
     .finally(function(){
