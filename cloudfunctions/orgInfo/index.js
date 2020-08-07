@@ -25,7 +25,8 @@ exports.main = async (event, context) => {
       "locationAddress":true,
       "locationName":true,
       "updateTime":true,
-      "_openid":true
+      "_openid":true,
+      "telNumble":true
     }).get()
 
     orgInfo = qeueResult.data
