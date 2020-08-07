@@ -154,7 +154,6 @@ Page({
         delete data['reason']
         delete data['checkOpenid']
         delete data['reasonImageList']
-        delete data['poster']
         delete data['_openid']
         delete data['status']
         delete data['postType']
@@ -267,7 +266,7 @@ Page({
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
     let formData = e.detail.value
     let self = this
-    formData["poster"] = app.globalData.userInfo.name
+    formData["poster"] = app.globalData.userInfo.name || app.globalData.userInfo.nickName
     this.formData = formData
     this.autoSave()
     if (!this.postForm()){

@@ -304,7 +304,7 @@ Page({
     const self = this
     let pageUrl = ''
     if(this.checkPass){
-      pageUrl = `/pages/orgPage/orgPage?id=${this.option.id}`
+      pageUrl = '/pages/addOrg/addSuccess'
     }else{
       pageUrl = `/pages/addOrg/addOrg?mod=revise&id=${this.option.id}`
     }
