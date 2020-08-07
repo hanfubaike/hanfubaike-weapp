@@ -451,7 +451,7 @@ Page({
       longLatiute.latitude = self.data.latitude
     }
 
-    const location = longLatiute ? JSON.stringify(longLatiute) : '';
+    const location = longLatiute.length>0 ? JSON.stringify(longLatiute) : '';
     console.log(location)
     const category = '';
     

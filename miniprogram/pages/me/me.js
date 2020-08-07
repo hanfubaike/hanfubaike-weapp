@@ -38,9 +38,6 @@ Page({
 
   onLoad: function (options) {
     var self = this;
-    wx.hideShareMenu({
-      menus: ['shareAppMessage', 'shareTimeline']
-    })
   },
   agreeGetUser: function (e) {
     var userInfo = e.detail.userInfo;
@@ -155,9 +152,6 @@ Page({
       current: this.data.imgUrl,
       urls: [this.data.imgUrl]
     })
-  },
-  onShareAppMessage: function (res) {
-
   },
   addOrg(e){
     let self = this
