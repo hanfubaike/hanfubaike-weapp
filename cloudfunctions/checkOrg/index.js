@@ -21,8 +21,7 @@ exports.main = async (event, context) => {
     }).get()
     if (userQeue.data.length > 0) {
       const updateResult = await db.collection('org').where({
-        _id:id,
-        _openid: '{openid}'
+        _id:id
       }).update({
         // data 传入需要局部更新的数据
           data: {
@@ -34,7 +33,7 @@ exports.main = async (event, context) => {
         }
       )
       result.ischeck = true
-      result.msg = '审核通过！'
+      result.msg = '审核成功！'
     }else{
       result.msg = '审核失败：没有权限！'
     }
