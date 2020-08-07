@@ -10,6 +10,7 @@ cloud.init({
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   const db = cloud.database()
+  let inviterOpenid = ""
   const command = db.command
   let userInfo = event.userInfo
   userInfo.openid = wxContext.OPENID
@@ -28,11 +29,16 @@ exports.main = async (event, context) => {
       status: 0,
       _id:inviteCode
     }).get()
+    console.log(qeueResult)
     if (qeueResult.data.length < 1) {
       inviteList = qeueResult.data
-      return {status:false,msg:"邀请码已过期！"}
+      return {status:false,msg:"邀请码已被使用！"}
+    }else{
+      inviterOpenid = qeueResult.data[0].inviter
+      userInfo.inviterOpenid = inviterOpenid
     }
-    console.log(qeueResult)
+    
+
 
     const checkNameResult = await db.collection('user').field({
     }).where({
