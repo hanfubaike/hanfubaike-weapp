@@ -32,6 +32,7 @@
 
   <van-cell-group title="详细资料">
     <van-field id="QQGroup" name="QQGroup" bind:change="inputChage" value="{{ QQGroup }}"  clearable label="QQ群"  placeholder="请输入QQ群号" bind:click-icon="onClickIcon" />
+    <van-field name="telNumble" value="{{ telNumble }}" clearable label="电话" icon="question-o" placeholder="请输入电话或手机号(可选)" bind:click-icon="onClickIcon" /> 
     <van-field id="wxmp" name="wxmp" bind:change="inputChage" value="{{ wxmp }}" clearable label="微信公众号"  placeholder="微信公众号的名字(可选)"  bind:click-icon="onClickIcon" />
 
     <van-field id="orgDesc" name="orgDesc" bind:change="inputChage" value="{{orgDesc}}"  label="组织简介" type="textarea" maxlength="1000" show-word-limit placeholder="请输入组织简介（如有其它联系方式，可在此填写）" border="{{ true }}" autosize="{{autosize}}" />

@@ -75,7 +75,7 @@
 					"id": 2,
 					"name": "pages/addOrg/addOrg",
 					"pathName": "pages/addOrg/addOrg",
-					"query": "mod=revise&id=a7d38b365f0ecc8b004eda670244f2e8",
+					"query": "",
 					"scene": null
 				},
 				{
@@ -173,6 +173,7 @@
 					"id": -1,
 					"name": "pages/addOrg/addSuccess",
 					"pathName": "pages/addOrg/addSuccess",
+					"query": "",
 					"scene": null
 				}
 			]

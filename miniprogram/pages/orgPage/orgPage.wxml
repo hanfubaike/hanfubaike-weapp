@@ -35,13 +35,14 @@
       <i class="iconfont icondizhi"></i>
       地址：<text selectable>{{locationAddress}}</text>
     </view>
-    <view wx:if="{{marker.contact.phone}}" class="item" id="phone" bindtap="navigateTo">
-      <i class="iconfont icon-phone"></i>
-      <text selectable>{{marker.contact.phone}}</text>
-    </view>
+
     <view wx:if="{QQGroup}}" class="item" id="QQGroup" bindtap="navigateTo">
       <i class="iconfont iconqq"></i>
       QQ群：<text selectable>{{QQGroup}}</text>
+    </view>
+    <view wx:if="{{telNumble}}" class="item" id="telNumble" bindtap="navigateTo">
+      <i class="iconfont icon-phone"></i>
+      <text selectable>{{marker.contact.phone}}</text>
     </view>
     <view wx:if="{wxmp}}" class="item" id="wxmp" bindtap="navigateTo">
       <i class="iconfont iconweixin"></i>
