@@ -37,9 +37,9 @@ Page({
           scale: 15
         });
         break;
-      case "phone":
+      case "telNumble":
         wx.makePhoneCall({
-          phoneNumber: this.data.marker.contact.phone
+          phoneNumber: this.data.telNumble
         });
         break;
       case "modify":

@@ -42,7 +42,7 @@
     </view>
     <view wx:if="{{telNumble}}" class="item" id="telNumble" bindtap="navigateTo">
       <i class="iconfont icon-phone"></i>
-      <text selectable>{{marker.contact.phone}}</text>
+      联系电话：<text selectable>{{telNumble}}</text>
     </view>
     <view wx:if="{wxmp}}" class="item" id="wxmp" bindtap="navigateTo">
       <i class="iconfont iconweixin"></i>

@@ -34,7 +34,7 @@ Page({
       locationAddress:"详细地址",
       orgDesc:"组织简介",
       contactName:"负责人",
-      telNumble:"电话",
+      telNumble:"联系电话",
       QQGroup:"QQ群",
       wxmp:"微信公众号",
       reason:"申请说明"
