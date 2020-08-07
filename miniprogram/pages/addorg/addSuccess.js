@@ -63,9 +63,9 @@ Page({
       url: '/pages/map/map',
     })
   },
-  addOrg(e){
+  invite(e){
     wx.navigateTo({
-      url: '/pages/addOrg/addOrg',
+      url: '/pages/invite/invite',
     })
   }
 })

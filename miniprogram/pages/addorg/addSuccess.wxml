@@ -10,7 +10,7 @@
         <view class="weui-msg__opr-area">
             <view class="button-sp-area">
               <van-button bind:click="backHome" class="bt weui-btn mini-btn" plain size="normal" type="primary">返回首页</van-button>
-              <van-button bind:click="addOrg" class="bt weui-btn mini-btn" size="normal" type="primary">新增组织</van-button>
+              <van-button bind:click="invite" class="bt weui-btn mini-btn" size="normal" type="primary">邀请组织</van-button>
               
             </view>
         </view>
