@@ -399,10 +399,10 @@ Page({
   },
   checkFormData(){
     console.log("开始检查数据")
-    let ignoreList = ['wxmp','latitude','longitude','logoFileList','orgImageFileList','reasonFileList']
-    if(this.data.isModify){
-      ignoreList.push("reason")
-    }
+    let ignoreList = ['wxmp','latitude','longitude','logoFileList','orgImageFileList','reasonFileList','reason']
+    //if(this.data.isModify){
+      //ignoreList.push("reason")
+    //}
     let formData = this.formData
     let nameLabel = this.data.nameLabel
     if (this.data.logoFileList.length==0){

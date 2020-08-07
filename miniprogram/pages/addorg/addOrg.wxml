@@ -36,7 +36,7 @@
 
     <van-field id="orgDesc" name="orgDesc" bind:change="inputChage" value="{{orgDesc}}"  label="组织简介" type="textarea" maxlength="1000" show-word-limit placeholder="请输入组织简介（如有其它联系方式，可在此填写）" border="{{ true }}" autosize="{{autosize}}" />
 
-    <van-field wx:if="{{!isModify}}" id="reason"  name="reason" bind:change="inputChage" value="{{ reason }}" label="申请说明" maxlength="500" show-word-limit type="textarea" placeholder="请输入申请说明，如社团介绍，或推荐人。可以留空。" autosize="{{autosize}}" border="{{ true }}" />
+    <van-field wx:if="{{!isModify}}" id="reason"  name="reason" bind:change="inputChage" value="{{ reason }}" label="申请说明" maxlength="500" show-word-limit type="textarea" placeholder="请输入申请说明（可选）。" autosize="{{autosize}}" border="{{ true }}" />
   </van-cell-group>
   <view class="field-index--van-field van-cell van-cell--center" style="padding-top: 8px;">
   <van-row wx:if="{{!isModify}}" gutter="10">
