@@ -22,7 +22,7 @@
         
         <view class="weui-msg__opr-area">
             <view class="weui-btn-area">
-                <button class="weui-btn" type="primary" open-type="getUserInfo" bindgetuserinfo="agreeGetUser">确定</button>
+                <button class="weui-btn" type="primary" open-type="getUserInfo" lang="zh-CN" bindgetuserinfo="agreeGetUser">确定</button>
             </view>
         </view>
         <view class="weui-msg__extra-area">
