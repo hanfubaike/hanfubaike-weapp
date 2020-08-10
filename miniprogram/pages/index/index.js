@@ -19,12 +19,6 @@ Page({
       title: '正在加载...',
       mask:true
     })
-    wx.showNavigationBarLoading()
-    setTimeout(function(){
-      wx.hideNavigationBarLoading()
-      wx.hideLoading()},1500)
-    
-    
   },
 
   /**
@@ -72,7 +66,46 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-
+  
+  onShareAppMessage: function(options) {
+    let self = this;
+    let url = ''
+    let webViewUrl = options.webViewUrl;
+    url = '/pages/webpage/webpage?url=' + encodeURIComponent(webViewUrl);
+    console.log(url);
+    return {
+      title: self.data.title||"",
+      //path: '/pages/map/map?path=' + encodeURIComponent(url),
+      path: url,
+      success: function(res) {
+        // 转发成功
+        console.log(url);
+      },
+      fail: function(res) {
+        // 转发失败
+      }
+    }
+  },
+  onShareTimeline(){
+    let self = this;
+    let webViewUrl = options.webViewUrl;
+    let url = '/pages/webpage/webpage?url=' + encodeURIComponent(webViewUrl);
+    return {
+      title: self.data.title||"",
+      //path: '/pages/map/map?path=' + encodeURIComponent(url),
+      success: function(res) {
+        // 转发成功
+        console.log(url);
+      },
+      fail: function(res) {
+        // 转发失败
+      }
+    }
+  },
+  webLoad(e){
+    wx.showNavigationBarLoading()
+    setTimeout(function(){
+      wx.hideNavigationBarLoading()
+      wx.hideLoading()},500)
   }
 })
