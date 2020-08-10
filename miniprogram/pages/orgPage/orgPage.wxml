@@ -33,17 +33,17 @@
     </view>
     <view wx:if="{{locationAddress}}" class="item" id="address" bindtap="navigateTo">
       <i class="iconfont icondizhi"></i>
-      地址：<text selectable>{{locationAddress}}</text>
+      组织地址：<text selectable>{{locationAddress}}</text>
     </view>
-
+    <view wx:if="{{telNumble}}" class="item" id="telNumble" data-telNumble="{{telNumble}}" bindtap="navigateTo">
+      <i class="iconfont icondianhua"></i>
+      联系电话：{{telNumble}}
+    </view>
     <view wx:if="{QQGroup}}" class="item" id="QQGroup" bindtap="navigateTo">
       <i class="iconfont iconqq"></i>
-      QQ群：<text selectable>{{QQGroup}}</text>
+      QQ 群号：<text selectable>{{QQGroup}}</text>
     </view>
-    <view wx:if="{{telNumble}}" class="item" id="telNumble" bindtap="navigateTo">
-      <i class="iconfont icon-phone"></i>
-      联系电话：<text selectable>{{telNumble}}</text>
-    </view>
+
     <view wx:if="{wxmp}}" class="item" id="wxmp" bindtap="navigateTo">
       <i class="iconfont iconweixin"></i>
       微信公众号：<text selectable>{{wxmp}}</text>

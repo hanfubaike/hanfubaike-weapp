@@ -26,6 +26,7 @@ Page({
     });
   },
   navigateTo(e) {
+    console.log(e)
     switch (e.target.id) {
       //case "address":
       case "navigate":
