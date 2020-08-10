@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/index-web/index",
     "pages/map/map",
     "pages/addOrg/addOrg",
     "pages/cropper/cropper",
@@ -51,12 +50,6 @@
     "selectedColor": "#11cd6e",
     "borderStyle": "white",
     "list": [
-      {
-        "selectedIconPath": "res/home-on.png",
-        "iconPath": "res/home.png",
-        "pagePath": "pages/index-web/index",
-        "text": "首页"
-      },
       {
         "selectedIconPath": "res/map-on.png",
         "iconPath": "res/map.png",

@@ -121,6 +121,9 @@ Page({
 
   },
   onLoad: function (options) {
+    wx.reLaunch({
+      url: '/pages/map/map'
+    }) 
     var self = this;
     wx.showShareMenu({
               withShareTicket:true,
