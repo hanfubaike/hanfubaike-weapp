@@ -1,2 +1,127 @@
+<!--
+ * WordPres版微信小程序
+ * author: jianbo
+ * organization: 守望轩  www.watch-life.net
+ * github:    https://github.com/iamxjb/winxin-app-watch-life.net
+ * 技术支持微信号：iamxjb
+ * 开源协议：MIT
+ * Copyright (c) 2017 https://www.watch-life.net All rights reserved.-->
 
-<web-view src="{{url}}" bindmessage="recvMessage" bindload="webLoad"></web-view>
+<import src="../../templates/common-list.wxml" />
+<import src="../../templates/copyright.wxml" />
+<import src="../../templates/loading.wxml" />
+
+
+<!-- 首次进入引导添加到“我的小程序” -->
+<view class="addMyMiniapp"  wx:if="{{isFirst}}" catchtap="shutAddMyMiniapp">
+  <view>点击加入我的小程序 ↑</view>
+  <text>了解"{{webSiteName}}"最新文章</text>
+</view>
+
+<!-- 轮播图 -->
+<view style="display:{{displaySwiper}}">
+  <swiper indicator-dots="true" interval="10000" autoplay="true" indicator-color="rgba(0, 0, 0, .1)" indicator-active-color="rgba(0, 0, 0, .6)">
+    <block wx:key="id" wx:for="{{postsShowSwiperList}}">
+      <swiper-item id="{{item.id}}" index="{{index}}" data-redicttype="{{item.type}}" data-appid="{{item.appid}}" data-url="{{item.url}}" bindtap="redictAppDetail">
+        <image mode="aspectFill" src="{{item.post_full_image}}" />
+        <view class="swiper-mask"></view>
+        <view class="swiper-desc">
+          <text>{{item.post_title}}</text>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+
+<view style="display:{{showallDisplay}}">
+  <!-- 图标导航和搜索 -->
+  <view style="display:{{floatDisplay}}">
+    <!-- 图标导航 -->
+    <!-- <view class="nav-box">
+      <block wx:for="{{topNav}}" wx:key="id">
+        <view class="nav-item" catchtap="onNavRedirect" id="{{item.id}}" data-redicttype="{{item.redirecttype}}" data-url="{{item.url}}" data-appid="{{item.appid}}" data-extraData="{{item.extraData}}">
+          <view>
+            <image src="{{item.image}}"></image>
+          </view>
+          <view>
+            <text>{{item.name}}</text>
+          </view>
+        </view>
+      </block>
+    </view> -->
+
+    <!-- 精选栏目 -->
+    <view class="selected-nav" wx:if="{{topNav.length != 0}}">
+      <view class='common-subtitle'>
+        <view class='common-subtitle-left'>精选</view>
+        <view class='common-subtitle-right'>滑动查看</view>
+      </view>
+      <!-- 栏目列表 -->
+      <scroll-view scroll-x>
+        <view class="selected-nav-list">
+          <block  wx:key="id" wx:for="{{topNav}}">
+            <view wx:if="{{ item.redirecttype == 'webpage' || item.redirecttype == 'apppage'}}">
+              <view class="selected-nav-item" catchtap="onNavRedirect" id="{{item.id}}" data-redicttype="{{item.redirecttype}}" data-url="{{item.url}}" data-appid="{{item.appid}}" data-extraData="{{item.extraData}}">
+                <view>
+                  <image mode="aspectFill" src="{{item.image}}"></image>
+                </view>
+                <view>
+                  <text>{{item.name}}</text>
+                </view>
+              </view>
+            </view>
+
+            <view wx:if="{{ item.redirecttype == 'miniapp'}}">
+              <view class="selected-nav-item">
+                <navigator path="{{item.url}}" hover-class="none" open-type="navigate" app-id="{{item.appid}}" target="miniProgram">
+                  <view>
+                    <image mode="aspectFill" src="{{item.image}}"></image>
+                  </view>
+                  <text>{{item.name}}</text>
+                </navigator>
+              </view>
+            </view>
+          </block>
+        </view>
+      </scroll-view>
+    </view>
+
+
+
+    <!-- 搜索 -->
+    <!-- <form catchsubmit="formSubmit" catchreset="formReset" id="search-form">
+      <view class="search-box">
+        <input value="" id="search-input" name="input" confirm-type="search" class="search-input" placeholder="搜索你感兴趣的内容..." bindconfirm="formSubmit"></input>
+        <button class="search-button" form-type="submit" size="mini" plain="true">
+          <icon type="search" color="#959595" size="16" />
+        </button>
+      </view>
+    </form> -->
+
+  </view>
+  <!-- 文章列表 -->
+  <view class="container">
+    <!-- 列表template模板 -->
+    <template is="tempCommonList" data="{{postsList:postsList,listAdsuccess:listAdsuccess}}" />
+    <view style='display:{{isLoading?"block":"none"}}'>
+        <template is="tempLoading" />
+      </view>
+    <!-- 无更多文章提示 -->
+    <view class="loadingmore" style="display:{{floatDisplay}}">
+    
+      <view class="no-more" hidden="{{!isLastPage}}">- 无更多文章 -</view>
+    </view>
+    <!-- 版权信息template模板 -->
+    <view class="copyright" style="display:{{floatDisplay}}">
+  <template is="tempCopyright" data="{{webSiteName:webSiteName,domain:domain}}"/>
+    </view>
+  </view>
+</view>
+
+<!-- 无法访问网络 -->
+<view class="showerror" style="display:{{showerror}}">
+  <image src="../../images/cry80.png" style="height:100rpx;width:100rpx"></image>
+  <view class="errortext">
+    暂时无法访问网络，下拉重试...
+  </view>
+</view>

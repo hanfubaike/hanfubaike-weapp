@@ -1,905 +1,332 @@
-const util = require('util.js')
-const config = require('../config.js')
-
-// ALL server-side API
-//const Host = "http://127.0.0.1:1323"
-const Host = "https://wsq.kawaapp.com"
-const AppKey = config.AppKey
-
-let g = {
-  token: "",
-}
-
-// setup promise
-/**
- * promise请求
- * 参数：参考wx.request
- * 返回值：[promise]res
+/*
+ * 
+ * WordPres版微信小程序
+ * author: jianbo
+ * organization: 守望轩  www.watch-life.net
+ * github:    https://github.com/iamxjb/winxin-app-watch-life.net
+ * 技术支持微信号：iamxjb
+ * 开源协议：MIT
+ * Copyright (c) 2017 https://www.watch-life.net All rights reserved.
  */
-function req(options = {}) {
-  const {
-    url,
-    data,
-    method,
-    dataType,
-    responseType,
-    success,
-    fail,
-    complete
-  } = options;
 
-  // inject token
-  const header = Object.assign({
-    'Authorization': `Bearer ${g.token}`,
-    'AppKey': AppKey, 
-  }, options.header);
 
-  return new Promise((res, rej) => {
-    wx.request({
-      url,
-      data,
-      header,
-      method,
-      dataType,
-      responseType,
-      success(r) {
-        if (r.statusCode == 200) {
-          res(r);
-        } else if (r.statusCode == 401) {
-          console.log("invalid token: 401")
-          // 给调用端返回一个空集，形成完整的调用链
-          res({data: []})
-          // 拦截并处理错误
-          loginExpired()
-        } else {
-          rej({ code: r.statusCode, err: r.data })
-        }
-      },
-      fail(err) {
-        rej({ code: -1, err: err });
-      },
-      complete
-    });
-  });
-}
+import config from 'config.js';
+var domain = config.getDomain;
+var pageCount = config.getPageCount;
+var categoriesID = config.getCategoriesID;
 
-// 重定向到登录页面, 这个方法实际上会被触发多次
-// 目前测试看，多次调用并不会产生问题...
-function loginExpired() {
-  wx.reLaunch({
-    url: '/pages/login/login?man=true',
-  })
-  wx.showToast({
-    title: '会话过期', icon: 'none'
-  })
-  // 删除旧的 token
-  try {
-    wx.removeStorageSync('token')
-  } catch (e) { }
-}
-
-/**
- * 判断请求状态是否成功
- * 参数：http状态码
- * 返回值：[Boolen]
- */
-function isHttpSuccess(status) {
-  return status >= 200 && status < 300 || status === 304;
-}
-
-// JSON 转 Query
-function jsonQueryString(params) {
-  if (!params) {
-    return ""
-  }
-  return Object.keys(params).map(key => key + '=' + (params[key] !== undefined ? params[key] : '')).join('&');
-}
-
-// login
-// if login success goto home, then register and login
-// 自动授权
-function autoAuth() {
-  console.log("start auto auth..")
-  return new Promise((res, rej) => {
-    // check localstorage first
-    const value = wx.getStorageSync('token')
-    if (value && !util.jwtExpire(value)) {
-      g.token = value
-      
-      const app = getApp()
-      if (app) {
-        app.setToken(value)
-      }
-      
-      res(value)
-      return
+var HOST_URI = 'https://' + domain+'/wp-json/wp/v2/';
+var HOST_URI_WATCH_LIFE_JSON = 'https://' + domain + '/wp-json/watch-life-net/v1/';
+   
+module.exports = {  
+  // 获取文章列表数据
+  getPosts: function (obj) {
+      var url = HOST_URI + 'posts?per_page=' + pageCount+'&orderby=date&order=desc&page=' + obj.page;
+    
+    if (obj.categories != 0) {
+      url += '&categories=' + obj.categories;
     }
-
-    console.log("try login..", value)
-
-    // try to auth
-    wx.login({
-      success: function (resp) {
-        if (resp.code) {
-          console.log('get code:', resp.code)
-          req({
-            url: `${Host}/api/auth`,
-            method: 'POST',
-            data: {
-              code: resp.code,
-            }
-          }).then((resp) => {
-            // 返回一个本地的 Token
-            console.log(resp)
-            if (resp.statusCode == 200) {
-              //success, save token
-              g.token = resp.data.access_token
-              const app = getApp()
-              if (app) {
-                app.setToken(g.token)
-              }
-              console.log("get token", resp.data)
-              res(g.token)
-              wx.setStorage({
-                key: 'token',
-                data: g.token
-              })
-            } else {
-              rej({ code: -1, err: 'fail:' + resp.statusCode})
-            }
-          }).catch((err) => {
-            console.log(err)
-            rej({ code: -1, err: err })
-          })
-        } else {
-          rej({ code: -1, err: 'wx.login return nil code' })
-        }
-      },
-      fail: function(err) {
-        rej({ code: -1, err: err })
-      },
-    })
-  })
-}
-
-// Promised method: User/Post/Comment
-function auth() {
-  wx.login({
-    success: function(resp) {
-      if (resp.code) {
-        req({
-          url: `${Host}/api/auth`,
-          method: 'POST',
-          data: {
-            code: resp.code,
-          }
-        })
-      }
+    else if (obj.search != '') {
+      url += '&search=' + encodeURIComponent(obj.search);
     }
-  })
-}
-
-// mata-data
-
-function getMetaData() {
-  return req({
-    url: `${Host}/api/metadata`,
-    method: 'GET'
-  })
-}
-
-// 签到API
-function signin(date) {
-  if (!date) {
-    date = ''
-  }
-  return req({
-    url: `${Host}/api/signs?date=${date}`,
-    method: 'POST',
-  })
-}
-
-function getSignToday() {
-  return req({
-    url: `${Host}/api/signs/today`,
-    method: 'GET'
-  })
-}
-
-function getSignList() {
-  return req({
-    url: `${Host}/api/signs`,
-    method: 'GET'
-  })
-}
-
-function getSignUserList(page, size) {
-  return req({
-    url: `${Host}/api/signs/users?page=${page}&size=${size}`,
-    method: 'GET'
-  })
-}
-
-function getUserList(sort, page, size) {
-  return req({
-    url: `${Host}/api/users?sort=${sort}&page=${page}&size=${size}`,
-    method: 'GET'
-  })
-}
-
-// update user profile
-function updateUser(data) {
-  return req({
-    url: `${Host}/api/users`,
-    method: 'PUT',
-    data: data,
-  })
-}
-
-// return self user-info
-function self() {
-  return req({
-    url: `${Host}/api/users/self`,
-    method: 'GET'
-  })
-}
-
-function getUserPostList(uid, since, limit) {
-  return req({
-    url: `${Host}/api/users/${uid}/posts?since_id=${since}&limit=${limit}`,
-    method: 'GET'
-  })
-}
-
-function getUserCommentList(uid, since, limit) {
-  return req({
-    url: `${Host}/api/users/${uid}/comments?since_id=${since}&limit=${limit}`,
-    method: 'GET'
-  })
-}
-
-function getUserFavorList(uid, since, limit) {
-  return req({
-    url: `${Host}/api/users/${uid}/favors?since_id=${since}&limit=${limit}`,
-    method: 'GET'
-  })
-}
-
-function getUserFavoriteList(uid, page, size) {
-  return req({
-    url: `${Host}/api/users/${uid}/favorites?page=${page}&size=${size}`,
-    method: 'GET'
-  })
-}
-
-// 关注关系
-function follow(uid) {
-  return req({
-    url: `${Host}/api/users/followings`,
-    method: 'POST',
-    data: {user_id: uid}
-  })
-}
-
-function unfollow(uid) {
-  return req({
-    url: `${Host}/api/users/followings/${uid}`,
-    method: 'DELETE'
-  })
-}
-
-function isFollowing(uid) {
-  return req({
-    url: `${Host}/api/users/followings/${uid || 0}`,
-    method: 'GET'
-  })
-}
-
-function getFollowingList(uid, page, size) {
-  return req({
-    url: `${Host}/api/users/${uid || 0}/followings?page=${page || 0}&size=${size || 20}`,
-    method: 'GET'
-  })
-}
-
-function getFollowerList(uid, page, size) {
-  return req({
-    url: `${Host}/api/users/${uid || 0}/followers?page=${page || 0}&size=${size || 20}`,
-    method: 'GET'
-  })
-}
-
-// get post list, fitler: top,val,adz, topic
-function getPostList(since, limit, filter, topic) {
-  if (!topic) {
-    return req({
-      url: `${Host}/api/posts?since_id=${since}&limit=${limit}&filter=${filter}`,
-      method: 'GET'
-    })
-  } else {
-    var encoded = encodeURIComponent(topic)
-    return req({
-      url: `${Host}/api/tags/${encoded}/posts?since_id=${since}&limit=${limit}`,
-      method: 'GET'
-    })
-  }
-}
-
-function getPost(id) {
-  return req({
-    url: `${Host}/api/posts/${id}`,
-    method: 'GET'
-  })
-}
-
-// create post
-function createPost(data) {
-  return req({
-    url: `${Host}/api/posts`,
-    method: 'POST',
-    data: data,
-  })
-}
-
-// update post
-function updatePost(id, data) {
-  return req({
-    url: `${Host}/api/posts/${id}`,
-    method: 'PUT',
-    data: data
-  })
-}
-
-// set post status
-function setPostStatus(id, data) {
-  return req({
-    url: `${Host}/api/posts/${id}/st?` + jsonQueryString(data),
-    method: 'PUT',
-  })
-}
-
-// 隐藏
-function hidePost(id, v) {
-  return setPostStatus(id, {'hid': v})
-}
-// 置顶
-function pinPost(id, v) {
-  return setPostStatus(id, {'top': v})
-}
-// 加精
-function valPost(id, v) {
-  return setPostStatus(id, { 'val': v })
-}
-// 审核
-function auditPost(id) {
-  return setPostStatus(id,{ 'aud': 1 })
-}
-
-// delete post
-function deletePost(id) {
-  return req({
-    url: `${Host}/api/posts/${id}`,
-    method: 'DELETE'
-  })
-}
-
-// get comment list
-function getCommentList(pid, since, limit) {
-  return req({
-    url: `${Host}/api/posts/${pid}/comments?since_id=${since || 0}&limit=${limit || 20}`,
-    method: 'GET'
-  })
-}
-
-function getComment(id) {
-  return req({
-    url: `${Host}/api/posts/comments/${id}`,
-    method: 'GET'
-  })
-}
-
-function createComment(data) {
-  return req({
-    url: `${Host}/api/posts/comments`,
-    method: 'POST',
-    data: data,
-  })
-}
-
-function updateComment(id, data) {
-  return req({
-    url: `${Host}/api/posts/comments/${id}`,
-    method: 'PUT'
-  })
-}
-
-function deleteComment(id) {
-  return req({
-    url: `${Host}/api/posts/comments/${id}`,
-    method: 'DELETE'
-  })
-}
-
-// favors
-function getPostFavorList(pid, since, limit) {
-  return req({
-    url: `${Host}/api/posts/${pid}/favors?since_id=${since}&limit=${limit}`,
-    method: 'GET'
-  })
-}
-
-function getPostFavorCount(pid) {
-  return req({
-    url: `${Host}/api/posts/${pid}/favors/count`,
-    method: 'GET'
-  })
-}
-
-function createPostFavor(pid) {
-  return req({
-    url: `${Host}/api/posts/favors`,
-    method: 'POST',
-    data: {pid: pid}
-  })
-}
-
-function deletePostFavor(pid) {
-  return req({
-    url: `${Host}/api/posts/${pid}/favors`,
-    method: 'DELETE'
-  })
-}
-
-// comment favors
-function getCommentFavorList(cid, since, limit) {
-  return req({
-    url: `${Host}/api/comments/${cid}/favors?since_id=${since}&limit=${limit}`,
-    method: 'GET'
-  })
-}
-
-function getCommentFavorCount(cid) {
-  return req({
-    url: `${Host}/api/comments/${cid}/favors/count`,
-    method: 'GET'
-  })
-}
-
-function createCommentFavor(cid) {
-  return req({
-    url: `${Host}/api/comments/favors`,
-    method: 'POST',
-    data: {cid: cid} 
-  })
-}
-
-function deleteCommentFavor(cid) {
-  return req({
-    url: `${Host}/api/comments/${cid}/favors`,
-    method: 'DELETE'
-  })
-}
-
-// tags
-function getPostByTag(tag) {
-  var encoded = encodeURIComponent(tag)
-  return req({
-    url: `${Host}/api/tags/${encoded}/posts`,
-    method: 'GET'
-  })
-}
-
-function getTagList() {
-  return req({
-    url: `${Host}/api/tags`,
-    method: 'GET'
-  })
-}
-
-function linkTagPost(data) {
-  return req({
-    url: `${Host}/api/tags/posts`,
-    method: 'POST',
-    data: data,
-  })
-}
-
-// message
-function getMessageList(q, since, limit) {
-  return req({
-    url: `${Host}/api/messages?q=${q}&since_id=${since}&limit=${limit}`,
-    method: 'GET'
-  })
-}
-
-function getMessageCount() {
-  return req({
-    url: `${Host}/api/messages/count`,
-    method: 'GET'
-  })
-}
-
-function setMessageRead(id) {
-  return req({
-    url: `${Host}/api/messages/${id}/read`,
-    method: 'PUT'
-  })
-}
-
-function setAllMessageRead(which) {
-  return req({
-    url: `${Host}/api/messages/read?type=${which}`,
-    method: 'PUT'
-  })
-}
-
-// 私信接口
-function getChatUserList(since, limit) {
-  return req({
-    url: `${Host}/api/chat/users?since_id=${since || 0}&limit=${limit || 20}`,
-    method: 'GET'
-  })
-}
-
-function getChatListFrom(uid, since, limit) {
-  if (!since) {
-    since = ''  
-  }
-  if (!limit) {
-    limit = ''
-  }
-  return req({
-    url: `${Host}/api/chat/messages?from=${uid}&since_id=${since}&limit=${limit}`,
-    method: 'GET'
-  })
-}
-
-function createChatMessage(data) {
-  return req({
-    url: `${Host}/api/chat/messages`,
-    method: 'POST',
-    data: data,
-  })
-}
-
-function setChatMessageReadFrom(uid) {
-  return req({
-    url: `${Host}/api/chat/messages/read?from=${uid}`,
-    method: 'PUT'
-  })
-}
-
-// 经验等级
-function getGradeList() {
-  return req({
-    url: `${Host}/api/exp/grades`,
-    method: 'GET'
-  })
-}
-
-function getExpKindList() {
-  return req({
-    url: `${Host}/api/exp/types`,
-    method: 'GET'
-  })
-}
-
-function getUserListExp(page, size) {
-  return req({
-    url: `${Host}/api/exp/users?page=${page}&size=${size}`,
-    method: 'GET'
-  })
-}
-
-// 积分接口
-function getPointKindList() {
-  return req({
-    url: `${Host}/api/point/types`,
-    method: 'GET'
-  })
-}
-
-function getPointItemList() {
-  return req({
-    url: `${Host}/api/point/items`,
-    method: 'GET'
-  })
-}
-
-function pointExchange(id) {
-  return req({
-    url: `${Host}/api/point/exchange`,
-    method: 'POST',
-    data: { item_id: id}
-  })
-}
-
-function getPointOrderList() {
-  return req({
-    url: `${Host}/api/users/0/orders`,
-    method: 'GET'
-  })
-}
-
-// 收藏接口
-function createFavorite(pid) {
-  return req({
-    url: `${Host}/api/posts/${pid}/favorites`,
-    method: 'POST'
-  })
-}
-
-function deleteFavorite(pid) {
-  return req({
-    url: `${Host}/api/posts/${pid}/favorites`,
-    method: 'DELETE'
-  })
-}
-
-// 创建媒体
-function createMedia(data) {
-  return req({
-    url: `${Host}/api/medias`,
-    method: 'POST',
-    data: data,
-  })
-}
-
-// 举报接口
-function createReport(data) {
-  return req({
-    url: `${Host}/api/reports`,
-    method: 'POST',
-    data: data,
-  })
-}
-
-// 解密接口
-function decrypt(data) {
-  return req({
-    url: `${Host}/api/actions/decrypt`,
-    method: 'POST',
-    data: data,
-  })
-}
-
-// 链接预览
-function linkPreview(url) {
-  return req({
-    url: `${Host}/api/actions/link_preview`,
-    method: 'POST',
-    data: { url: url }
-  })
-}
-
-// 生成二维码
-function createQrCode() {
-  return req({
-    url: `${Host}/api/actions/create_qrcode`,
-    method: 'POST'
-  })
-}
-
-// 分享统计
-function logShare(data) {
-  return req({
-    url: `${Host}/api/actions/share`,
-    method: 'POST',
-    data: data,
-  })
-}
-
-// 获取自定义广告
-function getAdunitList(t) {
-  return req({
-    url: `${Host}/api/adunits?p=mp&status=0&t=${t}`,
-    method: 'GET'
-  })
-}
-
-// 获取投票
-function getPollList() {
-  return req({
-    url: `${Host}/api/polls?active=true`,
-    method: 'GET'
-  })
-}
-
-function getPoll(id) {
-  return req({
-    url: `${Host}/api/polls/${id}`,
-    method: `GET`
-  })
-}
-
-function createVote(data) {
-  return req({
-    url: `${Host}/api/polls/votes`,
-    method: `POST`,
-    data: data,
-  })
-}
-
-// 申请加入
-function createJoinRequest(data) {
-  return req({
-    url: `${Host}/api/joins/auth`,
-    method: `POST`,
-    data, data,
-  })
-}
-
-function getJoinRequest(data) {
-  return req({
-    url: `${Host}/api/joins/auth`,
-    method: 'GET',
-    data: data,
-  })
-}
-
-// 社区元信息
-function getAppMeta() {
-  return req({
-    url: `${Host}/api/app/meta`,
-    method: `GET`
-  })
-}
-
-// 上传图片
-function uploadFile(file) {
-  return new Promise((res, rej) => {
-    wx.uploadFile({
-      url: 'https://kawaapp.com/x/api/images',
-      filePath: file,
-      name: 'file',
-      success: function (resp) {
-        if (resp.statusCode == 200) {
-          res(resp.data)
-        } else {
-          rej({ code: resp.statusCode, msg: resp.data })
-        }
-      },
-      fail: function (resp) {
-        rej({ code: -1, msg: resp })
-      }
-    })
-  })
-}
-
-// 获取文章
-function getArticle(appKey, id) {
-  const url = `https://wsq.kawaapp.com/api/articles/${id}`
-  const header = { 'AppKey': appKey }
-  const method = 'GET'
-  return new Promise((res, rej) => {
-    wx.request({ url, header, method,
-      success(r) {
-        if (r.statusCode == 200) {
-          res(r);
-        }
-      },
-      fail(err) {
-        rej({ code: -1, err: err });
-      },
-    });
-  });
-}
-
-module.exports = {
-  autoAuth: autoAuth,
-  updateUser: updateUser,
-  getSelf: self,
-  getUserList: getUserList,
-  getUserPostList: getUserPostList,
-  getUserCommentList: getUserCommentList,
-  getUserFavorList: getUserFavorList,
-  getUserFavoriteList: getUserFavoriteList,
-
-  // follow
-  isFollowing: isFollowing,
-  follow: follow,
-  unfollow: unfollow,
-  getFollowingList: getFollowingList,
-  getFollowerList: getFollowerList,
-
-  // meta
-  getMetaData: getMetaData,
-
-  // post
-  getPostList: getPostList,
-  getPost: getPost,
-  createPost: createPost,
-  deletePost: deletePost,
-  hidePost: hidePost,
-  pinPost: pinPost,
-  valPost: valPost,
-
-
-
-  // comment
-  getCommentList: getCommentList,
-  getComment: getComment,
-  createComment: createComment,
-  updateComment: updateComment,
-  deleteComment: deleteComment,
-
-  // favors
-  getPostFavorList: getPostFavorList,
-  getPostFavorCount: getPostFavorCount,
-  createPostFavor: createPostFavor,
-  deletePostFavor: deletePostFavor,
-
-  getCommentList: getCommentList,
-  getCommentFavorCount: getCommentFavorCount,
-  createCommentFavor: createCommentFavor,
-  deleteCommentFavor: deleteCommentFavor,
-
-  // tags
-  getPostByTag: getPostByTag,
-  getTagList: getTagList,
-  linkTagPost: linkTagPost,
-
-  // messages
-  getMessageList: getMessageList,
-  getMessageCount: getMessageCount,
-  setMessageRead: setMessageRead,
-  setAllMessageRead: setAllMessageRead,
-
-  // chat
-  getChatUserList: getChatUserList,
-  getChatMsgListFrom: getChatListFrom,
-  createChatMessage: createChatMessage,
-  setChatMessageRead: setChatMessageReadFrom,
-
-  // reports
-  createReport: createReport,
-
-  // signin
-  signin: signin,
-  getSignToday: getSignToday,
-  getSignList: getSignList,
-  getSignUserList: getSignUserList,
-
-  // exp
-  getGradeList: getGradeList,
-  getExpKindList: getExpKindList,
-  getUserListExp: getUserListExp,
-
-  // point
-  getPointKindList: getPointKindList,
-  getPointItemList: getPointItemList,
-  getPointOrderList: getPointOrderList,
-  pointExchange: pointExchange,
-
-  // favorite
-  createFavorite: createFavorite,
-  deleteFavorite: deleteFavorite,
-
-  // media
-  createMedia: createMedia,
+        
+    return url;
+
+  },
+  // 获取多个分类文章列表数据
+  getPostsByCategories: function (categories) {
+      var url = HOST_URI + 'posts?per_page=20&orderby=date&order=desc&page=1&categories=' + categories;
+      return url;
+  },
+// 获取置顶的文章
+  getStickyPosts: function () {
+    var url = HOST_URI + 'posts?sticky=true&per_page=5&page=1';
+    return url;
+
+  },
+ 
   
-  // actions
-  decrypt: decrypt,
-  linkPreview: linkPreview,
-  createQrCode: createQrCode,
-  logShare: logShare,
+  //获取首页滑动文章
+  getSwiperPosts: function () {
+      var url = HOST_URI_WATCH_LIFE_JSON;
+      url +='post/swipe';
+      return url;
+  },
 
-  // upload
-  uploadFile: uploadFile,
+  //获取是否开启评论的设置
+  getEnableComment: function () {
+      var url = HOST_URI_WATCH_LIFE_JSON;
+      url += 'options/enableComment';
+      return url;
+  },
 
-  // article
-  getArticle: getArticle,
+   //获取设置项
+   getOptions: function () {
+    var url = HOST_URI_WATCH_LIFE_JSON;
+    url += 'options';
+    return url;
+},
 
-  // ad-unit
-  getAdunitList: getAdunitList,
 
-  // poll
-  getPollList: getPollList,
-  getPoll: getPoll,
-  createVote: createVote,
 
-  // join
-  createJoinRequest: createJoinRequest,
-  getJoinRequest: getJoinRequest,
-  getAppMeta: getAppMeta,
-}
+  // 获取tag相关的文章列表
+  getPostsByTags: function (id,tags) {
+      var url = HOST_URI + 'posts?per_page=5&&page=1&exclude=' + id + "&tags=" + tags;
+
+      return url;
+
+  },
+
+
+  // 获取特定id的文章列表
+  getPostsByIDs: function (obj) {
+    var url = HOST_URI + 'posts?include=' + obj;
+
+    return url;
+
+  },
+  // 获取特定slug的文章内容
+  getPostBySlug: function (obj) {
+      var url = HOST_URI + 'posts?slug=' + obj;
+
+      return url;
+
+  },
+  // 获取内容页数据
+  getPostByID: function (id) {
+    
+    return HOST_URI + 'posts/' + id;
+  },
+  // 获取页面列表数据
+  getPages: function () {
+    
+    return HOST_URI + 'pages';
+  },
+
+  // 获取页面列表数据
+  getPageByID: function (id, obj) {
+    return HOST_URI + 'pages/' + id;
+  },
+  //获取分类列表
+  getCategories: function (ids,openid) {
+      var url ='';
+      if (ids ==''){
+          
+          url = HOST_URI + 'categories?per_page=100&orderby=count&order=desc&openid='+openid;
+      }
+      else
+      {
+          url = HOST_URI + 'categories?include=' + ids+'&orderby=count&order=desc&openid='+openid;
+ 
+      }
+   
+    return url
+  },
+  //获取某个分类信息
+  getCategoryByID: function (id) {
+    var dd = HOST_URI + 'categories/' + id;
+    return HOST_URI + 'categories/'+id;
+  },
+  //获取某文章评论
+  getComments: function (obj) {
+    var url = HOST_URI + 'comments?per_page=100&orderby=date&order=asc&post=' + obj.postID + '&page=' + obj.page;
+    return url;
+  },
+
+  //获取文章评论及其回复
+  getCommentsReplay: function (obj) {
+      var url = HOST_URI_WATCH_LIFE_JSON;
+      url += 'comment/getcomments?postid=' + obj.postId + '&limit=' + obj.limit + '&page=' + obj.page + '&order=desc';
+      return url;
+  },
+  //获取网站的最新20条评论
+  getNewComments: function () {
+      return HOST_URI + 'comments?parent=0&per_page=20&orderby=date&order=desc';
+  },
+
+  //获取回复
+  getChildrenComments: function (obj) {
+    var url= HOST_URI + 'comments?parent_exclude=0&per_page=100&orderby=date&order=desc&post=' + obj.postID
+     return url;
+  },
+
+
+  //获取最近的30个评论
+  getRecentfiftyComments:function(){
+    return HOST_URI + 'comments?per_page=30&orderby=date&order=desc'
+  },
+
+  //提交评论
+  postComment: function () {
+    return HOST_URI + 'comments'
+  }, 
+
+  //提交微信评论
+  postWeixinComment: function () {
+    var url = HOST_URI_WATCH_LIFE_JSON;
+    return url + 'comment/add'
+  }, 
+
+  //获取微信评论
+  getWeixinComment: function (openid) {
+      var url = HOST_URI_WATCH_LIFE_JSON;
+      return url + 'comment/get?openid=' + openid;
+  },    
+
+  //获取文章的第一个图片地址,如果没有给出默认图片
+  getContentFirstImage: function (content){
+    var regex = /<img.*?src=[\'"](.*?)[\'"].*?>/i;
+    var arrReg = regex.exec(content);
+    var src ="../../images/logo700.png";
+    if(arrReg){   
+      src=arrReg[1];
+    }
+    return src;  
+  },
+
+ //获取热点文章
+  getTopHotPosts(flag){      
+      var url = HOST_URI_WATCH_LIFE_JSON;
+      if(flag ==1)
+      {
+          url +="post/hotpostthisyear"
+      }
+      else if(flag==2)
+      {
+          url += "post/pageviewsthisyear"
+      }
+      else if (flag == 3) {
+          url += "post/likethisyear"
+      }
+      else if (flag == 4) {
+          url += "post/praisethisyear"
+      }
+
+      return url;
+  },
+
+  //更新文章浏览数
+  updatePageviews(id) {
+      var url = HOST_URI_WATCH_LIFE_JSON;
+      url += "post/addpageview/"+id;
+      return url;
+  },
+  //获取用户openid
+  getOpenidUrl() {
+    var url = HOST_URI_WATCH_LIFE_JSON;
+    url += "weixin/getopenid";
+    return url;
+  },
+
+   //获取用户信息
+   getUpdateUserInfo() {
+    var url = HOST_URI_WATCH_LIFE_JSON;
+    url += "weixin/updateuserinfo";
+    return url;
+  },
+
+  //点赞
+  postLikeUrl() {
+    var url = HOST_URI_WATCH_LIFE_JSON;
+    url += "post/like";
+    return url;
+  },
+
+  //判断当前用户是否点赞
+  postIsLikeUrl() {
+    var url = HOST_URI_WATCH_LIFE_JSON;
+    url += "post/islike";
+    return url;
+  },
+
+  //获取我的点赞
+  getMyLikeUrl(openid) {
+      var url = HOST_URI_WATCH_LIFE_JSON;
+      url += "post/mylike?openid=" + openid;
+      return url;
+  },
+
+  //鼓励,获取支付密钥
+  postPraiseUrl() { 
+    var url = HOST_URI_WATCH_LIFE_JSON;  
+    url += "payment";
+    return url;
+  },
+
+  //更新鼓励数据
+  updatePraiseUrl() {
+    var url = HOST_URI_WATCH_LIFE_JSON;
+    url += "post/praise";
+    return url;
+  },
+
+  //获取我的鼓励数据
+  getMyPraiseUrl(openid) {
+      var url = HOST_URI_WATCH_LIFE_JSON;
+      url += "post/mypraise?openid=" + openid;
+      return url;
+  },
+
+  //获取所有的鼓励数据
+  getAllPraiseUrl() {
+      var url = HOST_URI_WATCH_LIFE_JSON;
+      url += "post/allpraise";
+      return url;
+  },
+
+  //发送模版消息
+  sendMessagesUrl() {
+      var url = HOST_URI_WATCH_LIFE_JSON;
+      url += "weixin/sendmessage";
+      return url;
+  },
+  //获取订阅的分类
+  getSubscription() {
+      var url = HOST_URI_WATCH_LIFE_JSON;
+      url += "category/getsubscription";
+      return url;
+  },
+
+  //订阅的分类
+  postSubscription() {
+      var url = HOST_URI_WATCH_LIFE_JSON;
+      url += "category/postsubscription";
+      return url;
+  },
+
+  //删除订阅的分类
+  delSubscription() {
+      var url = HOST_URI_WATCH_LIFE_JSON;
+      url += "category/delSubscription";
+      return url;
+  },
+
+  //生成海报
+  creatPoster() {
+      var url = HOST_URI_WATCH_LIFE_JSON;
+      url += "weixin/qrcodeimg";
+      return url;
+  },
+  //获取海报
+  getPosterUrl() {
+      var url = 'https://' + domain + "/wp-content/plugins/rest-api-to-miniprogram/poster/";
+      return url;
+  },
+  //获取二维码
+  getPosterQrcodeUrl() {
+      var url = 'https://' + domain + "/wp-content/plugins/rest-api-to-miniprogram/qrcode/";
+      return url;
+  },
+  getAboutPage(){
+    var url = HOST_URI_WATCH_LIFE_JSON;
+      url += "post/about";
+      return url;
+
+  },
+  getCategoriesIds(){
+    var url = HOST_URI_WATCH_LIFE_JSON;
+      url += "category/ids";
+      return url;
+
+  }
+};

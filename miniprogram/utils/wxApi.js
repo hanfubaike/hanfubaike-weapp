@@ -52,13 +52,6 @@ function wxGetSystemInfo() {
   return wxPromisify(wx.getSystemInfo)
 }
 
-function cloudUploadFile(fileName,path){
-  var cloudUploadFile = wxPromisify(wx.cloud.uploadFile)
-  return cloudUploadFile({
-    cloudPath: fileName,
-    filePath: path
-  });
-}
 
 /**
  * 保留当前页面，跳转到应用内的某个页面
@@ -80,7 +73,6 @@ module.exports = {
   wxLogin: wxLogin,
   wxGetUserInfo: wxGetUserInfo,
   wxGetSystemInfo: wxGetSystemInfo,
-  cloudUploadFile:cloudUploadFile
 
 
 }

@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/index/index",
+    "pages/index-web/index",
     "pages/map/map",
     "pages/addOrg/addOrg",
     "pages/cropper/cropper",
@@ -54,7 +54,7 @@
       {
         "selectedIconPath": "res/home-on.png",
         "iconPath": "res/home.png",
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/index-web/index",
         "text": "首页"
       },
       {
