@@ -5,16 +5,26 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    url:"https://hanfu.wiki"
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.reLaunch({
-      url: '/pages/map/map'
+    //wx.reLaunch({
+      //url: '/pages/map/map'
+    //})
+    wx.showLoading({
+      title: '正在加载...',
+      mask:true
     })
+    wx.showNavigationBarLoading()
+    setTimeout(function(){
+      wx.hideNavigationBarLoading()
+      wx.hideLoading()},1500)
+    
+    
   },
 
   /**

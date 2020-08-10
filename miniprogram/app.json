@@ -52,6 +52,12 @@
     "borderStyle": "white",
     "list": [
       {
+        "selectedIconPath": "res/home-on.png",
+        "iconPath": "res/home.png",
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
         "selectedIconPath": "res/map-on.png",
         "iconPath": "res/map.png",
         "pagePath": "pages/map/map",

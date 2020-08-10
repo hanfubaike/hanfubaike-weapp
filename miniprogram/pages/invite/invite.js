@@ -18,7 +18,9 @@ Page({
       menus: ['shareAppMessage', 'shareTimeline']
     })
     const self = this
-    app.checkLogin(self)
+    if(!app.checkLogin(self)){
+      return
+    }
     this.inviteUser()
   },
 
