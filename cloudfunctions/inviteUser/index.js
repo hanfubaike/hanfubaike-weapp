@@ -21,7 +21,7 @@ exports.main = async (event, context) => {
   //const wxContext = cloud.getWXContext()
   try {
 
-    /*const qeueResult = await db.collection('inviteCode').field({
+    const qeueResult = await db.collection('inviteCode').field({
     }).where({
       status: 0,
       inviter:wxContext.OPENID
@@ -31,7 +31,7 @@ exports.main = async (event, context) => {
       return inviteList[0]
     }
     console.log(qeueResult)
-    */
+ 
 
     const result = await db.collection('inviteCode').add(
       {data:inviteInfo}

@@ -75,13 +75,14 @@ exports.main = async (event, context) => {
     }
     console.log(qeueResult)
 
+/*
     await db.collection('inviteCode').doc(inviteCode).update(
       {data:{
         status:1,
         updateTime:db.serverDate()
 
       }})
-
+*/
 
     return {status:true,msg:msg,result:result}
   } catch (err) {
