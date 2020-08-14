@@ -17,6 +17,23 @@ Page({
    */
   onLoad: function (options) {
     console.log(options)
+    if(app.checkLogin(self,false)){
+      wx.showModal({
+        showCancel:true,
+        title: '提示',
+        content: '你已经注册过啦，点击确定进入下一页',
+        success (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            wx.navigateTo({
+              url: '/pages/regUser/regSuccess',
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    }
     let inviter = options.inviter
     let inviteCode = options.inviteCode
     this.setData({
