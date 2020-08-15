@@ -5,7 +5,7 @@
         </view>
         <view class="weui-msg__text-area">
             <view class="weui-msg__title">邀请用户</view>
-            <view class="weui-msg__desc">为了保证信息的有效性，同时也为了减少服务器的开支，汉服百科目前采用邀请注册的方式，只有通过邀请的用户才可以在地图上增加组织。你可以点击下方的按钮将此页面转发给联系人或群聊，邀请更多汉服组织加入。</view>
+            <view class="weui-msg__desc">汉服百科目前采用邀请注册的方式，只有通过邀请的用户才可以在地图上增加组织。你可以点击下方的按钮将此页面转发给联系人或群聊，或者点击右上角转发到朋友圈，邀请更多汉服组织加入。</view>
         </view>
         <view class="weui-msg__opr-area">
             <view class="weui-btn-area">

@@ -14,9 +14,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.hideShareMenu({
-      menus: ['shareAppMessage', 'shareTimeline']
-    })
+    //wx.hideShareMenu({
+      //menus: ['shareAppMessage', 'shareTimeline']
+    //})
     const self = this
     if(!app.checkLogin(self)){
       return
@@ -70,17 +70,24 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function (res) {
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      let name = app.globalData.userInfo.name
-      let nickName = app.globalData.userInfo.nickName
-      name = name?`『${name}』` : nickName ?`『${nickName}』`:''
-      console.log(res.target)
-      return {
-        title: name+'邀请你加入汉服百科第一期计划',
-        path: `/pages/regUser/regUser?inviter=${name}&inviteCode=${this.inviteCode}`,
-        imageUrl:"/res/map.jpg"
-      }
+    let name = app.globalData.userInfo.name
+    let nickName = app.globalData.userInfo.nickName
+    name = name?`『${name}』` : nickName ?`『${nickName}』`:''
+    return {
+      title: name+'邀请你加入汉服百科第一期计划',
+      path: `/pages/regUser/regUser?inviter=${name}&inviteCode=${this.inviteCode}`,
+      imageUrl:"/res/map.jpg"
+    }
+    
+  },
+  onShareTimeline(){
+    let name = app.globalData.userInfo.name
+    let nickName = app.globalData.userInfo.nickName
+    name = name?`『${name}』` : nickName ?`『${nickName}』`:''
+    return {
+      title: name+'邀请你加入汉服百科第一期计划',
+      path: `/pages/regUser/regUser?inviter=${name}&inviteCode=${this.inviteCode}`,
+      imageUrl:"/res/map.jpg"
     }
   },
   inviteUser(){
