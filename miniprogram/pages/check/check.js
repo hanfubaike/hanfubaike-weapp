@@ -33,9 +33,10 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: async function () {
     console.log(app.globalData)
-    if (!app.checkManager()){
+    let isManager = await app.checkManager()
+    if (!isManager){
       return
     }
     this.setData({

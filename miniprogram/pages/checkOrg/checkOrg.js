@@ -35,10 +35,11 @@ Page({
       show: false
     });
   },
-  onLoad(option){
+  async onLoad(option){
     const self = this
     console.log(app.globalData)
-    if (!app.checkManager()){
+    let isManager = await app.checkManager()
+    if (!isManager){
       return
     }
     this.option = option

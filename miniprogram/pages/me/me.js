@@ -98,7 +98,7 @@ Page({
   onShow: function () {
     //console.log('onShow',app.globalData)
     let self = this
-    app.checkLogin(self,false)   
+    app.checkLogin(self,false)
   },
   onReady(){
     //this.setData({
@@ -190,7 +190,7 @@ Page({
     })
   },
   loginBt(e){
-    app.checkLogin()
+    app.checkLogin(self,false)
   },
   questionBt(e){
     wx.navigateTo({
