@@ -16,32 +16,24 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: async function (options) {
-    let self = this
     console.log(options)
     let isLogin = await app.checkLogin(self,false)
-    if(isLogin){
+    if(!isLogin){
       wx.showModal({
-        showCancel:true,
+        showCancel:false,
         title: '提示',
-        content: '你已经注册过啦，点击确定进入下一页',
+        content: '未注册用户',
         success (res) {
           if (res.confirm) {
             console.log('用户点击确定')
-            wx.navigateTo({
-              url: '/pages/regUser/regSuccess',
+            wx.navigateBack({
+              delta: 0,
             })
-          } else if (res.cancel) {
-            console.log('用户点击取消')
           }
         }
       })
+      return
     }
-    let inviter = options.inviter || ''
-    let inviteCode = options.inviteCode
-    this.setData({
-      inviter
-    })
-    this.inviteCode = inviteCode
     
   },
 
@@ -98,20 +90,17 @@ Page({
       return
     }
     let userInfo = e.detail.userInfo;
-    userInfo.inviteCode = this.inviteCode
-    if (!userInfo.inviteCode){
+    if (app.globalData.userInfo.nickName){
       wx.showModal({
         showCancel:false,
         title: '提示',
-        content: '邀请码不能为空！',
+        content: '你已设置过雅号',
         success (res) {
           if (res.confirm) {
             console.log('用户点击确定')
-            wx.reLaunch({
-              url: '/pages/map/map',
+            wx.navigateBack({
+              delta: 0,
             })
-          } else if (res.cancel) {
-            console.log('用户点击取消')
           }
         }
       })
@@ -124,10 +113,10 @@ Page({
         self.setData({ isLoginPopup: false })
       }, 1000);
       app.setUserInfo(userInfo,self)
-      self.addUser(userInfo)
+      self.updateUser(userInfo)
     }
   },
-  addUser: function (userInfo) {
+  updateUser: function (userInfo) {
     //访问网络
     let tips = ""
     let nameExists = false
@@ -142,7 +131,7 @@ Page({
     })
     wx.cloud.callFunction({
       // 云函数名称
-      name: 'addUser',
+      name: 'updateUser',
       // 传给云函数的参数
       data: {userInfo:userInfo
       },
@@ -157,12 +146,12 @@ Page({
         if(res.result.exists){
           nameExists = true
         }
-        tips = "注册失败，"+ res.result.msg
+        tips = "更新失败，"+ res.result.msg
         console.error(tips)
       }
     })
     .catch(error =>{
-      tips = "注册失败，"+error
+      tips = "更新失败，"+error
       console.error(tips)
     })
     .finally(function(){
@@ -177,13 +166,10 @@ Page({
           if (res.confirm && !nameExists) {
             console.log('用户点击确定')
             if(status){
-              wx.redirectTo({
-                url: '/pages/regUser/regSuccess',
+              wx.navigateBack({
+                delta: 0,
               })
             }else{
-              wx.reLaunch({
-                url: '/pages/map/map',
-              })
             }
 
           } else if (res.cancel) {

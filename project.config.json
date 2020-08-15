@@ -175,6 +175,13 @@
 					"pathName": "pages/addOrg/addSuccess",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/me/modifyUser",
+					"pathName": "pages/me/modifyUser",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

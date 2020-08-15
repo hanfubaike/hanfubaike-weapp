@@ -187,7 +187,9 @@ App({
         isLogin:true
       })
     }
-
+    if(!this.isRegUserPage){
+      self.checkNickName()
+    }
     wx.setStorage({
       key:"globalData",
       data:this.globalData
@@ -286,6 +288,10 @@ App({
   async checkLogin(page="",isTips=true){
     let self = this
     let isLogin = false
+    console.log(page)
+    if(page.route== "pages/regUser/regUser"){
+      this.isRegUserPage = true
+    }
     if (this.globalData.userInfo.status!=1){
       console.log("checkLogin getUserInfo",this.globalData.userInfo)
       isLogin = await this.getUserInfo(page,isTips)
@@ -298,9 +304,31 @@ App({
           userInfo:self.globalData.userInfo
         })
       }
+      if(!this.isRegUserPage){
+        self.checkNickName()
+      }
       return true
     }
   },
+  checkNickName(){
+    if (!this.globalData.userInfo.nickName){
+      wx.showModal({
+        showCancel:false,
+        title: '提示',
+        content: '请先设置雅号',
+        success (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            wx.navigateTo({
+              url: 'pages/me/modifyUser',
+            })
+          }
+        }
+      })
+      return
+    }
+  }
+  ,
   compareVersion(v1, v2) {
     v1 = v1.split('.')
     v2 = v2.split('.')

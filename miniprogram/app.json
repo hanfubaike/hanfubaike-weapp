@@ -16,7 +16,8 @@
     "pages/regUser/regUser",
     "pages/user-manager/user-manager",
     "pages/regUser/regSuccess",
-    "pages/addOrg/addSuccess"
+    "pages/addOrg/addSuccess",
+    "pages/me/modifyUser"
   ],
   "cloud": true,
   "window": {
