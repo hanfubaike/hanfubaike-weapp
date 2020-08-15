@@ -316,7 +316,7 @@ App({
     }
   },
   checkNickName(){
-    if (this.globalData.userInfo.status &&!this.globalData.userInfo.nickName){
+    if (this.globalData.userInfo.status==1 &&!this.globalData.userInfo.nickName){
       wx.showModal({
         showCancel:false,
         title: '提示',
