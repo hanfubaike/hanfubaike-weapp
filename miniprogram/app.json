@@ -6,6 +6,7 @@
     "pages/cropper/cropper",
     "pages/me/me",
     "pages/me/edit",
+    "pages/me/modifyUser",
     "pages/check/check",
     "pages/checkOrg/checkOrg",
     "pages/msg/msg_success",
@@ -16,8 +17,7 @@
     "pages/regUser/regUser",
     "pages/user-manager/user-manager",
     "pages/regUser/regSuccess",
-    "pages/addOrg/addSuccess",
-    "pages/me/modifyUser"
+    "pages/addOrg/addSuccess"
   ],
   "cloud": true,
   "window": {
