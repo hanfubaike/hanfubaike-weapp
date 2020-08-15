@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/map/map",
+    "pages/index/index",
     "pages/addOrg/addOrg",
     "pages/cropper/cropper",
     "pages/me/me",

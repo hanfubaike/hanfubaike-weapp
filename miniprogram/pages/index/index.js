@@ -103,7 +103,7 @@ Page({
 
     });
     this.fetchTopFivePosts();
-    this.fetchPostsData(self.data);
+    //this.fetchPostsData(self.data);
 
   },
   onReachBottom: function () {
@@ -121,9 +121,12 @@ Page({
 
   },
   onLoad: function (options) {
-    wx.reLaunch({
-      url: '/pages/map/map'
+    if(!options.dev){
+      wx.reLaunch({
+        url: '/pages/map/map'
     }) 
+    }
+
     var self = this;
     wx.showShareMenu({
               withShareTicket:true,
@@ -134,7 +137,7 @@ Page({
               }
         })
     self.fetchTopFivePosts();
-    self.fetchPostsData(self.data);  
+    //self.fetchPostsData(self.data);  
 
     // 判断用户是不是第一次打开，弹出添加到我的小程序提示
     var isFirstStorage = wx.getStorageSync('isFirst');
@@ -176,13 +179,14 @@ Page({
   fetchTopFivePosts: function () {
     var self = this;
     //获取滑动图片的文章
-    var getPostsRequest = wxRequest.getRequest(Api.getSwiperPosts());
+    var getPostsRequest = wxRequest.getRequest("https://www.yuque.com/api/groups/1455572/docs?");
     getPostsRequest.then(response => {
-      if (response.data.status == '200' && response.data.posts.length > 0) {
+      console.log(response.data)
+      if (response.data.data.length > 0) {
         self.setData({
-          postsShowSwiperList: self.data.postsShowSwiperList.concat(response.data.posts.map(function (item) {
-            if (!item.post_large_image) {
-              item.post_large_image = "../../images/logo700.png";
+          postsShowSwiperList: self.data.postsShowSwiperList.concat(response.data.data.map(function (item) {
+            if (!item.cover) {
+              item.post_large_image = "../../images/logo.png";
             }
             return item;
           })),
