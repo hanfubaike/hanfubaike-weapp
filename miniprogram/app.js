@@ -359,6 +359,19 @@ App({
   
     return 0
   },
+  checkName(name){
+    if(!name){
+      return "雅号不能为空！"
+    }
+    if(name.length > 12){
+      return "雅号不能超过12个字符"
+    }
+    if(RegExp("[\\u4E00-\\u9FFF]+$","g").test(name)){
+      return true
+    }else{
+      return "雅号必须为纯中文"
+    }
+  },
   getMsgSetting(callback){
     let tmplid = this.templateId
     wx.requestSubscribeMessage({

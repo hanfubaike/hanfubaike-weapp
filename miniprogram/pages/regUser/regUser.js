@@ -85,15 +85,21 @@ Page({
    */
   onReachBottom: function () {
 
-  },
+  }
+  ,
   agreeGetUser: function (e) {
-    if(!this.name){
-      wx.showToast({
-        title:"雅号不能为空！",
-        icon:"none"
-      })
+
+    let checkResult = app.checkName(this.name)
+    if(checkResult === true){
+
+    }else{
+      let errorMessage = checkResult
+      //wx.showToast({
+        //title:errorMessage,
+        //icon:"none"
+      //})
       this.setData({
-        error:true
+        errorMessage:errorMessage
       })
       return
     }
@@ -201,9 +207,9 @@ Page({
   },
   inputChage(e){
     console.log(e)
-    if(this.data.error){
+    if(this.data.errorMessage){
       this.setData({
-        error:false
+        errorMessage:""
       })
     }
     let value = e.detail
