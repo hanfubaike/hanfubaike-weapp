@@ -152,7 +152,7 @@ Page({
           let lat = markers[x].latitude
           let lng = markers[x].longitude
           if (util.IsPtInPoly(lng, lat, polist)) {
-            console.log("在视野范围：", markers[x].orgName)
+            //console.log("在视野范围：", markers[x].orgName)
             _data.push(markers[x])
           }
           else {
@@ -220,7 +220,7 @@ Page({
       
       //self.setCircles(self.orgList)
       // complete
-      self.loadingMark(true)
+      //self.loadingMark(true)
       //console.log('orgList', orgList);
     })
 
@@ -389,7 +389,7 @@ Page({
           //self.scale = 20
         //}
         let markers_width_height = (self.scale * self.scale) / 7
-        console.log("显示组织名称")
+        //console.log("显示组织名称")
         if(orgList['length'] < 10){
           markers_width_height = 20
         }else{
@@ -471,7 +471,7 @@ Page({
               let lat = orgList[x].latitude
               let lng = orgList[x].longitude
               if (util.IsPtInPoly(lng, lat, polist)) {
-                console.log("在视野范围：", orgList[x].orgName)
+                //console.log("在视野范围：", orgList[x].orgName)
                 _data.push(orgList[x])
               }
               else {
@@ -701,23 +701,23 @@ Page({
               let lat = markers[x].latitude
               let lng = markers[x].longitude
               if (util.IsPtInPoly(lng, lat, polist)) {
-                console.log("在视野范围：", markers[x].orgName)
+                //console.log("在视野范围：", markers[x].orgName)
                 _data.push(markers[x])
               }
               else {
               }
             }
-            console.log(_data)
+            console.log("在视野范围：",_data)
 
             if (scale > 8 || _data.length < 10 || Force) {
-              if ((_data.length != 0 && !self.isEquals(_data, self.regionMarkers)) || isScaleEquals || Force || _data.length < 10 ) {
+              if ((_data.length != 0 && !self.isEquals(_data, self.regionMarkers)) || isScaleEquals || Force) {
                 self.regionMarkers = _data
                 console.log("设置局部标记")
                 self.setIndexMarkers(_data)
     
               }
               else {
-                console.log("视野数据一致，不刷新")
+                console.log("数据一致，不刷新")
               }
             }
             else if (scale <= 8) {
@@ -747,7 +747,7 @@ Page({
       return
     }
     
-    if (e.type == "end") {
+    if (e.type == "end" && e.causedBy!="update") {
       console.log("regionchange", e)
       self.loadingMark()
     }
