@@ -17,6 +17,15 @@ Page({
     //wx.hideShareMenu({
       //menus: ['shareAppMessage', 'shareTimeline']
     //})
+    console.log(options)
+    if(options.inviteCode){
+      let name = options.inviter
+      let inviteCode = options.inviteCode
+      wx.navigateTo({
+        url: `/pages/regUser/regUser?inviter=${name}&inviteCode=${inviteCode}`,
+      })
+      return
+    }
     const self = this
     if(!app.checkLogin(self)){
       return
@@ -80,16 +89,16 @@ Page({
     }
     
   },
-  onShareTimeline(){
+  /*onShareTimeline(){
     let name = app.globalData.userInfo.name
     let nickName = app.globalData.userInfo.nickName
     name = name?`『${name}』` : nickName ?`『${nickName}』`:''
     return {
       title: name+'邀请你加入汉服百科第一期计划',
-      path: `/pages/regUser/regUser?inviter=${name}&inviteCode=${this.inviteCode}`,
+      query: `inviter=${name}&inviteCode=${this.inviteCode}`,
       imageUrl:"/res/map.jpg"
     }
-  },
+  },*/
   inviteUser(){
     wx.showNavigationBarLoading()
     let self = this
