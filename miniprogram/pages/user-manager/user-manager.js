@@ -95,7 +95,7 @@ Page({
     })
     const db = wx.cloud.database()
     //查询当前用户所有的 counters
-    return db.collection("user").get()
+    return db.collection("user").orderBy('addTime', 'desc').get()
   },
   getUsers:async function(){
     let dbres = {}

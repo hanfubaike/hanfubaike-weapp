@@ -13,7 +13,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: async function (options) {
     //wx.hideShareMenu({
       //menus: ['shareAppMessage', 'shareTimeline']
     //})
@@ -27,7 +27,8 @@ Page({
       return
     }
     const self = this
-    if(!app.checkLogin(self)){
+    let isLogin = await app.checkLogin(self)
+    if(!isLogin){
       return
     }
     this.inviteUser()

@@ -134,13 +134,9 @@ Page({
   },
   checkOrg:function(){
     let self = this
-    if (app.checkLogin(self)){
-      wx.navigateTo({
-        url: '/pages/check/check',
-      })
-    }else{
-      //app.showToast("请先登录！")
-    }
+    wx.navigateTo({
+      url: '/pages/check/check',
+    })
   },
   about: function (e) {
     wx.navigateTo({
@@ -155,14 +151,9 @@ Page({
   },
   addOrg(e){
     let self = this
-    if (app.checkLogin(self)){
-      wx.navigateTo({
-        url: '/pages/addOrg/addOrg',
-      })
-    }else{
-      //app.showToast("请先登录！")
-    }
-
+    wx.navigateTo({
+      url: '/pages/addOrg/addOrg',
+    })
   },
 
   onOk: function(e) {
@@ -194,12 +185,9 @@ Page({
   },
   inviteUser(e){
     let self = this
-    if (app.checkLogin(self)){
-      wx.navigateTo({
-        url: '/pages/invite/invite',
-      })
-    }else{
-    }
+    wx.navigateTo({
+      url: '/pages/invite/invite',
+    })
   },
   loginBt(e){
     app.checkLogin()

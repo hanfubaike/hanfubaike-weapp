@@ -232,7 +232,7 @@ App({
 
       console.log('[云函数] [getUserInfo]: ', userResult.result)
       let userInfo = userResult.result.userInfo
-      if(userInfo.status!=1){
+      if(userInfo && userInfo.status!=1){
         if(isTips){
           wx.showModal({
             title: '提示',
@@ -247,11 +247,7 @@ App({
             }
           })
         }
-        //wx.showModal({
-          //showCancel:false,
-          //title:"登录失败",
-          //content:"汉服百科目前仅开放邀请注册，请联系已注册的组织或用户获取邀请链接。"
-        //})
+        console.log("没有权限")
         return false
         }
         else{
@@ -263,8 +259,9 @@ App({
           console.error('[云函数] [login] 调用失败', err)
         }
   },
-  checkManager(){
-    if (!this.checkLogin()){
+  async checkManager(){
+    let isLogin = await this.checkLogin()
+    if (!isLogin){
       return false
     }
     if (!this.globalData.userInfo.isManager){
@@ -286,11 +283,14 @@ App({
     }
   }
   ,
-  checkLogin(page="",isTips=true){
+  async checkLogin(page="",isTips=true){
     let self = this
+    let isLogin = false
     if (this.globalData.userInfo.status!=1){
       console.log("checkLogin getUserInfo",this.globalData.userInfo)
-      return this.getUserInfo(page,isTips)
+      isLogin = await this.getUserInfo(page,isTips)
+      console.log("isLogin",isLogin)
+      return isLogin
     }else{
       if(page){
         page.setData({

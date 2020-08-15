@@ -50,9 +50,9 @@ Page({
   formData:{logoList:[],reasonImageList:[],orgImageList:[]},
   orgTypeList: ['社会组织','商业组织','汉服商家','大学组织','高中组织','初中组织'],
 
-  onLoad(option){
+  async onLoad(option){
     const self = this
-    app.checkLogin(self)
+    await app.checkLogin(self)
     this.option = option
     if(option.mod == "modify" || option.mod=="revise"){
       self.setData({isModify:true})

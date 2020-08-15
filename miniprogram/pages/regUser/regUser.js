@@ -15,9 +15,10 @@ Page({
   /** 
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: async function (options) {
     console.log(options)
-    if(app.checkLogin(self,false)){
+    let isLogin = await app.checkLogin(self,false)
+    if(isLogin){
       wx.showModal({
         showCancel:true,
         title: '提示',
