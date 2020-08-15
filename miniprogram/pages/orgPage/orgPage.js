@@ -130,7 +130,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: "『" + this.data.orgName + "』的主页", 
+      //title: "『" + this.data.orgName + "』的主页", 
       path:  getCurrentPages().slice(-1).route,
       success: function (res) {
         // 转发成功
@@ -141,6 +141,15 @@ Page({
     }
   },
   onShareTimeline(){
-    
+    return {
+      title: "『" + this.data.orgName + "』的主页", 
+      path:  getCurrentPages().slice(-1).route,
+      success: function (res) {
+        // 转发成功
+      },
+      fail: function (res) {
+        // 转发失败
+      }
+    }
   }
 });
