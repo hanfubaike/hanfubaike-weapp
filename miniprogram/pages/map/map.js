@@ -166,7 +166,7 @@ Page({
   ,
   getOrgList: function () {
     //访问网络
-    wx.showNavigationBarLoading()
+    //wx.showNavigationBarLoading()
     var self = this
     //var allOrgList = []
     wx.showLoading({

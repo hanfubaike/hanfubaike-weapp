@@ -19,7 +19,7 @@ Page({
     let self = this
     console.log(options)
     let isLogin = await app.checkLogin(self,false)
-    if(isLogin){
+    if(isLogin && self.data.userInfo.nickName){
       wx.showModal({
         showCancel:true,
         title: '提示',
@@ -123,7 +123,7 @@ Page({
       setTimeout(function () {
         self.setData({ isLoginPopup: false })
       }, 1000);
-      app.setUserInfo(userInfo,self)
+      //app.setUserInfo(userInfo,self)
       self.addUser(userInfo)
     }
   },
@@ -133,7 +133,7 @@ Page({
     let nameExists = false
     let status = false
     userInfo.name = this.name
-    wx.showNavigationBarLoading()
+    //wx.showNavigationBarLoading()
     let self = this
     //var alluserList = []
     wx.showLoading({
@@ -152,6 +152,9 @@ Page({
       if(res.result.status==true){
         tips = res.result.msg
         status = true
+        if(res.result.result && res.result.result._id){
+          userInfo._id = res.result.result._id
+        }
         console.log(tips)
       }else{
         if(res.result.exists){
@@ -177,6 +180,9 @@ Page({
           if (res.confirm && !nameExists) {
             console.log('用户点击确定')
             if(status){
+              let newUserInfo = Object.assign(userInfo,app.globalData.userInfo)
+              console.log("注册成功！",newUserInfo)
+              app.setUserInfo(userInfo)
               wx.redirectTo({
                 url: '/pages/regUser/regSuccess',
               })

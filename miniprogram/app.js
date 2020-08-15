@@ -176,6 +176,7 @@ App({
   templateId :"k-NuZiPt5DP1bMDO2REFkfuhz1C907aDm3wJAVJdScw",
 
   setUserInfo(userInfo,page=""){
+    let self =this
     if(userInfo.isAdmin){
       userInfo.isManager = true
     }
@@ -288,10 +289,14 @@ App({
   async checkLogin(page="",isTips=true){
     let self = this
     let isLogin = false
-    console.log(page)
-    if(page.route== "pages/regUser/regUser"){
-      this.isRegUserPage = true
+    this.isRegUserPage = false
+    console.log("page",page)
+    if(page){
+      if(page.route.indexOf("pages/regUser/regUser") >-1 || page.route.indexOf("pages/me/modifyUser") >-1){
+        this.isRegUserPage = true
+      }
     }
+
     if (this.globalData.userInfo.status!=1){
       console.log("checkLogin getUserInfo",this.globalData.userInfo)
       isLogin = await this.getUserInfo(page,isTips)
@@ -315,12 +320,12 @@ App({
       wx.showModal({
         showCancel:false,
         title: '提示',
-        content: '请先设置雅号',
+        content: '您还没有设置雅号，请点击确定进行设置。',
         success (res) {
           if (res.confirm) {
             console.log('用户点击确定')
             wx.navigateTo({
-              url: 'pages/me/modifyUser',
+              url: '/pages/me/modifyUser',
             })
           }
         }

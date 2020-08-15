@@ -16,6 +16,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: async function (options) {
+    let self = this
     console.log(options)
     let isLogin = await app.checkLogin(self,false)
     if(!isLogin){
@@ -112,18 +113,19 @@ Page({
       setTimeout(function () {
         self.setData({ isLoginPopup: false })
       }, 1000);
-      app.setUserInfo(userInfo,self)
+      //app.setUserInfo(userInfo,self)
       self.updateUser(userInfo)
     }
   },
   updateUser: function (userInfo) {
     //访问网络
     let tips = ""
+    let self = this
     let nameExists = false
     let status = false
     userInfo.name = this.name
+    let id = self.data.userInfo._id || app.globalData.userInfo._id
     wx.showNavigationBarLoading()
-    let self = this
     //var alluserList = []
     wx.showLoading({
       title: '正在提交...',
@@ -133,7 +135,8 @@ Page({
       // 云函数名称
       name: 'updateUser',
       // 传给云函数的参数
-      data: {userInfo:userInfo
+      data: {userInfo:userInfo,
+            id:id
       },
     })
     .then(res => {
@@ -166,6 +169,9 @@ Page({
           if (res.confirm && !nameExists) {
             console.log('用户点击确定')
             if(status){
+              let newUserInfo = Object.assign(userInfo,app.globalData.userInfo)
+              console.log("更新资料成功！",newUserInfo)
+              app.setUserInfo(newUserInfo,self)
               wx.navigateBack({
                 delta: 0,
               })

@@ -101,7 +101,7 @@ Page({
     }
   },*/
   inviteUser(){
-    wx.showNavigationBarLoading()
+    //wx.showNavigationBarLoading()
     let self = this
     //var alluserList = []
     wx.showLoading({
