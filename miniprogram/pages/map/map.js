@@ -747,9 +747,24 @@ Page({
       return
     }
     
-    if (e.type == "end" && e.causedBy!="update") {
-      console.log("regionchange", e)
-      self.loadingMark()
+    if (e.type == "end") {
+      if(e.causedBy=="update"){
+        self.mapCtx.getCenterLocation({
+          success: function (res) {
+            let latitude = res.latitude
+            let longitude =  res.longitude
+            //如果当前坐标与之前的坐标不一致，则刷新
+            if(latitude != self.data.latitude || longitude !=self.data.longitude){
+              console.log("regionchange", e)
+              self.loadingMark()
+            }
+          }
+        })
+      }else{
+          console.log("regionchange", e)
+          self.loadingMark()
+        }
+
     }
   },
 
@@ -1040,16 +1055,21 @@ Page({
         success: function (res){
           console.log(res)
           self.setData({
-            scale:3
+            scale:3,
+            longitude:longitude,
+            latitude:latitude,
           })
         },
-        fail(res){
+        fail:function(res){
           console.log(res)
           self.setData({
             scale:3,
             longitude:longitude,
             latitude:latitude,
           })
+        },
+        complete:function(res){
+          //self.loadingMark()
         }
       })
     }else{
