@@ -131,6 +131,7 @@ Page({
     }
     return {
       //title: "『" + this.data.orgName + "』的主页", 
+      title:"",
       path:  getCurrentPages().slice(-1).route,
       success: function (res) {
         // 转发成功
