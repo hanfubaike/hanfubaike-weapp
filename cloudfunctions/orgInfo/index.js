@@ -9,12 +9,37 @@ cloud.init({
 // 云函数入口函数
 exports.main = async (event, context) => {
   const db = cloud.database()
+  const command = db.command
+  let id = ""
+  let orgname = ""
+  if (event.queryStringParameters){
+    console.log("event.queryStringParameters",event.queryStringParameters)
+    id = event.queryStringParameters.id
+    orgname = event.queryStringParameters.orgname
+  }else{
+    id = event.id 
+    orgname = event.orgname
+  }
 
   let orgInfo = {}
   let isManager = false
   const wxContext = cloud.getWXContext()
+  let queryStr = {}
+
   try {
-    const qeueResult = await db.collection('org').doc(event.id).field({
+    if(id){
+      queryStr = {
+        _id:id
+      }
+    }else if (orgname){
+      queryStr = {
+        orgName:orgname
+      }
+    }else{
+      return {}
+    }
+    const qeueResult = await db.collection('org').where(queryStr)
+    .field({
       "orgType":true,
       "orgName":true,
       "orgDesc":true,
@@ -29,15 +54,12 @@ exports.main = async (event, context) => {
       "telNumble":true
     }).get()
 
-    orgInfo = qeueResult.data
+    orgInfo = qeueResult.data[0]
     if(wxContext.OPENID == orgInfo._openid){
       isManager = true
     }
     returnData = {}
-    for(let x in orgInfo){
-      returnData[x] = orgInfo[x]
-    }
-    returnData.orgInfo = qeueResult.data
+    returnData.orgInfo = orgInfo
     returnData.isManager = isManager
     console.log(orgInfo)
     return returnData
