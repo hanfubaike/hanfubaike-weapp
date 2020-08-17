@@ -18,6 +18,12 @@ Page({
   onLoad: async function (options) {
     let self = this
     console.log(options)
+    let inviter = options.inviter || ''
+    let inviteCode = options.inviteCode
+    this.setData({
+      inviter
+    })
+    this.inviteCode = inviteCode
     let isLogin = await app.checkLogin(self,false)
     if(isLogin && self.data.userInfo.nickName){
       wx.showModal({
@@ -36,13 +42,6 @@ Page({
         }
       })
     }
-    let inviter = options.inviter || ''
-    let inviteCode = options.inviteCode
-    this.setData({
-      inviter
-    })
-    this.inviteCode = inviteCode
-    
   },
 
   /**
