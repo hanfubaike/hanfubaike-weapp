@@ -10,7 +10,7 @@
                 <van-field
                     label="雅号"
                     value="{{ name }}"
-                    placeholder="请输入雅号或昵称"
+                    placeholder="请输入你的雅号或昵称"
                     border
                     error-message="{{errorMessage}}"
                     bind:change="inputChage"

@@ -43,10 +43,7 @@
   -->
   <van-cell-group title="详细资料">
     <van-field readonly="{{true}}" name="QQGroup" value="{{ QQGroup }}" clearable label="QQ群"  placeholder="请输入QQ群号" />
-    <view wx:if="{{telNumble}}" class="item" id="telNumble" bindtap="navigateTo">
-      <i class="iconfont icon-phone"></i>
-      联系电话：<text selectable>{{telNumble}}</text>
-    </view>
+    <van-field readonly="{{true}}" name="telNumble" value="{{ telNumble }}" clearable label="联系电话"  placeholder="联系电话(可选)" />
     <van-field readonly="{{true}}" name="wxmp" value="{{ wxmp }}" clearable label="微信公众号"  placeholder="微信公众号的名字(可选)" />
 
     <van-field readonly="{{true}}" name="reason" value="{{ reason }}" label="申请说明" type="textarea" autosize placeholder="请输入申请说明" border="{{ false }}" />

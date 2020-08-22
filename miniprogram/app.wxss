@@ -474,3 +474,8 @@ page {
   padding-top: 15px;
   text-align:center;
 }
+
+
+.weui-msg__desc{
+  text-align: left;
+}

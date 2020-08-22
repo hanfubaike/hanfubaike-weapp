@@ -16,7 +16,8 @@ exports.main = async (event, context) => {
   try {
     const qeueResult = await db.collection('org').field({
       orgName: true,
-      longLatiute: true
+      longLatiute: true,
+      locationAddress:true
     }).where({
       status: 1
     }).get()

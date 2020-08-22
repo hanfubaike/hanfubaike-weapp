@@ -160,6 +160,9 @@ Page({
           if (thisData.updateTime){
             thisData.updateTime = app.formatTime(thisData.updateTime)
           }
+          if (thisData.checkTime){
+            thisData.checkTime = app.formatTime(thisData.checkTime)
+          }
           listData.push(thisData)
         }
         self.setData({
@@ -180,6 +183,7 @@ Page({
       orgName: true,
       poster:true,
       updateTime:true,
+      checkTime:true,
       status:true
     }
     const db = wx.cloud.database()

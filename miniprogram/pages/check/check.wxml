@@ -55,7 +55,7 @@
         <view class="index td">{{index+1}}</view>
         <view class="td">{{item.orgName}}</view>
         <view class="td">{{item.status==-1?'未通过':'通过' }}</view>
-        <view class="td">{{item.updateTime}}</view>
+        <view class="td">{{item.checkTime?item.checkTime:item.updateTime}}</view>
 
       </view>
       
@@ -64,7 +64,7 @@
         <view class="index td">{{index+1}}</view>
         <view class="td">{{item.orgName}}</view>
         <view class="td">{{item.status==-1?'未通过':'通过' }}</view>
-        <view class="td">{{item.updateTime}}</view>
+        <view class="td">{{item.checkTime?item.checkTime:item.updateTime}}</view>
       
       </view>
       </navigator>

@@ -104,7 +104,6 @@ Page({
       mask:true
     })
     let field = {
-      postTime:false
     }
     if (!this.data.readonly){
       field.status = false
@@ -137,7 +136,7 @@ Page({
     })
   },
   getUserName: function(openid){
-    console.log(openid)
+    //console.log(openid)
     const db = wx.cloud.database()
     //查询当前用户所有的 counters
     return db.collection('user').field({
@@ -235,7 +234,8 @@ Page({
         let userName = result.data[0].name
         data.checker = userName
       }
-      data.checkTime = app.formatTime(data.updateTime)
+      data.checkTime = data.checkTime ? data.checkTime: data.postTime
+      data.checkTime = app.formatTime(data.checkTime)
       data.checkStatus = data.status
     }
     delete data.status
