@@ -50,6 +50,11 @@ function wxSearchInput(e) {
     console.log('输入内容与现有内容相同,跳过')
     return
   }
+  if(inputValue.replace(/\s*/g,"").length == 0){
+    console.log("输入内容为空")
+    return
+  }
+
   // 页面数据
   var temData = __that.data.wxSearchData;
   var __data = {}
