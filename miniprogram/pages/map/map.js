@@ -211,7 +211,7 @@ Page({
         delete self.orgList[x].longLatiute
 
 
-        markesData.push({orgName:self.orgList[x].orgName,longitude:longitude,latitude:latitude})
+        markesData.push({orgName:self.orgList[x].orgName,longitude:longitude,latitude:latitude,locationAddress:self.orgList[x].locationAddress})
       }
       console.log(markesData)
       self.initSearch()

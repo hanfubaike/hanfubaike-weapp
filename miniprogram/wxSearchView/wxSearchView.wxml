@@ -2,7 +2,7 @@
   <view class="weui-search-bar__form">
     <view class="weui-search-bar__box">
       <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-      <input type="text" value="{{inputText}}" class="weui-search-bar__input" placeholder="请输入组织名称" bindinput="wxSearchInput" bindconfirm="wxSearchConfirm" />
+      <input type="text" value="{{inputText}}" class="weui-search-bar__input" placeholder="请输入组织名称或城市名" bindinput="wxSearchInput" bindconfirm="wxSearchConfirm" />
       <view class="weui-icon-clear" wx:if="{{wxSearchData.value.length > 0}}" bindtap="wxSearchClear">
         <icon type="clear" size="14"></icon>
       </view>
@@ -26,7 +26,7 @@
           <view class="wxSearchMindKeyimage" bindtap="wxSearchKeyTap" data-key="{{item}}">
             <image wx:if="{{item.logoImage}}" style="width: 20px; height: 20px; background-color: #eeeeee;" src="{{item.logoImage ? item.logoImage : '/res/defaultLogo.png'}}"></image>
             <view class="wxSearchMindKeyItem">
-              <text class="wxSearchMindKeyText" selectable="true">{{item.orgName}}</text>
+              <text class="wxSearchMindKeyText" selectable="true">{{item.orgName}}</text><text class="wxSearchMindKeyText" selectable="true" style="font-size:10px;padding-left:6px;color: #999;margin: auto 0;">{{item.locationAddress}}</text>
             </view>
           </view>
         </block>

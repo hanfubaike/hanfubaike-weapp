@@ -65,9 +65,10 @@ function wxSearchInput(e) {
     __data.bottonText = "搜索"
     __that.isSearch = false
     for (var i = 0; i < __tipKeys.length; i++) {
-      var mindKey = __tipKeys[i].orgName;
+      var orgName = __tipKeys[i].orgName;
+      let address = __tipKeys[i].locationAddress
       // 包含字符串
-      if (mindKey.indexOf(inputValue) != -1) {
+      if (orgName.indexOf(inputValue) > -1 || address.indexOf(inputValue) > -1) {
         if (__tipKeys[i].logoList == 'res/defaultLogo.png'){
           __tipKeys[i].logoList = '/res/defaultLogo.png'
         }
