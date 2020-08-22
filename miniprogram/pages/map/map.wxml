@@ -43,7 +43,7 @@
 
   </map>
 
-    <view class="item cats {{showCats ? '' : 'hide'}}" >
+    <view class="item cats {{showCats ? '' : 'hide'}}" hidden="{{!isMap}}">
       <view class="picker {{showCats ? '' : 'hide'}}" bindtap='diqu' catchtap="selectCat" style="top:{{screenHeight/7+30}}px">
         <view 
           wx:for="{{allCat}}"
