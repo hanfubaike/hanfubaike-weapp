@@ -50,17 +50,13 @@ function wxSearchInput(e) {
     console.log('输入内容与现有内容相同,跳过')
     return
   }
-  if(inputValue.replace(/\s*/g,"").length == 0){
-    console.log("输入内容为空")
-    return
-  }
 
   // 页面数据
   var temData = __that.data.wxSearchData;
   var __data = {}
   // 寻找提示值 
   var tipKeys = [];
-  if (inputValue && inputValue.length > 0) {
+  if (inputValue && inputValue.replace(/\s*/g,"").length > 0 ) {
     if (!__that.data.isWxSearch){
       __that.setData({
         isWxSearch: true,
