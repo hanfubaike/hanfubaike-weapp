@@ -107,8 +107,8 @@ Page({
     if(location){
       console.log(location)
       let addres = ""
-      if(location.city && location.district && location.name){
-        addres = `${location.city}${location.district}${location.name}`
+      if(location.city && location.district && location.name && location.province){
+        addres = `${location.province}${location.city}${location.district}${location.name}`
       }else{
         addres = location.address
       }
