@@ -32,7 +32,7 @@
   /** padding: 10px 5px 10px 15px;*/
   margin-left: 10px;
   border-bottom: 1px solid #eee;
-  display: flex;
+  /*display: flex;*/
   font-size: 13px;
   width:100%;
 }
@@ -163,7 +163,7 @@
 .weui-search-bar__input {
   height:28px;
   line-height:28px;
-  font-size:15px;
+  font-size:14px;
 
 
 }

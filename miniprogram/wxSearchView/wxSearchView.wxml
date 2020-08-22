@@ -26,7 +26,7 @@
           <view class="wxSearchMindKeyimage" bindtap="wxSearchKeyTap" data-key="{{item}}">
             <image wx:if="{{item.logoImage}}" style="width: 20px; height: 20px; background-color: #eeeeee;" src="{{item.logoImage ? item.logoImage : '/res/defaultLogo.png'}}"></image>
             <view class="wxSearchMindKeyItem">
-              <text class="wxSearchMindKeyText" selectable="true">{{item.orgName}}</text><text class="wxSearchMindKeyText" selectable="true" style="font-size:10px;padding-left:6px;color: #999;margin: auto 0;">{{item.locationAddress}}</text>
+              <text class="wxSearchMindKeyText" selectable="true">{{item.orgName}}</text><text class="wxSearchMindKeyText" selectable="true" style="font-size:10px;color: #999;">{{item.locationAddress}}</text>
             </view>
           </view>
         </block>
