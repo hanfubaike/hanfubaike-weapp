@@ -479,3 +479,6 @@ page {
 .weui-msg__desc{
   text-align: left;
 }
+.weui-msg__link{
+  display: inline !important;
+}
