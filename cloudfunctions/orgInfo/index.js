@@ -64,21 +64,24 @@ exports.main = async (event, context) => {
     if(event.queryStringParameters){
       console.log("web请求，换取链接")
       let fileList = orgInfo.logoList.concat(orgInfo.orgImageList)
-      const fileResult = await cloud.getTempFileURL({fileList:fileList})
-      let newLogoList = []
-      let newImageList = []
-      //console.log(fileResult)
-      for(let x in fileResult.fileList){
-        let fileID = fileResult.fileList[x].fileID
-        let tempFileURL = fileResult.fileList[x].tempFileURL
-        if(orgInfo.logoList.indexOf(fileID)>-1){
-          newLogoList.push(tempFileURL)
-        }else{
-          newImageList.push(tempFileURL)
+      if(fileList.length){
+        const fileResult = await cloud.getTempFileURL({fileList:fileList})
+        let newLogoList = []
+        let newImageList = []
+        //console.log(fileResult)
+        for(let x in fileResult.fileList){
+          let fileID = fileResult.fileList[x].fileID
+          let tempFileURL = fileResult.fileList[x].tempFileURL
+          if(orgInfo.logoList.indexOf(fileID)>-1){
+            newLogoList.push(tempFileURL)
+          }else{
+            newImageList.push(tempFileURL)
+          }
         }
-        orgInfo.logoList = newLogoList
-        orgInfo.orgImageList = newImageList
       }
+      orgInfo.logoList = newLogoList
+      orgInfo.orgImageList = newImageList
+
     }
     returnData.orgInfo = orgInfo
     returnData.isManager = isManager
