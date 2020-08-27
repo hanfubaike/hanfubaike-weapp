@@ -64,10 +64,10 @@ exports.main = async (event, context) => {
     if(event.queryStringParameters){
       console.log("web请求，换取链接")
       let fileList = orgInfo.logoList.concat(orgInfo.orgImageList)
+      let newLogoList = []
+      let newImageList = []
       if(fileList.length){
         const fileResult = await cloud.getTempFileURL({fileList:fileList})
-        let newLogoList = []
-        let newImageList = []
         //console.log(fileResult)
         for(let x in fileResult.fileList){
           let fileID = fileResult.fileList[x].fileID
