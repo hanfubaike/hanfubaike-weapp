@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "nodemailer": "^6.4.4",
+    "nodemailer": "^6.4.16",
     "wx-server-sdk": "^1.8.2"
   }
 }
